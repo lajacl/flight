@@ -1,0 +1,17 @@
+<div class="container" ng-if="!login.successfulLogin()">
+  <div class="jumbotron">
+    <form>
+      <div class="row">
+        <div class="input-group">
+          <span class="input-group-addon" id="sizing-addon2">Username: </span>
+          <input type="text" class="form-control" placeholder="Username" aria-describedby="sizing-addon2" ng-model="login.username" required="true">
+          <span class="input-group-addon" id="sizing-addon2">Password: </span>
+          <input type="password" class="form-control" placeholder="Password" aria-describedby="sizing-addon2" ng-model="login.password" required="true">
+        </div>
+      </div>
+      <div class="row">
+        <span class="col-md-12"><button class="twtr-btn" ng-click="login.login()">Login</button></span>
+      </div>
+    </div>
+  </form>
+</div>

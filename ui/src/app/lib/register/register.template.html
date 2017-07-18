@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="jumbotron">
+    <form>
+      <div class="row">
+        <div class="input-group">
+          <span class="input-group-addon" id="sizing-addon2">Username: </span>
+          <input type="text" class="form-control" placeholder="Username" aria-describedby="sizing-addon6" ng-model="register.username" required="true">
+          <span class="input-group-addon" id="sizing-addon2">Password: </span>
+          <input type="password" class="form-control" placeholder="Password" aria-describedby="sizing-addon6" ng-model="register.password" required="true">
+        </div>
+        <div class="input-group">
+          <span class="input-group-addon" id="sizing-addon1">Email: </span>
+          <input type="email" class="form-control" placeholder="checkme@gmail.com" aria-describedby="sizing-addon1" ng-model="register.email" required="true">
+          <span class="input-group-addon" id="sizing-addon3">Phone Number: </span>
+          <input type="tel" class="form-control" placeholder="(123) 456-7890" aria-describedby="sizing-addon3" ng-model="register.phoneNumber">
+        </div>
+        <div class="input-group">
+          <span class="input-group-addon" id="sizing-addon3">First Name: </span>
+          <input type="text" class="form-control" placeholder="Bob" aria-describedby="sizing-addon3" ng-model="register.firstName">
+          <span class="input-group-addon" id="sizing-addon3">Last Name: </span>
+          <input type="text" class="form-control" placeholder="Builder" aria-describedby="sizing-addon3" ng-model="register.lastName">
+          </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 twtr-label">{{register.registerError()}}</div>
+      </div>
+      <div class="row">
+        <div class="col-md-12"><button type="submit" class="twtr-btn" ng-click="register.join()">Register</button></div>
+      </div>
+  </form>
+  </div>
+</div>

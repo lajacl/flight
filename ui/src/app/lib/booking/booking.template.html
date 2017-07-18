@@ -1,0 +1,20 @@
+<div class="container">
+  <div class="jumbotron">
+    <form>
+      <div class="row">
+        <div class="input-group">
+          <span class="input-group-addon" id="sizing-addon2">Origin: </span>
+          <input type="text" class="form-control" placeholder="City" aria-describedby="sizing-addon6" ng-model="booking.origin" required="true">
+          <span class="input-group-addon" id="sizing-addon2">Destination: </span>
+          <input type="text" class="form-control" placeholder="City" aria-describedby="sizing-addon6" ng-model="booking.destination" required="true">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 twtr-label">{{booking.bookingError()}}</div>
+      </div>
+      <div class="row">
+        <div class="col-md-12"><button type="submit" class="twtr-btn" ng-click="register.searchFlights()">searchFlights</button></div>
+      </div>
+  </form>
+  </div>
+</div>

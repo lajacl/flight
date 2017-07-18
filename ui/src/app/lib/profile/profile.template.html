@@ -1,0 +1,77 @@
+<div class="page-header" ng-if="!profile.exists"><h1>Flier Does Not Exists</h1></div>
+<div class="container" ng-if="profile.exists">
+<div class="jumbotron">
+
+<!-- displays user profile information -->
+  <div class="card text-center">
+    <div>
+      <h2 class="card-header">{{profile.fname}} {{profile.lName}}'s Flier Profile</h2>
+    </div>
+    <div class="card-block">
+      <p class="card-title">Name: {{profile.fName}} {{profile.lName}}</p>
+      <p class="card-text">Email: {{profile.email}}</p>
+      <p class="card-text">Phone Number: {{profile.phone}}</p>
+      <button class="btn btn-primary" href ng-click="profile.bookFlight()"
+        ui-sref-active="active">View Scheduled Flights</button>
+      <button class="btn btn-primary" ui-sref="flights({email: profile.flier.email})"
+        ui-sref-active="active">Book a Flight</button>
+    </div>
+    <div class="card-footer text-muted">
+      Joined On: {{profile.flier.created | date: 'MMMM dd, yyyy'}}
+      <div class="card-block"  class="ng-hide">
+        <a class="card-link" href  ng-click="profile.updateForm()"
+          ui-sref-active="active">Edit Account</a> |
+        <a class="card-link" href ng-click="profile.deleteFlier()"
+          ui-sref-active="active">Delete Account</a>
+    </div>
+    </div>
+  </div>
+
+<!-- form to update user profile-->
+  <div class="card-block">
+  <form ng-if="profile.formOpen">
+      <div class="input-group">
+        <span class="input-group-addon" id="sizing-addon3">First Name: </span>
+        <input type="text" ng-model="profile.fName" class="form-control" placeholder="Bob">
+        <span class="input-group-addon" id="sizing-addon3">Last Name: </span>
+        <input type="text" ng-model="profile.lName" class="form-control" placeholder="Builder">
+      </div>
+      <div class="input-group">
+        <span class="input-group-addon" id="sizing-addon1">Email: </span>
+        <input type="email" ng-model="profile.email" class="form-control" placeholder="checkme@gmail.com">
+        <span class="input-group-addon" id="sizing-addon3">Phone Number: </span>
+        <input type="text" ng-model="profile.phone" class="form-control" placeholder="(123) 456-7890">
+      </div>
+      <div><span class="btn btn-primary" ng-click="profile.updateUser()">Update Profile</span></div>
+    <div>{{profile.updateError()}}</div>
+  </form>
+  </div>
+
+<!-- list of flight descriptions -->
+    <div class="card"  ng-if="profile.flightsOpen">
+    <div class="card-block" ng-repeat="flight in profile.flights"
+    ui-sref="map({path: [flight.origin, flight.destination]})" ui-sref-active="active">
+        <p>Flights ({{profile.flights.length}}):</p>
+      <div type="button" class="btn btn-info" ng-repeat="flight in profile.flights"
+      ui-sref="map({path: [flight.origin, flight.destination]})" ui-sref-active="active">
+      <p>Origin :{{flight.origin}}</p>
+      <p>Destination: {{flight.destination}}</p>
+      <p>Flight Start Time: {{flight.offset}}</p>
+      <p>Flight Length: {{flight.flightTime}}</p>
+    </div>
+    </div>
+
+<!-- list of flights -->
+    <!-- <div class="card">
+    <div class="card-block">
+      <p>Flights ({{profile.flights.length}}):</p>
+      <button type="button" class="btn btn-info" ng-repeat="flight in profile.flights"
+      ui-sref="map({path: [flight.origin, flight.destination]})" ui-sref-active="active">
+      {{flight.origin}}
+      </button>
+    </div>
+    </div> -->
+
+
+</div>
+</div>
