@@ -4,6 +4,11 @@ export const config =
     $stateProvider.state({
       name: 'booking',
       url: '/booking',
-      component: 'flightBooking'
+      component: 'flightBooking',
+      resolve: {
+        locations: function (bookingService) {
+          return bookingService.getLocations()
+        }
+      }
     })
   }

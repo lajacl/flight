@@ -14,8 +14,8 @@ const controller =
       this.service.searchFlights(this.origin, this.destination)
     }
 
-    bookFlight () {
-      this.service.bookFlight(this.flightId)
+    findFlights () {
+      this.service.findFlights(this.flightId)
       .then((data) => {
         if (data === true) {
           this.$state.reload()
@@ -33,6 +33,7 @@ export const flightBooking = {
   templateUrl,
   controllerAs: 'booking',
   bindings: {
+    locations: '<',
     origin: '<',
     destination: '<'
   }

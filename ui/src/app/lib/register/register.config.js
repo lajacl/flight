@@ -2,8 +2,8 @@ export const config =
   ($stateProvider) => {
     'ngInject'
     $stateProvider.state({
-      name: 'register',
-      url: '/register',
+      name: 'signup',
+      url: '/signup',
       component: 'flightRegister'
     })
   }

@@ -11,18 +11,22 @@ const controller =
     }
 
     signup () {
-      this.service.register(this.username, this.password, this.email,
-        this.firstName, this.lastName, this.phone)
-      .then((data) => {
-        if (data === true) {
-          this.$state.reload('profile')
-        }
-      })
+      if (!this.service.accountExists()) {
+        this.service.newAccount(this.username, this.password, this.email, this.phone,
+        this.firstName, this.lastName)
+      } else {
+        this.service.errorMess = 'Already a current account holder. Please login.'
+      }
+      // .then((data) => {
+      //   if (data === true) {
+      //     this.$state.reload('profile')
+      //   }
+      // })
     }
 
-    signupError () {
-      return this.service.errorMessage()
-    }
+  //   signupError () {
+  //     return this.service.errorMessage()
+  //   }
   }
 
 export const flightRegister = {
@@ -33,8 +37,8 @@ export const flightRegister = {
     username: '<',
     password: '<',
     email: '<',
+    phone: '<',
     firstName: '<',
-    lastName: '<',
-    phoneNumber: '<'
+    lastName: '<'
   }
 }

@@ -10,31 +10,40 @@ export class BookingService {
 
   errorMess = ''
 
-  serchFlights () {
+  searchFlights () {
 
   }
 
-  bookFlight (flightId) {
-    let requestData = { credentials: { username: username, password: password }
-  }
-
+  getLocations () {
     return this.$http({
-      method: 'POST',
-      url: 'http://localhost:8000/flier/book',
-      params: optionalInfo,
-      data: requestDate
-    }).then((response) => {
-      if (response.data.username !== undefined) {
-        this.localStorageService.set('currentUser', response.data)
-        this.localStorageService.set('password', password)
-        return true
+      method: 'GET',
+      url: 'http://localhost:8000/location',
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'content-type': 'application/json'
       }
-      return false
+    }).then((response) => {
+      return response.data
     }, (response) => {
-      return false
     })
   }
 
+  findFlights () {
+    let method = 'GET'
+    let apiUrl = 'http://localhost:8000/flights/{origin}/{destination}'
+
+    return this.$http({
+      method: method,
+      url: apiUrl,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'content-type': 'application/json'
+      }
+    }).then((response) => {
+      return response.data
+    }, (response) => {
+    })
+  }
   errorMessage () {
     return this.errorMess
   }

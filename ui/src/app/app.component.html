@@ -1,8 +1,40 @@
-<div style="width: 700px; margin: auto">
-<h1>Angular Airlines</h1>
-<ui-view></ui-view>
-<!-- <flight-flights></flight-flights>
-<div>
-<flight-map></flight-map>
-</div> -->
+<div style="width: 750px; margin: auto">
+  <h1>Angular Airlines</h1>
+
+  <md-content class="md-padding">
+
+    <md-nav-bar
+      md-selected-nav-item="currentNavItem"
+      nav-bar-aria-label="navigation links">
+      <md-nav-item md-nav-sref="booking" name="booking">
+        Book Flight
+      </md-nav-item>
+      <md-nav-item md-nav-sref="profile" name="profile">
+        My Trips
+      </md-nav-item>
+      <md-nav-item md-nav-sref="flights" name="flights">
+        All Flights
+      </md-nav-item>
+      <md-nav-item md-nav-sref="map" name="map">
+        Our Routes
+      </md-nav-item>
+      <md-nav-item md-nav-sref="signup" name="signup">
+        Signup
+      </md-nav-item>
+      <md-nav-item md-nav-sref="login" name="login">
+        Login
+      </md-nav-item>
+
+    </md-nav-bar>
+    <div class="ext-content">
+      <span>
+        <ui-view></ui-view>
+        <!-- <flight-flights></flight-flights>
+        <div>
+        <flight-map></flight-map>
+        </div> -->
+      </span>`.
+    </div>
+
+  </md-content>
 </div>

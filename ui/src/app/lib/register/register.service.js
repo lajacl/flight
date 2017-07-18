@@ -10,21 +10,22 @@ export class RegisterService {
 
   errorMess = ''
 
-  register (username, password, email, firstName, lastName, phoneNumber) {
-    // checks if the username is one of the known usernames, and the password is 'password'
+  errorMessage () {
+    return this.errorMess
+  }
 
-    let userObject = { credentials: { username: username, password: password }, profile: { email: email } }
-    let optionalInfo = { firstName: firstName, lastName: lastName, phone: phoneNumber }
-
+  accountExists (username, email) {
     return this.$http({
-      method: 'POST',
-      url: 'http://localhost:8888/user/users',
-      params: optionalInfo,
-      data: userObject
+      method: 'GET',
+      url: 'http://localhost:8000/exists/flier',
+      params: {username: username, email: email},
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'content-type': 'application/json'
+      }
     }).then((response) => {
       if (response.data.username !== undefined) {
-        this.localStorageService.set('currentUser', response.data)
-        this.localStorageService.set('password', password)
+        this.localStorageService.set('flierData', response.data)
         return true
       }
       return false
@@ -33,8 +34,22 @@ export class RegisterService {
     })
   }
 
-  errorMessage () {
-    return this.errorMess
+  newAccount (username, password, email, firstName, lastName, phone) {
+    // checks if the username is one of the known usernames
+
+    return this.$http({
+      method: 'POST',
+      url: 'http://localhost:8000/flier',
+      data: {username: username, password: password, email: email, phone: phone, firstName: firstName, lastName: lastName}
+    }).then((response) => {
+      if (response.data.username !== undefined) {
+        this.localStorageService.set('flierData', response.data)
+        return true
+      }
+      return false
+    }, (response) => {
+      return false
+    })
   }
 
 }

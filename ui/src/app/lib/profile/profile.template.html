@@ -1,77 +1,134 @@
-<div class="page-header" ng-if="!profile.exists"><h1>Flier Does Not Exists</h1></div>
-<div class="container" ng-if="profile.exists">
-<div class="jumbotron">
+<!-- <div class="page-header" ng-if="!profile.exists"><h1>Flier Does Not Exists</h1></div> -->
+<!-- <div class="container" ng-if="profile.exists"> -->
+<div ng-cloak>
+  <md-content>
+    <!-- displays flier account information -->
+    <md-tabs md-dynamic-height md-border-bottom>
+      <md-tab label="Account Information">
+        <md-content class="md-padding">
+          <h3>Account Information</h3>
+          <h4>{{profile.fname}} {{profile.lName}}'s Flier Profile</h4>
+            <h4>Name: {{profile.fName}} {{profile.lName}}</h4>
+            <h4>Email: {{profile.email}}</h4>
+            <h4>Phone Number: {{profile.phone}}</h4>
+            <div>
+              <p>Joined On: {{profile.flier.joined | date: 'MMMM dd, yyyy'}}</p>
+            </div>
+              <p>
+                <a href ng-click="profile.updateForm()"
+                  ui-sref-active="active">Edit Account</a> |
+                <a href ng-click="profile.deleteAccount()"
+                  ui-sref-active="active">Delete Account</a>
+            </p>
 
-<!-- displays user profile information -->
-  <div class="card text-center">
-    <div>
-      <h2 class="card-header">{{profile.fname}} {{profile.lName}}'s Flier Profile</h2>
-    </div>
-    <div class="card-block">
-      <p class="card-title">Name: {{profile.fName}} {{profile.lName}}</p>
-      <p class="card-text">Email: {{profile.email}}</p>
-      <p class="card-text">Phone Number: {{profile.phone}}</p>
-      <button class="btn btn-primary" href ng-click="profile.bookFlight()"
-        ui-sref-active="active">View Scheduled Flights</button>
-      <button class="btn btn-primary" ui-sref="flights({email: profile.flier.email})"
-        ui-sref-active="active">Book a Flight</button>
-    </div>
-    <div class="card-footer text-muted">
-      Joined On: {{profile.flier.created | date: 'MMMM dd, yyyy'}}
-      <div class="card-block"  class="ng-hide">
-        <a class="card-link" href  ng-click="profile.updateForm()"
-          ui-sref-active="active">Edit Account</a> |
-        <a class="card-link" href ng-click="profile.deleteFlier()"
-          ui-sref-active="active">Delete Account</a>
-    </div>
-    </div>
-  </div>
+            <!-- form to update user profile-->
+            <div  layout="column" class="md-inline-form" ng-if="updateForm()">
+              <h3>Update Account Information</h3>
+              <md-content layout-padding>
+                <form name="updateForm">
 
-<!-- form to update user profile-->
-  <div class="card-block">
-  <form ng-if="profile.formOpen">
-      <div class="input-group">
-        <span class="input-group-addon" id="sizing-addon3">First Name: </span>
-        <input type="text" ng-model="profile.fName" class="form-control" placeholder="Bob">
-        <span class="input-group-addon" id="sizing-addon3">Last Name: </span>
-        <input type="text" ng-model="profile.lName" class="form-control" placeholder="Builder">
-      </div>
-      <div class="input-group">
-        <span class="input-group-addon" id="sizing-addon1">Email: </span>
-        <input type="email" ng-model="profile.email" class="form-control" placeholder="checkme@gmail.com">
-        <span class="input-group-addon" id="sizing-addon3">Phone Number: </span>
-        <input type="text" ng-model="profile.phone" class="form-control" placeholder="(123) 456-7890">
-      </div>
-      <div><span class="btn btn-primary" ng-click="profile.updateUser()">Update Profile</span></div>
-    <div>{{profile.updateError()}}</div>
-  </form>
-  </div>
+                  <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                      <label>First Name</label>
+                      <input required name="fName" md-maxlength="30" ng-model="profile.firstName" />
+                      <div ng-messages="signupForm.name.$error" ng-if="!showHints">
+                        <div ng-message="required">First name is required.</div>
+                        <div ng-message="md-maxlength">
+                          First name must be less than 30 characters long.
+                        </div>
+                      </div>
+                    </md-input-container>
+                      <md-input-container class="md-block" flex-gt-sm>
+                        <label>Last Name</label>
+                        <input required name="lName" md-maxlength="30" ng-model="profile.lastName" />
+                        <div ng-messages="signupForm.name.$error" ng-if="!showHints">
+                          <div ng-message="required">Last name is required.</div>
+                          <div ng-message="md-maxlength">
+                            Last name must be less than 30 characters long.
+                          </div>
+                        </div>
+                      </md-input-container>
+                  </div>
 
-<!-- list of flight descriptions -->
-    <div class="card"  ng-if="profile.flightsOpen">
-    <div class="card-block" ng-repeat="flight in profile.flights"
-    ui-sref="map({path: [flight.origin, flight.destination]})" ui-sref-active="active">
-        <p>Flights ({{profile.flights.length}}):</p>
-      <div type="button" class="btn btn-info" ng-repeat="flight in profile.flights"
-      ui-sref="map({path: [flight.origin, flight.destination]})" ui-sref-active="active">
-      <p>Origin :{{flight.origin}}</p>
-      <p>Destination: {{flight.destination}}</p>
-      <p>Flight Start Time: {{flight.offset}}</p>
-      <p>Flight Length: {{flight.flightTime}}</p>
-    </div>
-    </div>
+                  <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                      <label>Email Address</label>
+                      <input required name="email" ng-model="profile.email" minlength="10"
+                      maxlength="100" ng-pattern="/^.+@.+\..+$/" />
+                    <div ng-messages="signupForm.email.$error" ng-hide="showHints">
+                      <div ng-message-exp="['minlength', 'maxlength', 'pattern']">
+                        Not a valid email.
+                      </div>
+                    </div>
+                    </md-input-container>
+                    <md-input-container class="md-block" flex-gt-sm>
+                      <label>Phone Number</label>
+                      <input required name="phone" ng-model="profile.phone" ng-pattern="/^[(][0-9]{3}[)] [0-9]{3}-[0-9]{4}$/">
+                        <div class="hint" ng-show="showHints">(###) ###-####</div>
+                        <div ng-messages="signupForm.phone.$error" ng-hide="showHints">
+                          <div ng-message="pattern">
+                            (###) ###-#### - Please enter a valid phone number
+                          </div>
+                        </div>
+                    </md-input-container>
+                  </div>
 
-<!-- list of flights -->
-    <!-- <div class="card">
-    <div class="card-block">
-      <p>Flights ({{profile.flights.length}}):</p>
-      <button type="button" class="btn btn-info" ng-repeat="flight in profile.flights"
-      ui-sref="map({path: [flight.origin, flight.destination]})" ui-sref-active="active">
-      {{flight.origin}}
-      </button>
-    </div>
-    </div> -->
+                  <div layout-gt-sm="row">
+                    <!-- <md-input-container class="md-block" flex-gt-sm>
+                      <label>Username</label>
+                      <input required name="username" ng-model="profile.username" minlength="8"
+                      maxlength="50">
+                      <div ng-messages="signupForm.username.$error" ng-hide="showHints">
+                        <div ng-message="md-minlength">
+                          Username must be at least 8 characters.
+                        </div>
+                      </div> -->
+                    </md-input-container>
+                      <md-input-container class="md-block" flex-gt-sm>
+                        <label>Password</label>
+                        <input required name="password" ng-model="profile.password" minlength="8"
+                        maxlength="50">
+                        <div ng-messages="signupForm.password.$error" ng-hide="showHints">
+                          <div ng-message="md-minlength">
+                            Password must be at least 8 characters long.
+                          </div>
+                        </div>
+                      </md-input-container>
+                    </div>
 
+                    <div>
+                      <!-- {{update.formError()}} -->
+                    <md-button type="submit" class="md-accent md-raised" ng-click="profile.signup()">Update</md-button>
+                    </div>
 
-</div>
+                </form>
+              </mid-content>
+            </div>
+
+          </md-content>
+      </md-tab>
+
+      <!-- list of booked flight descriptions -->
+      <md-tab label="Booked Flights">
+        <md-content class="md-padding">
+          <h3>Booked Flights</h3>
+            <p>Flights ({{profile.flights.length}}):</p>
+            <div ng-repeat="flight in profile.flights"
+            ui-sref="map({path: [flight.origin, flight.destination]})" ui-sref-active="active">
+            <p>Origin :{{flight.origin}}</p>
+            <p>Destination: {{flight.destination}}</p>
+            <p>Flight Start Time: {{flight.offset}}</p>
+            <p>Flight Length: {{flight.flightTime}}</p>
+          </div>
+        </md-content>
+      </md-tab>
+
+      <md-tab label="Member Specials">
+        <md-content class="md-padding">
+          <h3>Member Specials</h3>
+          <p>Book Today For A Great Summer Deal!</p>
+        </md-content>
+      </md-tab>
+    </md-tabs>
+  </md-content>
 </div>

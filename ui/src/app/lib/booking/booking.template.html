@@ -1,20 +1,34 @@
-<div class="container">
-  <div class="jumbotron">
-    <form>
-      <div class="row">
-        <div class="input-group">
-          <span class="input-group-addon" id="sizing-addon2">Origin: </span>
-          <input type="text" class="form-control" placeholder="City" aria-describedby="sizing-addon6" ng-model="booking.origin" required="true">
-          <span class="input-group-addon" id="sizing-addon2">Destination: </span>
-          <input type="text" class="form-control" placeholder="City" aria-describedby="sizing-addon6" ng-model="booking.destination" required="true">
-        </div>
+  <div layout="column" class="md-inline-form">
+    <h2>Select Your Trip</h2>
+    <md-content layout-padding>
+      <form name="loginForm">
+
+      <div layout="row">
+      <md-input-container style="margin-right: 10px;">
+        <label>Origin</label>
+        <md-select ng-model="origin">
+          <md-option ng-repeat="location in booking.locations" value="{{location.city}}">{{location.city}}</md-option>
+        </md-select>
+      </md-input-container>
       </div>
-      <div class="row">
-        <div class="col-md-12 twtr-label">{{booking.bookingError()}}</div>
-      </div>
-      <div class="row">
-        <div class="col-md-12"><button type="submit" class="twtr-btn" ng-click="register.searchFlights()">searchFlights</button></div>
-      </div>
-  </form>
+
+      <div layout="row">
+      <md-input-container>
+        <label>Destination</label>
+        <md-select ng-model="destination">
+          <md-option ng-repeat="location in booking.locations | filter:location.city != booking.origin" value="{{location.city}}">{{location.city}}</md-option>
+        </md-select>
+      </md-select>
+      </md-input-container>
+    </div>
+    <p ng-if="origin != null && destination != null">Traveling from {{booking.origin | uppercase)}} to
+    {{booking.destination uppercase}}.</p>
+    </div>
+
+      <!-- {{booking.formError()}} -->
+    <md-button type="submit" class="md-accent md-raised" ng-click="booking.searchFlights()">Find Flights</md-button>
   </div>
+
+</form>
+</mid-content>
 </div>
