@@ -1,4 +1,69 @@
-<div class="container">
+<div  layout="column" class="md-inline-form">
+  <h2>Create an Account</h2>
+  <md-content layout-padding>
+      <form name="signupForm">
+          <div>
+
+          <div layout-gt-sm="row">
+            <md-input-container class="md-block" flex-gt-sm>
+              <label>First Name</label>
+              <input md-maxlength="30" required name="name" ng-model="register.firstName" />
+              <div ng-messages="userForm.name.$error" ng-if="!showHints">
+                <div ng-message="required">A First Name is required.</div>
+                <div ng-message="md-maxlength">The name has to be less than 30 characters long.
+              </div>
+            </md-input-container>
+              <md-input-container class="md-block" flex-gt-sm>
+                <label>Last Name</label>
+                <input md-maxlength="30" required name="name" ng-model="register.lastName" />
+                <div ng-messages="userForm.name.$error" ng-if="!showHints">
+                  <div ng-message="required">A Last Name is required.</div>
+                  <div ng-message="md-maxlength">The name has to be less than 30 characters long.
+                </div>
+              </md-input-container>
+          </div>
+
+          <div layout-gt-sm="row">
+            <md-input-container class="md-block" flex-gt-sm>
+              <label>Email Address</label>
+              <input sname="email" ng-model="register.email" required minlength="10"
+              maxlength="100"ng-pattern="/^.+@.+\..+$/" />
+            <div ng-messages="signupForm.email.$error" ng-hide="showHints">
+              <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']">
+                Your email must be between 10 and 100 characters long and look like an e-mail address.
+              </div>
+            </div>
+            </md-input-container>
+              <md-input-container class="md-block" flex-gt-sm>
+                <label>Phone Number</label>
+                <input ng-model="register.phone" ng-pattern="/^[(][0-9]{3}[)] [0-9]{3}-[0-9]{4}$/">
+                  <div class="hint" ng-show="showHints">(###) ###-####</div>
+                  <div ng-messages="signupForm.phone.$error" ng-hide="showHints">
+                    <div ng-message="pattern">(###) ###-#### - Please enter a valid phone number.</div>
+                  </div>
+              </md-input-container>
+          </div>
+
+          <div layout-gt-sm="row">
+            <md-input-container class="md-block" flex-gt-sm>
+              <label>Username</label>
+              <input ng-model="register.username">
+            </md-input-container>
+              <md-input-container class="md-block" flex-gt-sm>
+                <label>Password</label>
+                <input ng-model="register.password">
+              </md-input-container>
+            </div>
+
+            <md-button type="submit" class="md-accent md-raised">Complete</md-button>
+
+      </div>
+    </form>
+  </mid-content>
+</div>
+
+
+<!-- <div class="container">
   <div class="jumbotron">
     <form>
       <div class="row">
@@ -29,4 +94,4 @@
       </div>
   </form>
   </div>
-</div>
+</div> -->
