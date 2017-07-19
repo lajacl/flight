@@ -1,34 +1,49 @@
 package com.cooksys.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cooksys.entity.Account;
+import com.cooksys.dto.AccountDto;
+import com.cooksys.mapper.AccountMapper;
 import com.cooksys.service.AccountService;
 
 @RestController
 @RequestMapping("flight")
 public class AccountController {
 	
+
+	@Autowired
+	AccountService accountService;
 	
-	private AccountService accountService;
+	AccountMapper accountMapper;
+//	this.accountMapper = accountMapper;
 	
-	public AccountController(AccountService accountService) {
-		this.accountService = accountService;
+	public AccountController(AccountMapper accountMapper) {
+		this.accountMapper = accountMapper;
 	}
 	
-	@RequestMapping("account/exists/{email}")
-	public Boolean accountExists(@PathVariable String email) {
+	public AccountController(){}
+	
+	
+	@RequestMapping(value = "account/exists/{email:.+}", method = RequestMethod.GET)
+	public Boolean exists(@PathVariable String email) {
 		return accountService.accountExists(email);
 	}
 	
-	@RequestMapping("account")
-	public Account createUser(@RequestBody Account account) {
-		Account accountSaved = accountService.create(account);
-		return accountSaved;
+	@RequestMapping(value = "/account", method = RequestMethod.POST)
+	public AccountDto create(@RequestBody AccountDto accountDto) {
+		System.out.println("Email: " + accountDto.getFirstName());
+		return accountMapper.toDto(accountService.createAccount(accountDto));
 	}
+	
+//	@RequestMapping("account")
+//	public AccountDto post(@RequestParam("email, password, firstName, lastName, phone") String email, String password, String firstName, String lastName, String phone)
+//	{	return accountMapper.toDto(accountService.create(email, password, lastName, firstName, phone));
+//	}
 	
 //	@GetMapping("validate/username/available/@{username}")
 //	public Boolean nameAvail(@PathVariable String username) {

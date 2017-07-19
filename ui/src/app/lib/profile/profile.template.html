@@ -74,16 +74,6 @@
                   </div>
 
                   <div layout-gt-sm="row">
-                    <!-- <md-input-container class="md-block" flex-gt-sm>
-                      <label>Username</label>
-                      <input required name="username" ng-model="profile.username" minlength="8"
-                      maxlength="50">
-                      <div ng-messages="signupForm.username.$error" ng-hide="showHints">
-                        <div ng-message="md-minlength">
-                          Username must be at least 8 characters.
-                        </div>
-                      </div> -->
-                    </md-input-container>
                       <md-input-container class="md-block" flex-gt-sm>
                         <label>Password</label>
                         <input required name="password" ng-model="profile.password" minlength="8"
@@ -111,7 +101,7 @@
       <!-- list of booked flight descriptions -->
       <md-tab label="Booked Flights">
         <md-content class="md-padding">
-          <h3>Booked Flights</h3>
+          <h3>Itinerary</h3>
             <p>Flights ({{profile.flights.length}}):</p>
             <div ng-repeat="flight in profile.flights"
             ui-sref="map({path: [flight.origin, flight.destination]})" ui-sref-active="active">

@@ -2,7 +2,7 @@
   <h2>Create An Account</h2>
   <md-content layout-padding>
     <form name="signupForm">
-
+      <div style="color: red">{{register.signupError()}}</div>
       <div layout-gt-sm="row">
         <md-input-container class="md-block" flex-gt-sm>
           <label>First Name</label>
@@ -51,19 +51,9 @@
 
       <div layout-gt-sm="row">
         <md-input-container class="md-block" flex-gt-sm>
-          <label>Username</label>
-          <input required name="username" ng-model="register.username" minlength="8"
-          maxlength="50">
-          <div ng-messages="signupForm.username.$error" ng-hide="showHints">
-            <div ng-message="md-minlength">
-              Username must be at least 8 characters.
-            </div>
-          </div>
-        </md-input-container>
-          <md-input-container class="md-block" flex-gt-sm>
             <label>Password</label>
             <input required name="password" ng-model="register.password" minlength="8"
-            maxlength="50">
+            maxlength="50" type="password">
             <div ng-messages="signupForm.password.$error" ng-hide="showHints">
               <div ng-message="md-minlength">
                 Password must be at least 8 characters long.
@@ -73,7 +63,6 @@
         </div>
 
         <div layout="row" layout-align="center center">
-          <!-- {{register.formError()}} -->
         <md-button type="submit" class="md-accent md-raised" ng-click="register.signup()">Complete</md-button>
         </div>
 

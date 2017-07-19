@@ -2,8 +2,10 @@ package com.cooksys.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cooksys.dto.AccountDto;
 import com.cooksys.entity.Account;
 import com.cooksys.entity.FlightEntity;
 import com.cooksys.repository.AccountRepository;
@@ -11,11 +13,12 @@ import com.cooksys.repository.AccountRepository;
 @Service
 public class AccountService {
 
-	private AccountRepository accountRepo;
+
+	@Autowired
+	AccountRepository accountRepo;
 	
-	public AccountService(AccountRepository accountRepo) {
-		this.accountRepo = accountRepo;
-	}
+	public AccountService() {}
+	
 
 	public Boolean accountExists(String email) {
 		Account account = accountRepo.findByEmail(email);
@@ -39,14 +42,16 @@ public class AccountService {
 	public void save(Account account) {
 		accountRepo.save(account);
 	}
+
 //	String email, String password, String firstName, String lastName, String phone
-	public Account create(Account account) {
+	public Account createAccount(AccountDto accountDto) {
 			Account newAccount = new Account();
-			newAccount = account;
-//			newAccount.setEmail(email);
-//			newAccount.setFirstName(firstName);
-//			newAccount.setLastName(lastName);
-//			newAccount.setPhone(phone);
+//			newAccount = accountDto;
+			newAccount.setEmail(accountDto.getEmail());
+			newAccount.setPassword(accountDto.getPassword());
+			newAccount.setFirstName(accountDto.getFirstName());
+			newAccount.setLastName(accountDto.getLastName());
+			newAccount.setPhone(accountDto.getPhone());
 			save(newAccount);
 			return newAccount;
 		}

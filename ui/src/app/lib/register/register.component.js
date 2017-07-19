@@ -7,15 +7,17 @@ const controller =
       'ngInject'
       this.service = registerService
       this.$state = $state
-      $log.debug('flight-register ...')
+      this.$log = $log
     }
 
     signup () {
-      if (!this.service.accountExists()) {
-        this.service.newAccount(this.username, this.password, this.email, this.phone,
-        this.firstName, this.lastName)
+      this.signupError(null)
+      if (this.service.accountExists(this.email) === false) {
+        this.$log.log('New account being created, Email: ' + this.email)
+        this.service.newAccount(this.email, this.password,
+        this.firstName, this.lastName, this.phone)
       } else {
-        this.service.errorMess = 'Already a current account holder. Please login.'
+        this.signupError('Already a current account holder. Please login.')
       }
       // .then((data) => {
       //   if (data === true) {
@@ -24,9 +26,10 @@ const controller =
       // })
     }
 
-  //   signupError () {
-  //     return this.service.errorMessage()
-  //   }
+    signupError (err) {
+      this.service.errorMess = err
+      return this.service.errorMessage()
+    }
   }
 
 export const flightRegister = {
@@ -34,11 +37,10 @@ export const flightRegister = {
   templateUrl,
   controllerAs: 'register',
   bindings: {
-    username: '<',
-    password: '<',
-    email: '<',
-    phone: '<',
-    firstName: '<',
-    lastName: '<'
+    password: '=',
+    email: '=',
+    phone: '=',
+    firstName: '=',
+    lastName: '='
   }
 }

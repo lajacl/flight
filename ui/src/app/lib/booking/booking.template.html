@@ -8,29 +8,24 @@
       <div flex layout="row" layout-align="center center">
       <md-input-container style="margin-right: 10px;">
         <label>Origin</label>
-        <md-select ng-model="origin">
+        <md-select ng-model="origin" ng-init="origin=' '">
           <md-option ng-repeat="location in booking.locations" value="{{location.city}}">{{location.city}}</md-option>
         </md-select>
       </md-input-container>
       </div>
-      
-      <div flex layout="row" layout-align="center center">
+
+      <div flex layout="row" layout-align="center">
       <md-input-container>
         <label>Destination</label>
         <md-select ng-model="destination">
-          <md-option ng-repeat="location in booking.locations value="{{location.city}}">{{location.city}}</md-option>
+          <md-option ng-repeat="location in booking.locations | filter: '!' + origin" value="{{location.city}}">{{location.city}}</md-option>
         </md-select>
       </md-select>
       </md-input-container>
     </div>
   </div>
 
-  <div>
-    <p ng-if="origin != null && destination != null">Traveling from {{booking.origin | uppercase)}} to
-    {{booking.destination uppercase}}.</p>
-  </div>
-
-  <div layout="row" layout-align="center center">
+  <div layout="row" layout-align="center">
       <!-- {{booking.formError()}} -->
     <md-button type="submit" class="md-accent md-raised" ng-click="booking.searchFlights()">Find Flights</md-button>
   </div>

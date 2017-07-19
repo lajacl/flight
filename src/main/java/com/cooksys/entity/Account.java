@@ -15,6 +15,7 @@ public class Account {
 		
 	@Id
 	@GeneratedValue
+	@Column(updatable = false, nullable = false)
 	private long id;
 
 	@Column(name = "password")
