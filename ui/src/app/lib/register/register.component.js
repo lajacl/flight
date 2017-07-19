@@ -10,21 +10,20 @@ const controller =
       this.$log = $log
     }
 
-    signup () {
-      this.signupError(null)
-      if (!this.service.accountExists(this.email)) {
-        this.$log.log('New account being created, Email: ' + this.email)
-        this.service.newAccount(this.email, this.password,
-        this.firstName, this.lastName, this.phone)
+    exists () {
+      if (!this.service.accountExists(this.account.email)) {
+
       } else {
         this.signupError('Already a current account holder. Please login.')
       }
-      // .then((data) => {
-      //   if (data === true) {
-      //     this.$state.reload('profile')
-      //   }
-      // })
     }
+
+    signup () {
+      this.signupError(null)
+      this.service.newAccount(this.account).then(() =>
+      this.$state.reload('profile'))
+    }
+    // this.email, this.password, this.firstName, this.lastName, this.phone
 
     signupError (err) {
       this.service.errorMess = err
@@ -37,10 +36,6 @@ export const flightRegister = {
   templateUrl,
   controllerAs: 'register',
   bindings: {
-    password: '=',
-    email: '=',
-    phone: '=',
-    firstName: '=',
-    lastName: '='
+    account: '='
   }
 }

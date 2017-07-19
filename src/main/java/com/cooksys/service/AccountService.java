@@ -57,6 +57,11 @@ public class AccountService {
 //			System.out.println("Create Account Info Phone: " + accountDto.getPhone());
 			return newAccount;
 		}
+	
+	public Account accountLogon(String email, String password) {
+		if(password == findByEmail(email).getPassword());
+		return findByEmail(email);
+	}
 
 	public Account update(Account account) {
 		Account oldAccount = getOne(account.getId());

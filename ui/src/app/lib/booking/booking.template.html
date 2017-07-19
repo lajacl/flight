@@ -35,3 +35,30 @@
 </form>
 </mid-content>
 </div>
+
+<!-- Searched Flight List -->
+<div>
+<md-toolbar class="md-theme-light">
+    <h2 class="md-toolbar-tools" ng-if="booking.selectFlights.length > 0">
+      <span>Flight Results({{booking.selectFlights.length}}) :</span>
+    </h2>
+    <h2 class="md-toolbar-tools" ng-if="booking.selectFlights.length === 0">
+      <span>There are no flights from {{origin}} to {{destinations}} at this time</span>
+    </h2>
+  </md-toolbar>
+  <md-content>
+    <md-list>
+
+      <md-list-item class="md-3-line" ng-repeat="flight in booking.selectFlights">
+        <div class="md-list-item-text">
+          <h3>{{flight.origin}}, TN to {{flight.destination}}, TN</h3>
+          <h4>Departs: {{flight.offset}}</h4>
+          <h4>Arrives: {{flight.offset + flight.flightTime}}</h4>
+          <p>Total Flight Time: {{flight.flightTime}}</p>
+        </div>
+        <md-button class="md-accent md-raised">Book Flight</md-button>
+        <md-divider ng-if="!$last"></md-divider>
+      </md-list-item>
+    </md-list>
+  </md-content>
+</div>

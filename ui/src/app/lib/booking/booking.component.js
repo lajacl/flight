@@ -7,11 +7,10 @@ const controller =
       'ngInject'
       this.service = bookingService
       this.$state = $state
-      $log.debug('flight-booking ...')
     }
 
     searchFlights () {
-      this.service.searchFlights(this.origin, this.destination)
+      this.selectFlights = this.service.searchFlights(this.origin, this.destination)
     }
 
     findFlights () {
@@ -21,6 +20,10 @@ const controller =
           this.$state.reload()
         }
       })
+    }
+
+    getAllFlights () {
+      this.allFlights = this.service.getAllFlights()
     }
 
     bookingError () {
@@ -33,6 +36,8 @@ export const flightBooking = {
   templateUrl,
   controllerAs: 'booking',
   bindings: {
+    allFlights: '<',
+    selectFlights: '<',
     locations: '<',
     origin: '<',
     destination: '<'

@@ -1,6 +1,7 @@
 <div style="width: 750px; margin: auto;">
   <!--  background-color: #FF5252" -->
   <h1>Angular Airlines</h1>
+  <div>Flier: {{app.localStorageService.get('accountData').email}}</div>
 
   <md-content class="md-padding">
 
@@ -10,7 +11,7 @@
       <md-nav-item md-nav-sref="booking" name="booking">
         Book Flight
       </md-nav-item>
-      <md-nav-item md-nav-sref="profile" name="profile">
+      <md-nav-item md-nav-sref="account" name="account">
         My Trips
       </md-nav-item>
       <md-nav-item md-nav-sref="flights" name="flights">
@@ -19,11 +20,14 @@
       <md-nav-item md-nav-sref="map" name="map">
         Our Routes
       </md-nav-item>
-      <md-nav-item md-nav-sref="signup" name="signup">
+      <md-nav-item md-nav-sref="signup" name="signup" ng-if="!app.isLoggedOn()">
         Signup
       </md-nav-item>
-      <md-nav-item md-nav-sref="login" name="login">
+      <md-nav-item md-nav-sref="login" name="login" ng-if="!app.isLoggedOn()">
         Login
+      </md-nav-item>
+      <md-nav-item md-nav-sref="app.logout()" name="logout"  ng-if="app.isLoggedOn()">
+        Logout
       </md-nav-item>
 
     </md-nav-bar>

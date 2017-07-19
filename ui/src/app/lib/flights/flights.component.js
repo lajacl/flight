@@ -6,7 +6,6 @@ class FlightFlightsController {
   constructor ($log, flightsService) {
     'ngInject'
     // this.allFlights = undefined
-    $log.log('flight-flights ...')
     this.$log = $log
     this.service = flightsService
   }

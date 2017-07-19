@@ -10,21 +10,20 @@ const controller =
       this.$state = $state
     }
 
-    successfulLogin () {
-      return this.service.isAuthenticated()
-    }
+    // successfulLogin () {
+    //   return this.service.isLoggedOn()
+    // }
 
-    login () {
-      this.service.authenticate(this.username, this.password)
-                                .then((data) => {
-                                  if (data === true) {
-                                    this.$state.reload('flights')
-                                  }
-                                })
+    logon () {
+      this.service.logon(this.email, this.password)
+      .then((data) => {
+        this.$state.reload('account')
+      })
     }
 
     logout () {
       this.service.logout()
+      this.$state.reload('flights')
     }
   }
 

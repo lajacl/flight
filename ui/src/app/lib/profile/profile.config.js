@@ -2,8 +2,8 @@ export const config =
   ($stateProvider) => {
     'ngInject'
     $stateProvider.state({
-      name: 'profile',
-      url: '/profile',
+      name: 'account',
+      url: '/account',
       data: { requiresAuth: true },
       component: 'flightProfile'
       // resolve: {

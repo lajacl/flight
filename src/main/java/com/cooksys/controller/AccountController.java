@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cooksys.dto.AccountDto;
@@ -37,9 +38,13 @@ public class AccountController {
 	}
 	
 	@RequestMapping(value = "/account", method = RequestMethod.POST)
-	public void create(@RequestBody AccountDto accountDto) {
-//		return accountMapper.toDto(accountService.createAccount(accountDto));
-		System.out.println("DTO INFO: " + accountMapper.toDto(accountService.createAccount(accountDto)).getEmail());
+	public AccountDto create(@RequestBody AccountDto accountDto) {
+		return accountMapper.toDto(accountService.createAccount(accountDto));
+	}
+		
+	@RequestMapping(value = "/account/login", method = RequestMethod.POST)
+	public AccountDto logon(@RequestParam String email, String password) {
+		return accountMapper.toDto(accountService.accountLogon(email, password));
 	}
 	
 //	@RequestMapping("account")

@@ -10,52 +10,39 @@ export class LoginService {
   /**
    * Returns true if the user is currently authenticated, else false
    */
-  isAuthenticated () {
-    return this.localStorageService.get('flierData') !== null
+  isLoggedOn () {
+    return this.localStorageService.get('accountData') !== null
   }
 
-  userDoesExists (flier) {
+  // checks if the email is already used for an account
+  accountExists (email) {
     return this.$http({
       method: 'GET',
-      url: `http://localhost:8888/flier/validate/username/exists/${flier}`,
+      url: 'http://localhost:8000/flight/account/exists/' + email,
       headers: {
         'Access-Control-Allow-Origin': '*',
         'content-type': 'application/json'
       }
     }).then((response) => {
-      if (response.data === true) {
-        return true
-      } else {
-        return false
-      }
+      this.$log.log('Response Data: ' + response.data)
+      return response.data
     }, (response) => {
-      return false
+      this.$log.log('Exists error: true')
     })
   }
 
   /**
    * Authentication function that returns a promise that is either resolved or rejected.
    */
-  authenticate (username, password) {
-    // checks if the username is one of the known usernames, and the password is 'password'
-
-    let userObject = { credentials: { username: username, password: password } }
-
-    return this.$http({
+  logon (email, password) {
+    this.$http({
       method: 'POST',
-      url: 'http://localhost:8080/flier/validate/',
-      data: userObject,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'content-type': 'application/json'
-      }
+      url: 'http://localhost:8080/flight/account/login',
+      params: {email: email, password: password}
     }).then((response) => {
-      if (response.data.username !== undefined) {
-        this.localStorageService.set('flierData', response.data)
-        this.localStorageService.set('password', password)
-        return true
+      if (response.data.email !== undefined) {
+        this.localStorageService.set('accountData', response.data)
       }
-
       return false
     }, (response) => {
       return false
@@ -64,13 +51,7 @@ export class LoginService {
 
   /** Logs the current user out */
   logout () {
-    return this.$q((resolve, reject) => {
-      this.localStorageService.clearAll()
-      if (this.localStorageService.get('flierData') === null) {
-        resolve(true)
-      } else {
-        reject(false)
-      }
-    })
+    this.localStorageService.clearAll()
   }
+
 }

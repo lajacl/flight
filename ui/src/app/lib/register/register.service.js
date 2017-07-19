@@ -32,15 +32,14 @@ export class RegisterService {
     })
   }
 
-  newAccount (email, password, firstName, lastName, phone) {
+  newAccount (account) {
     return this.$http({
       method: 'POST',
       url: 'http://localhost:8000/flight/account',
-      data: {email: email, password: password, firstName: firstName, lastName: lastName, phone: phone}
+      data: account
     }).then((response) => {
-      if (response.data.username !== undefined) {
-        this.localStorageService.set('flierData', response.data)
-        this.$log.log('Created account Email:' + response.data.email)
+      if (response.data.email !== undefined) {
+        this.localStorageService.set('accountData', response.data)
       }
     }, (response) => {
       this.$log.log('Exists error: creating new account')

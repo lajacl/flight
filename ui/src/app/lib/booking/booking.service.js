@@ -10,7 +10,7 @@ export class BookingService {
 
   errorMess = ''
 
-  searchFlights () {
+  searchFlights (origin, destination) {
 
   }
 
@@ -28,9 +28,9 @@ export class BookingService {
     })
   }
 
-  findFlights () {
+  getAllFlights () {
     let method = 'GET'
-    let apiUrl = 'http://localhost:8000/flights/{origin}/{destination}'
+    let apiUrl = 'http://localhost:8000/flights'
 
     return this.$http({
       method: method,
@@ -43,9 +43,6 @@ export class BookingService {
       return response.data
     }, (response) => {
     })
-  }
-  errorMessage () {
-    return this.errorMess
   }
 
 }
