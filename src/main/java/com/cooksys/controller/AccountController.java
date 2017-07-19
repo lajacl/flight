@@ -1,6 +1,7 @@
 package com.cooksys.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,20 +14,21 @@ import com.cooksys.service.AccountService;
 
 @RestController
 @RequestMapping("flight")
+@CrossOrigin
 public class AccountController {
 	
 
-	@Autowired
 	AccountService accountService;
 	
 	AccountMapper accountMapper;
-//	this.accountMapper = accountMapper;
 	
-	public AccountController(AccountMapper accountMapper) {
+	@Autowired
+	public AccountController(AccountService accountService, AccountMapper accountMapper) {
+		this.accountService = accountService;
 		this.accountMapper = accountMapper;
 	}
 	
-	public AccountController(){}
+//	public AccountController(){}
 	
 	
 	@RequestMapping(value = "account/exists/{email:.+}", method = RequestMethod.GET)
@@ -35,9 +37,9 @@ public class AccountController {
 	}
 	
 	@RequestMapping(value = "/account", method = RequestMethod.POST)
-	public AccountDto create(@RequestBody AccountDto accountDto) {
-		System.out.println("Email: " + accountDto.getFirstName());
-		return accountMapper.toDto(accountService.createAccount(accountDto));
+	public void create(@RequestBody AccountDto accountDto) {
+//		return accountMapper.toDto(accountService.createAccount(accountDto));
+		System.out.println("DTO INFO: " + accountMapper.toDto(accountService.createAccount(accountDto)).getEmail());
 	}
 	
 //	@RequestMapping("account")

@@ -13,11 +13,12 @@ import com.cooksys.repository.AccountRepository;
 @Service
 public class AccountService {
 
-
-	@Autowired
 	AccountRepository accountRepo;
 	
-	public AccountService() {}
+	@Autowired
+	public AccountService(AccountRepository accountRepo) {
+		this.accountRepo = accountRepo;
+	}
 	
 
 	public Boolean accountExists(String email) {
@@ -53,6 +54,7 @@ public class AccountService {
 			newAccount.setLastName(accountDto.getLastName());
 			newAccount.setPhone(accountDto.getPhone());
 			save(newAccount);
+//			System.out.println("Create Account Info Phone: " + accountDto.getPhone());
 			return newAccount;
 		}
 

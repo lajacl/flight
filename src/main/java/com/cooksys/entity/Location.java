@@ -23,9 +23,6 @@ public class Location {
 	@Column(name = "city")
 	private String city;
 
-	public Location() {
-
-	}
 
 	public long getId() {
 		return id;
@@ -59,13 +56,6 @@ public class Location {
 		this.city = city;
 	}
 
-	public Location(long id, String longitude, String latitude, String city) {
-		super();
-		this.id = id;
-		this.longitude = longitude;
-		this.latitude = latitude;
-		this.city = city;
-	}
 
 	
 }

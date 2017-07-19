@@ -40,11 +40,10 @@ export class RegisterService {
     }).then((response) => {
       if (response.data.username !== undefined) {
         this.localStorageService.set('flierData', response.data)
-        return true
+        this.$log.log('Created account Email:' + response.data.email)
       }
-      return false
     }, (response) => {
-      return false
+      this.$log.log('Exists error: creating new account')
     })
   }
 

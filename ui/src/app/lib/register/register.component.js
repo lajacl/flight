@@ -12,7 +12,7 @@ const controller =
 
     signup () {
       this.signupError(null)
-      if (this.service.accountExists(this.email) === false) {
+      if (!this.service.accountExists(this.email)) {
         this.$log.log('New account being created, Email: ' + this.email)
         this.service.newAccount(this.email, this.password,
         this.firstName, this.lastName, this.phone)

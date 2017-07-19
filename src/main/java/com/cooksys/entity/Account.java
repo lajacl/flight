@@ -18,6 +18,9 @@ public class Account {
 	@Column(updatable = false, nullable = false)
 	private long id;
 
+	@Column(name = "email")
+	private String email;
+
 	@Column(name = "password")
 	private String password;
 
@@ -26,9 +29,6 @@ public class Account {
 
 	@Column(name = "lastName")
 	private String lastName;
-
-	@Column(name = "email")
-	private String email;
 
 	@Column(name = "phone")
 	private String phone;
@@ -43,6 +43,14 @@ public class Account {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPassword() {
@@ -69,14 +77,6 @@ public class Account {
 		this.lastName = lastName;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 	public String getPhone() {
 		return phone;
 	}
@@ -91,6 +91,15 @@ public class Account {
 
 	public void setFlights(List<FlightEntity> flights) {
 		this.flights = flights;
-	}
+	}	
+	
+//	public Account(String email, String password, String firstName, String lastName, String phone) {
+//		super();
+//		this.email = email;
+//		this.password = password;
+//		this.firstName = firstName;
+//		this.lastName = lastName;
+//		this.phone = phone;
+//	}
 	
 }

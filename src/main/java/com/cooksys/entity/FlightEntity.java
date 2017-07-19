@@ -73,9 +73,6 @@ public class FlightEntity {
 	public void setAccounts(List<Account> accounts) {
 		this.accounts = accounts;
 	}
-	public FlightEntity(String origin, String destination, long flightTime, long offset) {
-		super();
-		this.origin = origin;
-	}
+
 
 }
