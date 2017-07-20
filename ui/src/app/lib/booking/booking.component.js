@@ -7,14 +7,22 @@ const controller =
       'ngInject'
       this.service = bookingService
       this.$state = $state
+      this.searched = false
+      this.$log = $log
     }
 
     searchFlights () {
-      this.selectFlights = this.service.searchFlights(this.origin, this.destination)
+      this.searched = true
+      if ((this.origin === ' ') || (this.destination === undefined)) {
+        this.service.errorMess = 'Please select an origin and destination city'
+      } else {
+        this.service.errorMess = null
+        this.selectFlights = this.service.searchFlights(this.origin, this.destination, this.allFlights)
+      }
     }
 
-    findFlights () {
-      this.service.findFlights(this.flightId)
+    bookFlight () {
+      this.service.bookFlight(this.flightId)
       .then((data) => {
         if (data === true) {
           this.$state.reload()
@@ -27,7 +35,7 @@ const controller =
     }
 
     bookingError () {
-      return this.service.bookingMessage()
+      return this.service.errorMessage()
     }
   }
 
@@ -36,10 +44,10 @@ export const flightBooking = {
   templateUrl,
   controllerAs: 'booking',
   bindings: {
-    allFlights: '<',
-    selectFlights: '<',
+    allFlights: '=',
+    selectFlights: '=',
     locations: '<',
-    origin: '<',
-    destination: '<'
+    origin: '=',
+    destination: '='
   }
 }

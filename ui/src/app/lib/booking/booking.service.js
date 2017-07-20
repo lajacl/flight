@@ -10,8 +10,25 @@ export class BookingService {
 
   errorMess = ''
 
-  searchFlights (origin, destination) {
+  errorMessage () {
+    return this.errorMess
+  }
 
+  searchFlights (origin, destination, flights) {
+    this.$log.log('serviceData: ' + origin + ' ' + destination)
+    let selectFlights = []
+    this.$log.log('selectFlights length 1: ' + selectFlights.length)
+    for (let i = 0; i < flights.length; i++) {
+      this.$log.log('Current flight: ' + flights[i].origin + ' to ' + flights[i].destination)
+      if (flights[i].origin === origin.toUpperCase()) {
+        if (flights[i].destination === destination.toUpperCase()) {
+          selectFlights.push(flights[i])
+        }
+      }
+    }
+    this.$log.log('selectFlights length 2: ' + selectFlights.length)
+    // this.$log.log('Select flights: ' + selectFlights[0].origin + ' ' + selectFlights[0].destination)
+    return selectFlights
   }
 
   getLocations () {
