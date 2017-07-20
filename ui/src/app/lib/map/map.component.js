@@ -23,28 +23,28 @@ class MapController {
     markers.forEach(marker => this.addMarker(marker))
 
     // add paths manually
-    // const paths = [
-    //   [memphis, nashville, '#CC0099'],
-    //   [nashville, knoxville, '#AA1100']
-    // ]
+    const paths = [
+      [memphis, nashville, '#CC0099'],
+      [nashville, knoxville, '#AA1100']
+    ]
 
-    // paths.forEach(args => this.addPath(...args))
-
-    // add path from webservice
-    this.$log.log('getMarkerByCityName Origin: ' + this.origin)
-    $map.getMarkerByCityName(this.origin)
-      .then(originCity => {
-        $map.getMarkerByCityName(this.destination)
-        .then(destinationCity => {
-          this.addPath(destinationCity, originCity, colors[0])
-        })
-      })
+    paths.forEach(args => this.addPath(...args))
 
     // add path from webservice
-    // $map.getMarkerByCityName('Chattanooga')
-    //   .then(chattanooga => {
-    //     this.addPath(knoxville, chattanooga, '#FF3388')
+    // this.$log.log('getMarkerByCityName Origin: ' + this.origin)
+    // $map.getMarkerByCityName(this.origin)
+    //   .then(originCity => {
+    //     $map.getMarkerByCityName(this.destination)
+    //     .then(destinationCity => {
+    //       this.addPath(destinationCity, originCity, colors[0])
+    //     })
     //   })
+
+    // add path from webservice
+    $map.getMarkerByCityName('Chattanooga')
+      .then(chattanooga => {
+        this.addPath(knoxville, chattanooga, '#FF3388')
+      })
   }
 
   addMarker ({ latitude, longitude }) {
