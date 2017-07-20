@@ -7,6 +7,12 @@ export class LoginService {
     this.$q = $q
   }
 
+  errorMess = ''
+
+  errorMessage () {
+    return this.errorMess
+  }
+
   /**
    * Returns true if the user is currently authenticated, else false
    */
@@ -42,6 +48,7 @@ export class LoginService {
     }).then((response) => {
       if (response.data.email !== undefined) {
         this.localStorageService.set('accountData', response.data)
+        return true
       }
       return false
     }, (response) => {

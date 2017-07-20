@@ -46,10 +46,11 @@ export const flightBooking = {
   templateUrl,
   controllerAs: 'booking',
   bindings: {
-    allFlights: '=',
-    selectFlights: '=',
+    allFlights: '<',
+    selectFlights: '<',
     locations: '<',
-    origin: '=',
-    destination: '='
+    origin: '<',
+    destination: '<',
+    flightTime: '<'
   }
 }

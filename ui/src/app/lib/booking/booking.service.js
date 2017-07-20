@@ -15,7 +15,6 @@ export class BookingService {
   }
 
   searchFlights (origin, destination, flights) {
-    this.$log.log('serviceData: ' + origin + ' ' + destination)
     let selectFlights = []
     for (let i = 0; i < flights.length; i++) {
       this.$log.log('Current flight: ' + flights[i].origin + ' to ' + flights[i].destination)

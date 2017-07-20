@@ -14,16 +14,24 @@ const controller =
     // }
 
     logon () {
-      this.service.logon(this.email, this.password)
-      .then((data) => {
+      this.logonError(null)
+      if (this.service.logon(this.email, this.password)) {
         this.$state.reload('account')
-      })
+      } else {
+        this.loginError('Incorrect password')
+      }
     }
 
     logout () {
       this.service.logout()
       this.$state.reload('flights')
     }
+
+    logonError (err) {
+      this.service.errorMess = err
+      return this.service.errorMessage()
+    }
+
   }
 
 export const flightLogin = {
