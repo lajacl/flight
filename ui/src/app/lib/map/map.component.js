@@ -52,5 +52,11 @@ class MapController {
 export default {
   templateUrl,
   controller: MapController,
-  controllerAs: '$mapCtrl'
+  controllerAs: '$mapCtrl',
+  bindings: {
+    locations: '<',
+    origin: '<',
+    destination: '<'
+  }
+
 }

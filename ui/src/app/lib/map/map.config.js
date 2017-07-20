@@ -4,7 +4,6 @@ export const config =
     $stateProvider.state({
       name: 'map',
       url: '/map',
-      data: { requiresAuth: true },
       component: 'flightMap'
     })
   }

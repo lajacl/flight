@@ -27,7 +27,7 @@
   <div layout="row" layout-align="center">
     <md-button type="submit" class="md-accent md-raised" ng-click="booking.searchFlights()">Find Flights</md-button>
   </div>
-
+  <p style="color:red">{{booking.bookingError()}}</p>
   </div>
 
 </form>
@@ -44,7 +44,6 @@
       <span>There are no flights from {{booking.origin}} to {{booking.destination}} at this time</span>
     </h2>
   </md-toolbar>
-  <p style="color:red">{{booking.bookingError()}}</p>
   <md-content>
     <md-list>
 
@@ -58,6 +57,9 @@
         <md-button class="md-accent md-raised">Book Flight</md-button>
         <md-divider ng-if="!$last"></md-divider>
       </md-list-item>
+      <flight-map locations='booking.locations'>        
+      </flight-map>
+
     </md-list>
   </md-content>
 </div>

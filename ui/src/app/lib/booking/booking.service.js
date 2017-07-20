@@ -17,7 +17,6 @@ export class BookingService {
   searchFlights (origin, destination, flights) {
     this.$log.log('serviceData: ' + origin + ' ' + destination)
     let selectFlights = []
-    this.$log.log('selectFlights length 1: ' + selectFlights.length)
     for (let i = 0; i < flights.length; i++) {
       this.$log.log('Current flight: ' + flights[i].origin + ' to ' + flights[i].destination)
       if (flights[i].origin === origin.toUpperCase()) {
@@ -26,7 +25,7 @@ export class BookingService {
         }
       }
     }
-    this.$log.log('selectFlights length 2: ' + selectFlights.length)
+    this.$log.log('# Select Flights: ' + selectFlights.length)
     // this.$log.log('Select flights: ' + selectFlights[0].origin + ' ' + selectFlights[0].destination)
     return selectFlights
   }
