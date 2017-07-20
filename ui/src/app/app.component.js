@@ -6,8 +6,6 @@ class AppController {
     $log.debug('AppController is a go.')
     this.localStorageService = localStorageService
     this.$log = $log
-
-    this.$log.log('A user is logged on: ' + this.isLoggedOn())
   }
 
   // checks if a flier is currently logged in

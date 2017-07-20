@@ -25,7 +25,7 @@ export class BookingService {
         }
       }
     }
-    this.$log.log('# Select Flights: ' + selectFlights.length)
+    this.$log.log('# Selected Flights: ' + selectFlights.length)
     // this.$log.log('Select flights: ' + selectFlights[0].origin + ' ' + selectFlights[0].destination)
     return selectFlights
   }

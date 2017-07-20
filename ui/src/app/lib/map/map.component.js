@@ -7,8 +7,9 @@ class MapController {
   markers = []
   paths = []
 
-  constructor ($map, locations) {
+  constructor ($map, locations, $log) {
     this.$map = $map
+    this.$log = $log
 
     // add markers from an angular constant
     const { memphis, nashville, knoxville } = locations
@@ -54,7 +55,7 @@ export default {
   controller: MapController,
   controllerAs: '$mapCtrl',
   bindings: {
-    locations: '<',
+    locations: '=',
     origin: '<',
     destination: '<'
   }

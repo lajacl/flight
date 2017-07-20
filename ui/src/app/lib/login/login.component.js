@@ -6,7 +6,6 @@ const controller =
     constructor ($log, loginService, $state) {
       'ngInject'
       this.service = loginService
-      $log.debug('flight-login ...')
       this.$state = $state
     }
 
