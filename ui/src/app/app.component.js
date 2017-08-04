@@ -2,10 +2,12 @@ import templateUrl from './app.component.html'
 
 /* @ngInject */
 class AppController {
-  constructor ($log, localStorageService) {
+  constructor ($log, localStorageService, $state) {
     $log.debug('AppController is a go.')
     this.localStorageService = localStorageService
     this.$log = $log
+    this.$state = $state
+    // this.$log.log('Current Account: ' + this.localStorageService.get('accountData.email'))
   }
 
   // checks if a flier is currently logged in
@@ -13,8 +15,9 @@ class AppController {
     return this.localStorageService.get('accountData') !== null
   }
 
-  logOut () {
+  logout () {
     this.localStorageService.clearAll()
+    this.$state.go('login')
   }
 
 }

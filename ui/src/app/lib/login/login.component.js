@@ -9,26 +9,19 @@ const controller =
       this.$state = $state
     }
 
-    // successfulLogin () {
-    //   return this.service.isLoggedOn()
-    // }
-
     logon () {
-      this.logonError(null)
-      if (this.service.logon(this.email, this.password)) {
-        this.$state.reload('account')
-      } else {
-        this.loginError('Incorrect password')
-      }
+      this.service.errorMess = null
+      this.service.accountLogon(this.email, this.password)
+      .then((success) => {
+        if(success === true) {
+          this.$state.go('account')
+        } else {
+          this.service.errorMess = 'Unsuccessful login attempt. Please try again.'
+        }
+      })
     }
 
-    logout () {
-      this.service.logout()
-      this.$state.reload('flights')
-    }
-
-    logonError (err) {
-      this.service.errorMess = err
+    logonError () {
       return this.service.errorMessage()
     }
 
@@ -39,7 +32,7 @@ export const flightLogin = {
   templateUrl,
   controllerAs: 'login',
   bindings: {
-    username: '<',
-    password: '<'
+    email: '=',
+    password: '='
   }
 }

@@ -17,7 +17,7 @@
       <div flex layout="row" layout-align="center">
       <md-input-container>
         <label>TO</label>
-        <md-select ng-model="booking.destination">
+        <md-select ng-model="booking.destination" ng-init="booking.destination=null">
           <md-option ng-repeat="location in booking.locations | filter: '!' + booking.origin" value="{{location.city}}">{{location.city}}</md-option>
         </md-select>
       </md-select>
@@ -37,29 +37,32 @@
 <!-- Searched Flight List -->
 <div ng-if="booking.searched === true">
 <md-toolbar class="md-theme-light">
-    <h2 class="md-toolbar-tools" ng-if="booking.selectFlights.length > 0">
-      <span>{{booking.selectFlights.length}} Direct Flight(s) Found :</span>
-    </h2>
-    <h2 class="md-toolbar-tools" ng-if="booking.selectFlights.length === 0">
-      <span>There are no flights from {{booking.origin}} to {{booking.destination}} at this time</span>
+    <h2 class="md-toolbar-tools">
+      <span ng-if="booking.selectFlights.length === 0">
+        There are no flights from {{booking.origin}} to {{booking.destination}} at this time
+      </span>
+      <span ng-if="booking.selectFlights.length > 0">
+        {{booking.selectFlights.length}} Direct Flight(s) Found :
+      </span>
     </h2>
   </md-toolbar>
 
   <md-content>
-    <md-list ng-repeat="flight in booking.selectFlights">
-      <md-list-item class="md-3-line">
+    <md-list>
+      <md-list-item class="md-3-line" ng-repeat="flight in booking.selectFlights">
         <div class="md-list-item-text">
           <h3>{{flight.origin}}, TN to {{flight.destination}}, TN</h3>
           <h4>Departs: {{flight.offset}}</h4>
           <h4>Arrives: {{flight.offset + flight.flightTime}}</h4>
           <p ng-init="flightTime = flight.flightTime">
-            Total Flight Time: {{flight.flightTime}}</p>
+            Total Flight Time: {{flight.flightTime}}
+          </p>
         </div>
         <md-button class="md-accent md-raised">Book Flight</md-button>
         <md-divider ng-if="!$last"></md-divider>
       </md-list-item>
       <flight-map locations="booking.locations" origin="booking.origin"
-        destination="booking.destination" flightTime="flightTime">
+        destination="booking.destination" flight-time="flightTime">
       </flight-map>
     </md-list>
   </md-content>

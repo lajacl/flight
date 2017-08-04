@@ -10,15 +10,15 @@ const controller =
       this.searched = false
       this.$log = $log
     }
-    // allFlights = []
 
     searchFlights () {
       // this.allFlights = this.getAllFlights()
-      if ((this.origin === ' ') || (this.destination === undefined)) {
+      if ((angular.equals(this.origin, ' ')) || (angular.equals(this.destination, null))) {
         this.service.errorMess = 'Please select an origin and destination city'
       } else {
-        this.searched = true
+        // this.$log.log('Origin Data: ' + this.origin + ' Destination Data: ' + this.destination)
         this.service.errorMess = null
+        this.searched = true
         this.selectFlights = this.service.searchFlights(this.origin, this.destination, this.allFlights)
       }
     }
@@ -33,7 +33,7 @@ const controller =
     }
 
     getAllFlights () {
-      return this.service.getAllFlights()
+      allFlights = this.service.getAllFlights()
     }
 
     bookingError () {
@@ -48,9 +48,9 @@ export const flightBooking = {
   bindings: {
     allFlights: '<',
     selectFlights: '<',
-    locations: '<',
-    origin: '<',
-    destination: '<',
-    flightTime: '<'
+    locations: '=',
+    origin: '=',
+    destination: '=',
+    flightTime: '='
   }
 }

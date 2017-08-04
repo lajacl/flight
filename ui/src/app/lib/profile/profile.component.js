@@ -13,59 +13,56 @@ const controller =
       this.$log = $log
     }
 
-    get username () {
-      return this.flier.username
-    }
-
     get fName () {
-      return this.flier.firstName
+      return this.account.firstName
     }
 
     get lName () {
-      return this.flier.lastName
+      return this.account.lastName
     }
 
     get email () {
-      return this.flier.email
+      return this.account.email
     }
 
     get phone () {
-      return this.flier.phone
+      return this.account.phone
     }
 
     set fName (fName) {
-      this.flier.firstName = fName
+      this.account.firstName = fName
     }
 
     set lName (lName) {
-      this.flier.lastName = lName
+      this.account.lastName = lName
     }
 
     set email (address) {
-      this.flier.email = address
+      this.account.email = address
     }
 
     set phone (number) {
-      this.flier.phone = number
+      this.account.phone = number
     }
 
-    getFlierFlights () {
+    flights () {
       if (this.service.isLoggedOn()) {
-        this.service.getFlierFlights(this.username).then(() =>
-        this.$state.reload('profile'))
+        this.service.getFlights(this.account.email)
+        // .then(() =>
+        // this.$state.reload('profile'))
       } else {
-        this.service.errorMessage = 'Log In To View Flights For This Flier: ' + this.email
-        this.$log.log('Not Logged In To View Flights For This Flier: ' + this.email)
+        this.service.errorMessage = 'Log In To View Flights.'
+        this.$log.log('Not Logged In To View Flights For This Flier: ' + this.account.email)
       }
     }
 
-    deleteAccount () {
+    delete () {
       this.service.deleteAccount()
       this.$state.go('login')
     }
 
     // shows or hides profile update form
-    updateForm () {
+    form () {
       if (this.formOpen === false) {
         this.formOpen = true
       } else {
@@ -73,13 +70,14 @@ const controller =
       }
     }
 
-    updateProfile () {
-      this.service.updateUser(this.email, this.fName, this.lName, this.phone)
+    update () {
+      this.service.updateAccount(this.account.email, this.account.fName, this.account.lName, this.account.phone)
       this.updateForm()
     }
 
+    // Checks if a user is currently logged in
     isLoggedOn () {
-      return this.service.isLoggedOn()
+      return this.localStorageService.get('accountData') !== null
     }
 
 }
@@ -89,7 +87,6 @@ export const flightProfile = {
   templateUrl,
   controllerAs: 'profile',
   bindings: {
-    exists: '=',
-    flier: '='
+    account: '='
   }
 }

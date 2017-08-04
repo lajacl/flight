@@ -25,14 +25,13 @@ export class RegisterService {
         'content-type': 'application/json'
       }
     }).then((response) => {
-      this.$log.log('Response Data: ' + response.data)
       return response.data
     }, (response) => {
       this.$log.log('Exists error: true')
     })
   }
 
-  newAccount (account) {
+  createAccount (account) {
     return this.$http({
       method: 'POST',
       url: 'http://localhost:8000/flight/account',
@@ -43,6 +42,7 @@ export class RegisterService {
       }
     }, (response) => {
       this.$log.log('Exists error: creating new account')
+      this.errorMess = 'Signup is unavailable at this time. Please try again later.'
     })
   }
 

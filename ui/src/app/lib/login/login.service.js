@@ -40,13 +40,13 @@ export class LoginService {
   /**
    * Authentication function that returns a promise that is either resolved or rejected.
    */
-  logon (email, password) {
-    this.$http({
+  accountLogon (email, password) {
+    return this.$http({
       method: 'POST',
-      url: 'http://localhost:8080/flight/account/login',
+      url: 'http://localhost:8000/flight/account/login',
       params: {email: email, password: password}
     }).then((response) => {
-      if (response.data.email !== undefined) {
+      if (response.data.email !== null) {
         this.localStorageService.set('accountData', response.data)
         return true
       }

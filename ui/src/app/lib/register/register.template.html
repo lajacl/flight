@@ -1,25 +1,25 @@
 <div  layout="column" class="md-inline-form">
   <h2>Create An Account</h2>
+  <div style="color: red">{{register.signupError()}}</div>
   <md-content layout-padding>
-    <form name="signupForm">
-      <div style="color: red">{{register.signupError()}}</div>
+    <form name="signupForm"  ng-submit="register.signup(signupForm.$valid)" autocomplete="on">
       <div layout-gt-sm="row">
         <md-input-container class="md-block" flex-gt-sm>
           <label>First Name</label>
-          <input required name="fName" md-maxlength="30" ng-model="register.account.firstName" />
-          <div ng-messages="signupForm.name.$error" ng-if="!showHints">
+          <input name="fName" type="text" maxlength="30" ng-model="register.account.firstName" required />
+          <div ng-messages="signupForm.fName.$error">
             <div ng-message="required">First name is required.</div>
-            <div ng-message="md-maxlength">
+            <div ng-message="maxlength">
               First name must be less than 30 characters long.
             </div>
           </div>
         </md-input-container>
           <md-input-container class="md-block" flex-gt-sm>
             <label>Last Name</label>
-            <input required name="lName" md-maxlength="30" ng-model="register.account.lastName" />
-            <div ng-messages="signupForm.name.$error" ng-if="!showHints">
+            <input name="lName" type="text" maxlength="30" ng-model="register.account.lastName" required />
+            <div ng-messages="signupForm.lName.$error">
               <div ng-message="required">Last name is required.</div>
-              <div ng-message="md-maxlength">
+              <div ng-message="maxlength">
                 Last name must be less than 30 characters long.
               </div>
             </div>
@@ -29,21 +29,22 @@
       <div layout-gt-sm="row">
         <md-input-container class="md-block" flex-gt-sm>
           <label>Email Address</label>
-          <input required name="email" ng-model="register.account.email" minlength="10"
-          maxlength="100" ng-pattern="/^.+@.+\..+$/" />
-        <div ng-messages="signupForm.email.$error" ng-hide="showHints">
-          <div ng-message-exp="['minlength', 'maxlength', 'pattern']">
+          <input name="email" type="email" ng-model="register.account.email"
+          maxlength="100" ng-pattern="/^.+@.+\..+$/"  required />
+        <div ng-messages="signupForm.email.$error">
+          <div ng-message="required">Email is required.</div>
+          <div ng-message-exp="['maxlength', 'pattern']">
             Not a valid email.
           </div>
         </div>
         </md-input-container>
         <md-input-container class="md-block" flex-gt-sm>
           <label>Phone Number</label>
-          <input required name="phone" ng-model="register.account.phone" ng-pattern="/^[(][0-9]{3}[)] [0-9]{3}-[0-9]{4}$/">
-            <div class="hint" ng-show="showHints">(###) ###-####</div>
-            <div ng-messages="signupForm.phone.$error" ng-hide="showHints">
+          <input name="phone" type="tel" ng-model="register.account.phone" ng-pattern="/^[(][0-9]{3}[)] [0-9]{3}-[0-9]{4}$/" required />
+            <div ng-messages="signupForm.phone.$error" ng-if="!showHints">
+              <div ng-message="required">Phone number is required.</div>
               <div ng-message="pattern">
-                (###) ###-#### - Please enter a valid phone number
+                (###) ###-#### - Please enter a valid phone number.
               </div>
             </div>
         </md-input-container>
@@ -52,18 +53,22 @@
       <div layout-gt-sm="row">
         <md-input-container class="md-block" flex-gt-sm>
             <label>Password</label>
-            <input required name="password" ng-model="register.account.password" minlength="8"
-            maxlength="50" type="password">
-            <div ng-messages="signupForm.password.$error" ng-hide="showHints">
-              <div ng-message="md-minlength">
+            <input name="password" type="password" ng-model="register.account.password" minlength="8"
+            ng-maxlength="50" required>
+            <div ng-messages="signupForm.password.$error">
+              <div ng-message="required">Password is required.</div>
+              <div ng-message="minlength">
                 Password must be at least 8 characters long.
+              </div>
+              <div ng-message="ng-maxlength">
+                Password is too long.
               </div>
             </div>
           </md-input-container>
         </div>
 
         <div layout="row" layout-align="center center">
-        <md-button type="submit" class="md-accent md-raised" ng-click="register.signup()">Complete</md-button>
+        <md-button type="submit" class="md-accent md-raised">Complete</md-button>
         </div>
 
       </div>

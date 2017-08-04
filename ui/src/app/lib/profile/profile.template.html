@@ -1,49 +1,64 @@
-<!-- <div class="page-header" ng-if="!profile.exists"><h1>Flier Does Not Exists</h1></div> -->
-<!-- <div class="container" ng-if="profile.exists"> -->
+<!-- <div class="page-header" ng-if="!account.exists"><h1>Flier Does Not Exists</h1></div> -->
+<!-- <div class="container" ng-if="account.exists"> -->
 <div ng-cloak>
   <md-content>
-    <!-- displays flier account information -->
-    <md-tabs md-dynamic-height md-border-bottom>
+  <md-tabs md-dynamic-height md-border-bottom>
+
+        <!-- ACCOUNT TAB: list of booked flight descriptions -->
+        <md-tab label="Booked Flights">
+          <md-content class="md-padding">
+            <h3>All Your Flights</h3>
+              <p>Itineraries ({{profile.flights.length}}):</p>
+              <div ng-repeat="flight in profile.flights"
+              ui-sref="map({path: [flight.origin, flight.destination]})" ui-sref-active="active">
+              <p>Origin :{{flight.origin}}</p>
+              <p>Destination: {{flight.destination}}</p>
+              <p>Flight Start Time: {{flight.offset}}</p>
+              <p>Flight Length: {{flight.flightTime}}</p>
+            </div>
+          </md-content>
+        </md-tab>
+
+    <!-- ACCOUNT TAB: displays flier account information -->
       <md-tab label="Account Information">
         <md-content class="md-padding">
-          <h3>Account Information</h3>
-          <h4>{{profile.fname}} {{profile.lName}}'s Flier Profile</h4>
-            <h4>Name: {{profile.fName}} {{profile.lName}}</h4>
+          <h3>{{profile.fName}} {{profile.lName}}'s Frequent Flier Profile</h3>
             <h4>Email: {{profile.email}}</h4>
             <h4>Phone Number: {{profile.phone}}</h4>
             <div>
-              <p>Joined On: {{profile.flier.joined | date: 'MMMM dd, yyyy'}}</p>
+              <!-- <p>Member since: {{account.joined | date: 'MMMM dd, yyyy'}}</p> -->
             </div>
               <p>
-                <a href ng-click="profile.updateForm()"
-                  ui-sref-active="active">Edit Account</a> |
+                <a href ng-click="profile.form()"
+                  ui-sref-active="active" ng-init="profile.formOpen=false">Edit Account</a> |
                 <a href ng-click="profile.deleteAccount()"
                   ui-sref-active="active">Delete Account</a>
             </p>
 
-            <!-- form to update user profile-->
-            <div  layout="column" class="md-inline-form" ng-if="updateForm()">
+            <!-- hidden form to update user profile, only shown when edit clicked-->
+            <div  layout="column" class="md-inline-form" ng-if="profile.formOpen">
               <h3>Update Account Information</h3>
-              <md-content layout-padding>
-                <form name="updateForm">
+              <div style="color: red">{{update.formError()}}</div>
+                <form name="updateForm"  ng-submit="profile.update(updateForm.$valid)" autocomplete="on">
 
                   <div layout-gt-sm="row">
                     <md-input-container class="md-block" flex-gt-sm>
                       <label>First Name</label>
-                      <input required name="fName" md-maxlength="30" ng-model="profile.firstName" />
-                      <div ng-messages="signupForm.name.$error" ng-if="!showHints">
+                      <input required name="fName" md-maxlength="30" ng-model="profile.fName" />
+                      <div ng-messages="signupForm.name.$error">
                         <div ng-message="required">First name is required.</div>
                         <div ng-message="md-maxlength">
                           First name must be less than 30 characters long.
                         </div>
                       </div>
                     </md-input-container>
+
                       <md-input-container class="md-block" flex-gt-sm>
                         <label>Last Name</label>
-                        <input required name="lName" md-maxlength="30" ng-model="profile.lastName" />
-                        <div ng-messages="signupForm.name.$error" ng-if="!showHints">
+                        <input required name="lName" maxlength="30" ng-model="profile.lName" />
+                        <div ng-messages="signupForm.name.$error">
                           <div ng-message="required">Last name is required.</div>
-                          <div ng-message="md-maxlength">
+                          <div ng-message="maxlength">
                             Last name must be less than 30 characters long.
                           </div>
                         </div>
@@ -53,14 +68,15 @@
                   <div layout-gt-sm="row">
                     <md-input-container class="md-block" flex-gt-sm>
                       <label>Email Address</label>
-                      <input required name="email" ng-model="profile.email" minlength="10"
-                      maxlength="100" ng-pattern="/^.+@.+\..+$/" />
-                    <div ng-messages="signupForm.email.$error" ng-hide="showHints">
+                      <input name="email" ng-model="profile.email" minlength="10"
+                      maxlength="100" ng-pattern="/^.+@.+\..+$/"  required ng-readonly="true"/>
+                    <div ng-messages="signupForm.email.$error">
                       <div ng-message-exp="['minlength', 'maxlength', 'pattern']">
                         Not a valid email.
                       </div>
                     </div>
                     </md-input-container>
+
                     <md-input-container class="md-block" flex-gt-sm>
                       <label>Phone Number</label>
                       <input required name="phone" ng-model="profile.phone" ng-pattern="/^[(][0-9]{3}[)] [0-9]{3}-[0-9]{4}$/">
@@ -76,10 +92,10 @@
                   <div layout-gt-sm="row">
                       <md-input-container class="md-block" flex-gt-sm>
                         <label>Password</label>
-                        <input required name="password" ng-model="profile.password" minlength="8"
-                        maxlength="50">
-                        <div ng-messages="signupForm.password.$error" ng-hide="showHints">
-                          <div ng-message="md-minlength">
+                        <input name="password" ng-model="profile.password" minlength="8"
+                        maxlength="50" required>
+                        <div ng-messages="signupForm.password.$error">
+                          <div ng-message="minlength">
                             Password must be at least 8 characters long.
                           </div>
                         </div>
@@ -87,38 +103,23 @@
                     </div>
 
                     <div>
-                      <!-- {{update.formError()}} -->
-                    <md-button type="submit" class="md-accent md-raised" ng-click="profile.signup()">Update</md-button>
+                    <md-button type="submit" class="md-accent md-raised">Update</md-button>
                     </div>
 
                 </form>
-              </mid-content>
+              </md-content>
             </div>
-
           </md-content>
       </md-tab>
 
-      <!-- list of booked flight descriptions -->
-      <md-tab label="Booked Flights">
-        <md-content class="md-padding">
-          <h3>Itinerary</h3>
-            <p>Flights ({{profile.flights.length}}):</p>
-            <div ng-repeat="flight in profile.flights"
-            ui-sref="map({path: [flight.origin, flight.destination]})" ui-sref-active="active">
-            <p>Origin :{{flight.origin}}</p>
-            <p>Destination: {{flight.destination}}</p>
-            <p>Flight Start Time: {{flight.offset}}</p>
-            <p>Flight Length: {{flight.flightTime}}</p>
-          </div>
-        </md-content>
-      </md-tab>
-
+      <!-- ACCOUNT TAB: flight specials -->
       <md-tab label="Member Specials">
         <md-content class="md-padding">
           <h3>Member Specials</h3>
           <p>Book Today For A Great Summer Deal!</p>
         </md-content>
       </md-tab>
+
     </md-tabs>
   </md-content>
 </div>

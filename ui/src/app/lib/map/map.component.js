@@ -11,9 +11,9 @@ class MapController {
     this.$map = $map
     this.$log = $log
 
-    const colors = ['#CC0099', '#AA1100', '#2196F3', '#FF5722']
+    // const colors = ['#CC0099', '#AA1100', '#2196F3', '#FF5722']
 
-    // this.markers = [this.origin, this.destination]
+    // const markers = [this.origin, this.destination]
     // this.paths = [this.origin, this.destination, colors[0]]
 
     // add markers from an angular constant
