@@ -7,7 +7,7 @@
         <!-- ACCOUNT TAB: list of booked flight descriptions -->
         <md-tab label="Booked Flights">
           <md-content class="md-padding">
-            <h3>All Your Flights</h3>
+            <h3>{{profile.fName}} {{profile.lName}}'s Flights</h3>
               <p>Itineraries ({{profile.flights.length}}):</p>
               <div ng-repeat="flight in profile.flights"
               ui-sref="map({path: [flight.origin, flight.destination]})" ui-sref-active="active">

@@ -9,7 +9,9 @@
       <md-input-container style="margin-right: 10px;">
         <label>FROM</label>
         <md-select ng-model="booking.origin" ng-init="booking.origin=' '">
-          <md-option ng-repeat="location in booking.locations" value="{{location.city}}">{{location.city}}</md-option>
+          <md-option ng-repeat="location in booking.locations" value="{{location.city}}">
+            {{location.city}}
+          </md-option>
         </md-select>
       </md-input-container>
       </div>
@@ -18,14 +20,18 @@
       <md-input-container>
         <label>TO</label>
         <md-select ng-model="booking.destination" ng-init="booking.destination=null">
-          <md-option ng-repeat="location in booking.locations | filter: '!' + booking.origin" value="{{location.city}}">{{location.city}}</md-option>
+          <md-option ng-repeat="location in booking.locations | filter: '!' +
+           booking.origin" value="{{location.city}}">{{location.city}}
+         </md-option>
         </md-select>
       </md-select>
       </md-input-container>
     </div>
   </div>
   <div layout="row" layout-align="center">
-    <md-button type="submit" class="md-accent md-raised" ng-click="booking.searchFlights()">Find Flights</md-button>
+    <md-button type="submit" class="md-accent md-raised" ng-click="booking.searchFlights()">
+      Find Flights
+    </md-button>
   </div>
   <p style="color:red">{{booking.bookingError()}}</p>
   </div>
@@ -34,36 +40,45 @@
 </mid-content>
 </div>
 
-<!-- Searched Flight List -->
+<!-- Search Results Flight Itinerary List -->
 <div ng-if="booking.searched === true">
+  <!-- {{booking.selectFlights}} -->
 <md-toolbar class="md-theme-light">
     <h2 class="md-toolbar-tools">
       <span ng-if="booking.selectFlights.length === 0">
         There are no flights from {{booking.origin}} to {{booking.destination}} at this time
       </span>
       <span ng-if="booking.selectFlights.length > 0">
-        {{booking.selectFlights.length}} Direct Flight(s) Found :
+        {{booking.selectFlights.length}} Flight(s) from {{booking.origin}} to {{booking.destination}}:
       </span>
     </h2>
   </md-toolbar>
 
   <md-content>
-    <md-list>
-      <md-list-item class="md-3-line" ng-repeat="flight in booking.selectFlights">
-        <div class="md-list-item-text">
-          <h3>{{flight.origin}}, TN to {{flight.destination}}, TN</h3>
-          <h4>Departs: {{flight.offset}}</h4>
-          <h4>Arrives: {{flight.offset + flight.flightTime}}</h4>
+    <md-list ng-repeat="itinerary in booking.selectFlights">
+      <md-list-item class="md-3-line" ng-repeat="flight in itinerary">
+        <div class="md-list-item-text" layout="row">
+          <div flex="50">
+          <h3><b>{{flight.origin}}, TN to {{flight.destination}}, TN</b></h3>
           <p ng-init="flightTime = flight.flightTime">
-            Total Flight Time: {{flight.flightTime}}
-          </p>
+            Total Flight Time: {{flight.flightTime}}</p>
+          <md-button class="md-accent md-raised" ng-if="$last">Book Flight</md-button>
         </div>
-        <md-button class="md-accent md-raised">Book Flight</md-button>
-        <md-divider ng-if="!$last"></md-divider>
+          <div flex="25">
+            <h4><b>Depart:</b></h4>
+            <p><span ng-if="flight.offset < 10">0</span>{{flight.offset}}00</p>
+          </div>
+          <div flex="25">
+            <h4><b>Arrive:</b></h4>
+            <p><span ng-if="(flight.offset + flight.flightTime) < 10">0</span>{{flight.offset + flight.flightTime}}00</p>
+          </div>
+        </div>
+        <md-divider md-inset ng-if="!$last"></md-divider>
       </md-list-item>
       <flight-map locations="booking.locations" origin="booking.origin"
         destination="booking.destination" flight-time="flightTime">
       </flight-map>
+      <md-divider></md-divider>
     </md-list>
   </md-content>
 </div>

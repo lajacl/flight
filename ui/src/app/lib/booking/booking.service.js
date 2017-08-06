@@ -16,16 +16,29 @@ export class BookingService {
 
   searchFlights (origin, destination, flights) {
     let selectFlights = []
+    let tempFlights = []
     for (let i = 0; i < flights.length; i++) {
+      // tempFlights = []
       this.$log.log('Current flight: ' + flights[i].origin + ' to ' + flights[i].destination)
       if (flights[i].origin === origin.toUpperCase()) {
+        tempFlights = [flights[i]]
         if (flights[i].destination === destination.toUpperCase()) {
-          selectFlights.push(flights[i])
+        selectFlights.push(tempFlights)
+        console.log(selectFlights)
+        } else {
+          let origin2 = flights[i].destination
+          for (let j = 0; j < flights.length; j++) {
+            if ((flights[j].origin === origin2.toUpperCase()) && (flights[j].destination === destination.toUpperCase())) {
+              tempFlights.push(flights[j])
+              selectFlights.push(tempFlights)
+                // tempFlights = [flights[i]]
+              console.log(selectFlights)
+            }
+          }
         }
       }
     }
     this.$log.log('# Selected Flights: ' + selectFlights.length)
-    // this.$log.log('Select flights: ' + selectFlights[0].origin + ' ' + selectFlights[0].destination)
     return selectFlights
   }
 

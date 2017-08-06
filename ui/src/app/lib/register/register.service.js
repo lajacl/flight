@@ -19,7 +19,8 @@ export class RegisterService {
   accountExists (email) {
     return this.$http({
       method: 'GET',
-      url: 'http://localhost:8000/flight/account/exists/' + email,
+      url: 'http://localhost:8000/flight/account/exists',
+      params: {email: email},
       headers: {
         'Access-Control-Allow-Origin': '*',
         'content-type': 'application/json'
