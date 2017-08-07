@@ -24,20 +24,22 @@ export class BookingService {
         tempFlights = [flights[i]]
         if (flights[i].destination === destination.toUpperCase()) {
         selectFlights.push(tempFlights)
-        console.log(selectFlights)
         } else {
           let origin2 = flights[i].destination
           for (let j = 0; j < flights.length; j++) {
-            if ((flights[j].origin === origin2.toUpperCase()) && (flights[j].destination === destination.toUpperCase())) {
+            if ((flights[j].origin === origin2.toUpperCase()) &&
+              (flights[j].destination === destination.toUpperCase()) &&
+              (flights[j].offset > (flights[i].offset + flights[i].flightTime))) {
               tempFlights.push(flights[j])
               selectFlights.push(tempFlights)
-                // tempFlights = [flights[i]]
-              console.log(selectFlights)
+              tempFlights = [flights[i]]
             }
           }
         }
       }
     }
+    tempFlights = []
+    console.log(selectFlights)
     this.$log.log('# Selected Flights: ' + selectFlights.length)
     return selectFlights
   }

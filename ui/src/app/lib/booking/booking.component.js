@@ -30,6 +30,14 @@ const controller =
       })
     }
 
+    // setTripTime (time) {
+    //   this.tripTime += time
+    // }
+
+    // flightChange () {
+    //
+    // }
+
     // getAllFlights () {
     //   allFlights = this.service.getAllFlights()
     // }
