@@ -6,18 +6,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cooksys.entity.Account;
-import com.cooksys.entity.FlightEntity;
+import com.cooksys.entity.Flight;
 import com.cooksys.entity.Itinerary;
 import com.cooksys.repository.AccountRepository;
+import com.cooksys.repository.ItineraryRepository;
 
 @Service
 public class AccountService {
 
 	AccountRepository accountRepo;
+	ItineraryRepository itineraryRepo;
 	
 	@Autowired
-	public AccountService(AccountRepository accountRepo) {
+	public AccountService(AccountRepository accountRepo, ItineraryRepository itineraryRepo) {
 		this.accountRepo = accountRepo;
+		this.itineraryRepo = itineraryRepo;
 	}
 
 	public void save(Account account) {
@@ -69,13 +72,10 @@ public class AccountService {
 		return account;
 	}
 
-	public void bookFlight(String email, List<FlightEntity> flights) {
-		Account acc = findByEmail(email);
-		Itinerary sched= new Itinerary();
-		sched.setFlights(flights);
-		acc.getItinerary().add(sched);
-		save(acc);
-		
+	public void bookFlight(Itinerary itinerary) {
+//		Itinerary sched= itinerary;
+//		sched = itinerary;
+		itineraryRepo.save(itinerary);		
 	}
 
 	public List<Itinerary> getFlights(String email) {
@@ -83,7 +83,7 @@ public class AccountService {
 		return acc.getItinerary();
 	}
 	
-	public List<FlightEntity> getLayoverRoutes(String origin, String destination) {
+	public List<Flight> getLayoverRoutes(String origin, String destination) {
 		
 		return null;
 	}

@@ -21,7 +21,7 @@ public class Itinerary {
 	private Account account;
 
 	@ManyToMany
-	private List<FlightEntity> flights;
+	private List<Flight> flights;
 	
 	
 	
@@ -41,11 +41,11 @@ public class Itinerary {
 		this.account = account;
 	}
 	
-	public List<FlightEntity> getFlights() {
+	public List<Flight> getFlights() {
 		return flights;
 	}
 	
-	public void setFlights(List<FlightEntity> flights) {
+	public void setFlights(List<Flight> flights) {
 		this.flights = flights;
 	}
 

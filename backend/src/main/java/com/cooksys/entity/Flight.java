@@ -11,25 +11,21 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "Flight")
-public class FlightEntity {
+public class Flight {
 	
 	@Id
 	@GeneratedValue
 	private long id;
-	
-	//Name of city where flight originates
+
 	@Column(name = "origin")
 	private String origin;
-	
-	//Name of city where flight lands
+
 	@Column(name = "destination")
 	private String destination;
-	
-	//How many hours flight is in the air
+
 	@Column(name = "flightTime")
 	private long flightTime;
-	
-	//How many hours after the start of the day until the flight takes off
+
 	@Column(name = "offsetTime")
 	private long offset;
 
@@ -84,6 +80,13 @@ public class FlightEntity {
 	
 	public void seItinerary(List<Itinerary> itineraries) {
 		this.itineraries = itineraries;
+	}
+
+	public Flight(String origin, String destination, long flightTime, long offset) {
+		this.origin = origin;
+		this.destination = destination;
+		this.flightTime = flightTime;
+		this.offset = offset;
 	}
 
 

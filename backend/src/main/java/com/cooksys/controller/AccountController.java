@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cooksys.dto.AccountDto;
 import com.cooksys.dto.ItineraryDto;
-import com.cooksys.entity.FlightEntity;
+import com.cooksys.entity.Itinerary;
 import com.cooksys.mapper.AccountMapper;
 import com.cooksys.mapper.ItineraryMapper;
 import com.cooksys.service.AccountService;
@@ -54,8 +54,8 @@ public class AccountController {
 	}
 	
 	@PostMapping ("account/book")
-	public void book(@RequestParam String email, List<FlightEntity> flights) {
-		accountService.bookFlight(email, flights);
+	public void book(@RequestBody Long id, ItineraryDto itineraryDto) {
+		accountService.bookFlight(itineraryMapper.toEntity(itineraryDto));
 	}
 	
 	@GetMapping ("account/flights")

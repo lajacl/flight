@@ -15,7 +15,6 @@ public class Account {
 		
 	@Id
 	@GeneratedValue
-	@Column(updatable = false, nullable = false)
 	private Long id;
 
 	@Column(name = "email")
