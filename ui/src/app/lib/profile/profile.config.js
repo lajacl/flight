@@ -9,14 +9,13 @@ export const config =
       resolve: {
         account: (localStorageService) => {
           return localStorageService.get('accountData')
-          }
+        },
+        itineraries: (localStorageService, profileService) => {
+          return profileService.getFlights(localStorageService.get('accountData').id)
         }
-      //   flights: function (profileService, $transition$) {
-      //     return profileService.getFlights($transition$.params().username)
-      //   },
       //   exists: (loginService, $transition$) => {
       //     return loginService.flierExists($transition$.params().username)
       //   }
-      // }
+      }
     })
   }

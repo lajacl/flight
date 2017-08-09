@@ -73,12 +73,13 @@ export class BookingService {
     return selectFlights
   }
 
-  bookFlight (account, flights) {
-    let itinerary = {account: account, flights: flights}
+  bookFlight (accountId, flights) {
+    let itinerary = {flights: flights}
     // console.log(itinerary)
     return this.$http({
       method: 'POST',
       url: 'http://localhost:8000/flight/account/book',
+      params: {id: accountId},
       data: itinerary
     }).then((response) => {
       this.$log.log('Book Flight Response Data: ' + response.data)

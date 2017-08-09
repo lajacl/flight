@@ -8,22 +8,27 @@ export class ProfileService {
     this.$state = $state
   }
 
-  //  List the flights of a flier
-  getFlights (email) {
-    let method = 'GET'
-    let apiUrl = 'http://localhost:8000/flight/account/flights'
+  errorMess = ''
 
+  errorMessage () {
+    return this.errorMess
+  }
+
+  //  List the flights of a flier
+  getFlights (id) {
     return this.$http({
-      method: method,
-      url: apiUrl,
-      params: {email: email},
+      method: 'GET',
+      url: 'http://localhost:8000/flight/account/flights',
+      params: {id: id},
       headers: {
         'Access-Control-Allow-Origin': '*',
         'content-type': 'application/json'
       }
     }).then((response) => {
+      console.log(response.data)
       return response.data
     }, (response) => {
+      this.errorMess='Unable to display flights at this time. Please try again later.'
     })
   }
 

@@ -80,6 +80,10 @@ const controller =
       return this.localStorageService.get('accountData') !== null
     }
 
+    profileError () {
+      return this.service.errorMessage()
+    }
+
 }
 
 export const flightProfile = {
@@ -87,6 +91,7 @@ export const flightProfile = {
   templateUrl,
   controllerAs: 'profile',
   bindings: {
-    account: '='
+    account: '=',
+    itineraries: '='
   }
 }

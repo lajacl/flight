@@ -1,21 +1,62 @@
 <!-- <div class="page-header" ng-if="!account.exists"><h1>Flier Does Not Exists</h1></div> -->
 <!-- <div class="container" ng-if="account.exists"> -->
 <div ng-cloak>
+  <div>
+    <p style="color:red">{{profile.profileError()}}</p>
+  </div>
   <md-content>
   <md-tabs md-dynamic-height md-border-bottom>
 
         <!-- ACCOUNT TAB: list of booked flight descriptions -->
         <md-tab label="Booked Flights">
           <md-content class="md-padding">
-            <h3>{{profile.fName}} {{profile.lName}}'s Flights</h3>
-              <p>Itineraries ({{profile.flights.length}}):</p>
-              <div ng-repeat="flight in profile.flights"
+            <h3>{{profile.fName}} {{profile.lName}}'s Itineraries</h3>
+
+              <md-toolbar class="md-theme-light">
+                  <h2 class="md-toolbar-tools">
+                    {{profile.itineraries.length}} Trip(s):
+                  </h2>
+                </md-toolbar>
+
+                <md-content>
+              <md-list ng-repeat="itinerary in profile.itineraries">
+              <md-list-item style="background-color:gray; color:white">
+                Itinerary #: {{itinerary.id}}
+              </md-list-item>
+              <md-list-item class="md-2-line" ng-repeat="flight in itinerary.flights">
+                <div class="md-list-item-text" layout="row">
+                  <div flex>
+                    <p>Flight #: {{flight.id}}</p>
+                    <h4>Flight Time: {{flight.flightTime}}h</h4>
+                    <h4 ng-if="itinerary.length===1">Nonstop</h4>
+                    <h4 ng-if="itinerary.length>1 && $first">Layover:
+                      {{itinerary[$index+1].offset - (itinerary[$index].offset +
+                      itinerary[$index].flightTime)}}h</h4>
+                  </div>
+                  <div flex>
+                    <p>Depart</p>
+                    <h3>{{flight.origin}}</h3>
+                    <h4><span ng-if="flight.offset < 10">0</span>{{flight.offset}}00</h4>
+                  </div>
+                  <div flex>
+                    <p>Arrive</p>
+                    <h3>{{flight.destination}}</h3>
+                    <h4><span ng-if="(flight.offset+flight.flightTime)<10">0</span>{{flight.offset + flight.flightTime}}00</h4>
+                  </div>
+                  <div flex style="text-align:right">
+                  <md-button class="md-accent md-raised" ng-if="$last" ng-click="profile.viewMap(itinerary)">View Map</md-button>
+                  </div>
+                </div>
+              </md-list-item>
+            </md-list>
+          </md-content>
+              <!-- <div ng-repeat="flight in profile.flights"
               ui-sref="map({path: [flight.origin, flight.destination]})" ui-sref-active="active">
               <p>Origin :{{flight.origin}}</p>
               <p>Destination: {{flight.destination}}</p>
               <p>Flight Start Time: {{flight.offset}}</p>
               <p>Flight Length: {{flight.flightTime}}</p>
-            </div>
+            </div> -->
           </md-content>
         </md-tab>
 

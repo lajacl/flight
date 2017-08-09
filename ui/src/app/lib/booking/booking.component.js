@@ -24,10 +24,10 @@ const controller =
 
     bookFlight (flights) {
       this.service.errorMess = null
-      let account = this.localStorageService.get('accountData')
+      let accountId = this.localStorageService.get('accountData').id
         // console.log(account)
         // console.log(flights)
-      this.service.bookFlight(account, flights)
+      this.service.bookFlight(accountId, flights)
       .then((data) => {
         if (data === true) {
           this.$state.reload()
