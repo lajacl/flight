@@ -23,7 +23,7 @@ public class FlightService {
 	}
 	
 	//The fixedDelay parameter determines how often a new day is generated as expressed in milliseconds
-	@Scheduled(fixedDelay=300000)
+	@Scheduled(fixedDelay=3600000)
 	private void refreshFlights()
 	{
 		flightList = generator.generateNewFlightList();

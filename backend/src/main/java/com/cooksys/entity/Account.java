@@ -32,7 +32,7 @@ public class Account {
 	@Column(name = "phone")
 	private String phone;
 	
-	@OneToMany
+	@OneToMany(mappedBy="account")
 	private List<Itinerary> itineraries;
 
 

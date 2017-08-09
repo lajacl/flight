@@ -72,15 +72,17 @@ public class AccountService {
 		return account;
 	}
 
-	public void bookFlight(Itinerary itinerary) {
-//		Itinerary sched= new Itinerary();
-//		sched = itinerary;
-		itineraryRepo.save(itinerary);		
+	public Boolean bookFlight(Long id, Itinerary itinerary) {
+		itineraryRepo.save(itinerary);
+		Account account = getOne(id);
+		account.getItinerary().add(itinerary);
+		save(account);
+		return true;
 	}
 
-	public List<Itinerary> getFlights(String email) {
-		Account acc = findByEmail(email);
-		return acc.getItinerary();
+	public List<Itinerary> getFlights(Long id) {
+		Account account = getOne(id);
+		return account.getItinerary();
 	}
 	
 	public List<Flight> getLayoverRoutes(String origin, String destination) {

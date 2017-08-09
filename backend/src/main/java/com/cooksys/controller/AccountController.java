@@ -53,13 +53,13 @@ public class AccountController {
 	}
 	
 	@PostMapping ("account/book")
-	public void book(@RequestBody ItineraryDto itineraryDto) {
-		accountService.bookFlight(itineraryMapper.toEntity(itineraryDto));
+	public Boolean book(@RequestParam Long id, @RequestBody ItineraryDto itineraryDto) {
+		return accountService.bookFlight(id, itineraryMapper.toEntity(itineraryDto));
 	}
 	
 	@GetMapping ("account/flights")
-	public List<ItineraryDto> flights(@RequestParam String email) {
-		return accountService.getFlights(email).stream().map(sched -> itineraryMapper.toDto(sched)).collect(Collectors.toList());
+	public List<ItineraryDto> flights(@RequestParam Long id) {
+		return accountService.getFlights(id).stream().map(sched -> itineraryMapper.toDto(sched)).collect(Collectors.toList());
 	}
 
 //	@PatchMapping ("account}")

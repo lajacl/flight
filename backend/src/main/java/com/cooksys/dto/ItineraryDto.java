@@ -6,8 +6,6 @@ public class ItineraryDto {
 	
 	private long id;
 
-	private AccountDto account;
-
 	private List<FlightDto> flights;	
 	
 	
@@ -17,14 +15,6 @@ public class ItineraryDto {
 	
 	public void setId(Long id) {
 		this.id = id;
-	}
-	
-	public AccountDto getAccount() {
-		return account;
-	}
-	
-	public void setAccount(AccountDto account) {
-		this.account = account;
 	}
 	
 	public List<FlightDto> getFlights() {
