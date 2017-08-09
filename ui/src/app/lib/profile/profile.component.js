@@ -61,6 +61,14 @@ const controller =
       this.$state.go('login')
     }
 
+    viewMap () {
+      if (this.mapOpen === false) {
+        this.mapOpen = true
+      } else {
+        this.mapOpen = false
+      }
+    }
+
     // shows or hides profile update form
     form () {
       if (this.formOpen === false) {

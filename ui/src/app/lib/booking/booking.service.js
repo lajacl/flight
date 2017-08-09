@@ -75,7 +75,8 @@ export class BookingService {
 
   bookFlight (accountId, flights) {
     let itinerary = {flights: flights}
-    // console.log(itinerary)
+    this.$log.log('accountId: ' + accountId)
+    console.log(itinerary)
     return this.$http({
       method: 'POST',
       url: 'http://localhost:8000/flight/account/book',
