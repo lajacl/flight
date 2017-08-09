@@ -73,7 +73,7 @@ public class AccountService {
 	}
 
 	public void bookFlight(Itinerary itinerary) {
-//		Itinerary sched= itinerary;
+//		Itinerary sched= new Itinerary();
 //		sched = itinerary;
 		itineraryRepo.save(itinerary);		
 	}

@@ -2,13 +2,11 @@ package com.cooksys.dto;
 
 import java.util.List;
 
-import com.cooksys.entity.Account;
-
 public class ItineraryDto {
 	
 	private long id;
 
-	private Account account;
+	private AccountDto account;
 
 	private List<FlightDto> flights;	
 	
@@ -21,11 +19,11 @@ public class ItineraryDto {
 		this.id = id;
 	}
 	
-	public Account getAccount() {
+	public AccountDto getAccount() {
 		return account;
 	}
 	
-	public void setAccount(Account account) {
+	public void setAccount(AccountDto account) {
 		this.account = account;
 	}
 	

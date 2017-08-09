@@ -82,12 +82,12 @@ public class Flight {
 		this.itineraries = itineraries;
 	}
 
-	public Flight(String origin, String destination, long flightTime, long offset) {
-		this.origin = origin;
-		this.destination = destination;
-		this.flightTime = flightTime;
-		this.offset = offset;
-	}
+//	public Flight(String origin, String destination, long flightTime, long offset) {
+//		this.origin = origin;
+//		this.destination = destination;
+//		this.flightTime = flightTime;
+//		this.offset = offset;
+//	}
 
 
 }

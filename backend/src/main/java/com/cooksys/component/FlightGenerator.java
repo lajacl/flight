@@ -3,19 +3,25 @@ package com.cooksys.component;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.cooksys.entity.Flight;
 import com.cooksys.pojo.Cities;
+import com.cooksys.repository.FlightRepository;
 
 @Component
-public class FlightGenerator {
+public class FlightGenerator {	
+
+	@Autowired
+	FlightRepository flightRepo;
+	
 
 	public ArrayList<Flight> generateNewFlightList() {
 		
 		ArrayList<Flight> result = new ArrayList<>();
-
-		for (int i = 0; i < 10; i++) {
+		
+		for (int i = 0; i < 5; i++) {
 
 			int originIndex = ThreadLocalRandom.current().nextInt(0, 4);
 
@@ -29,8 +35,13 @@ public class FlightGenerator {
 			int flightTime = ThreadLocalRandom.current().nextInt(1, 4);
 			int offset = ThreadLocalRandom.current().nextInt(0, 10);
 
-			Flight f = new Flight(origin, destination, flightTime, offset);
+			Flight f = new Flight();
+			f.setOrigin(origin);
+			f.setDestination(destination);
+			f.setFlightTime(flightTime);
+			f.setOffset(offset);
 
+			flightRepo.save(f);
 			result.add(f);
 		}
 		return result;
