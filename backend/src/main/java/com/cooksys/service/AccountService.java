@@ -46,9 +46,7 @@ public class AccountService {
 		return  account;
 	}
 
-	public Account createAccount(Account account) {
-			Account newAccount = new Account();
-			newAccount = account;
+	public Account createAccount(Account newAccount) {
 			save(newAccount);
 			return newAccount;
 		}
@@ -73,10 +71,9 @@ public class AccountService {
 	}
 
 	public Boolean bookFlight(Long id, Itinerary itinerary) {
-		itineraryRepo.save(itinerary);
 		Account account = getOne(id);
-		account.getItinerary().add(itinerary);
-		save(account);
+		itinerary.setAccount(account);
+		itineraryRepo.save(itinerary);
 		return true;
 	}
 
