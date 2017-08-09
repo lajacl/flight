@@ -75,15 +75,17 @@ export class BookingService {
 
   bookFlight (account, flights) {
     let itinerary = {account: account, flights: flights}
-    // return this.$http({
-    //   method: 'POST',
-    //   url: 'http://localhost:8000/flight/account/book',
-    //   data: itinerary
-    // }).then((response) => {
-    //   this.$log.log('Book Flight Response Data: ' + response.data)
-    //   return response.data
-    // }, (response) => {
-    // })
+    // console.log(itinerary)
+    return this.$http({
+      method: 'POST',
+      url: 'http://localhost:8000/flight/account/book',
+      data: itinerary
+    }).then((response) => {
+      this.$log.log('Book Flight Response Data: ' + response.data)
+      return response.data
+    }, (response) => {
+      this.errorMess="Unable to book flight at this time. Please try again later."
+    })
   }
 
 }

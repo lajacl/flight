@@ -32,12 +32,13 @@
     <md-button type="submit" class="md-accent md-raised" ng-click="booking.searchFlights()">
       Find Flights
     </md-button>
-  </div>
-  <p style="color:red">{{booking.bookingError()}}</p>
-  </div>
 
 </form>
 </md-content>
+</div>
+
+</div>
+<p style="color:red">{{booking.bookingError()}}</p>
 </div>
 
 <!-- Search Results Flight Itinerary List -->
@@ -61,7 +62,7 @@
       <md-list-item ng-if="itinerary.length>1" style="background-color:gray; color:white">
         Flight(s) with Layover:
       </md-list-item> -->
-      <md-list-item class="md-3-line" ng-repeat="flight in itinerary">
+      <md-list-item class="md-2-line" ng-repeat="flight in itinerary">
         <div class="md-list-item-text" layout="row">
           <div flex>
             <p>Flight #: {{flight.id}}</p>

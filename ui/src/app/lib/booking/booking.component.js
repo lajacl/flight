@@ -23,15 +23,17 @@ const controller =
     }
 
     bookFlight (flights) {
+      this.service.errorMess = null
       let account = this.localStorageService.get('accountData')
-        console.log(account)
-        console.log(flights)
-      this.service.bookFlight(flights, account)
-      // .then((data) => {
-      //   if (data === true) {
-      //     this.$state.reload()
-      //   }
-      // })
+        // console.log(account)
+        // console.log(flights)
+      this.service.bookFlight(account, flights)
+      .then((data) => {
+        if (data === true) {
+          this.$state.reload()
+          this.service.errorMess='Your Flight Was Successfully Booked'
+        }
+      })
     }
 
     // setTripTime (time) {
