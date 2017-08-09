@@ -38,8 +38,7 @@ export class ProfileService {
     return this.$http({
       method: method,
       url: apiUrl,
-      params: params,
-      data: requestBody
+      params: params
     }).then((response) => {
     }, (response) => {
       this.$log.log('Unable to update profile of: ' + email)

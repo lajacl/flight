@@ -37,18 +37,17 @@
   </div>
 
 </form>
-</mid-content>
+</md-content>
 </div>
 
 <!-- Search Results Flight Itinerary List -->
-<div ng-if="booking.searched === true">
-  <!-- {{booking.selectFlights}} -->
+<div ng-if="booking.searched===true">
 <md-toolbar class="md-theme-light">
     <h2 class="md-toolbar-tools">
-      <span ng-if="booking.selectFlights.length === 0">
+      <span ng-if="booking.selectFlights.length===0">
         There are no flights from {{booking.origin}} to {{booking.destination}} at this time
       </span>
-      <span ng-if="booking.selectFlights.length > 0">
+      <span ng-if="booking.selectFlights.length>0">
         {{booking.selectFlights.length}} Flight(s) from {{booking.origin}} to {{booking.destination}}:
       </span>
     </h2>
@@ -56,26 +55,34 @@
 
   <md-content>
     <md-list ng-repeat="itinerary in booking.selectFlights  | orderBy:itinerary.length">
+      <!-- <md-list-item ng-if="itinerary.length==1 && $first" style="background-color:gray; color:white">
+        Direct Flight(s):
+      </md-list-item>
+      <md-list-item ng-if="itinerary.length>1" style="background-color:gray; color:white">
+        Flight(s) with Layover:
+      </md-list-item> -->
       <md-list-item class="md-3-line" ng-repeat="flight in itinerary">
         <div class="md-list-item-text" layout="row">
-          <div flex="25">
-            <p>Flight #: {{$parent.$index}}{{$index}}</p>
-            <p>Flight Time: {{flight.flightTime}}h</p>
-            <p ng-if="itinerary.length==1">Nonstop</p>
-            <p ng-if="(itinerary.length>1) && $first">Layover:
+          <div flex>
+            <p>Flight #: {{flight.id}}</p>
+            <h4>Flight Time: {{flight.flightTime}}h</h4>
+            <h4 ng-if="itinerary.length===1">Nonstop</h4>
+            <h4 ng-if="itinerary.length>1 && $first">Layover:
               {{itinerary[$index+1].offset - (itinerary[$index].offset +
-              itinerary[$index].flightTime)}}h</p>
+              itinerary[$index].flightTime)}}h</h4>
           </div>
-          <div flex="25">
+          <div flex>
+            <p>Depart</p>
             <h3>{{flight.origin}}</h3>
-              <h4>Depart: <span ng-if="flight.offset < 10">0</span>{{flight.offset}}00</h4>
+            <h4><span ng-if="flight.offset < 10">0</span>{{flight.offset}}00</h4>
           </div>
-          <div flex="25">
+          <div flex>
+            <p>Arrive</p>
             <h3>{{flight.destination}}</h3>
-            <p>Arrive: <span ng-if="(flight.offset + flight.flightTime) < 10">0</span>{{flight.offset + flight.flightTime}}00</p>
+            <h4><span ng-if="(flight.offset+flight.flightTime)<10">0</span>{{flight.offset + flight.flightTime}}00</h4>
           </div>
-          <div flex="25" style="text-align:right">
-          <md-button class="md-accent md-raised" ng-if="$last">Book Flight</md-button>
+          <div flex style="text-align:right">
+          <md-button class="md-accent md-raised" ng-if="$last" ng-click="booking.bookFlight(itinerary)">Book Flight</md-button>
           </div>
         </div>
       </md-list-item>

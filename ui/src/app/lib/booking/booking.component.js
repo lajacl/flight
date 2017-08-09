@@ -3,12 +3,13 @@ import templateUrl from './booking.template'
 
 const controller =
   class FlightBookingController {
-    constructor ($log, bookingService, $state) {
+    constructor ($log, bookingService, $state, localStorageService) {
       'ngInject'
       this.service = bookingService
       this.$state = $state
       this.searched = false
       this.$log = $log
+      this.localStorageService = localStorageService
     }
 
     searchFlights () {
@@ -21,13 +22,16 @@ const controller =
       }
     }
 
-    bookFlight () {
-      this.service.bookFlight(this.flightId)
-      .then((data) => {
-        if (data === true) {
-          this.$state.reload()
-        }
-      })
+    bookFlight (flights) {
+      let account = this.localStorageService.get('accountData')
+        console.log(account)
+        console.log(flights)
+      this.service.bookFlight(flights, account)
+      // .then((data) => {
+      //   if (data === true) {
+      //     this.$state.reload()
+      //   }
+      // })
     }
 
     // setTripTime (time) {

@@ -14,6 +14,35 @@ export class BookingService {
     return this.errorMess
   }
 
+  getLocations () {
+    return this.$http({
+      method: 'GET',
+      url: 'http://localhost:8000/location',
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'content-type': 'application/json'
+      }
+    }).then((response) => {
+      return response.data
+    }, (response) => {
+    })
+  }
+
+  getAllFlights () {
+
+    return this.$http({
+      method: 'GET',
+      url: 'http://localhost:8000/flights',
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'content-type': 'application/json'
+      }
+    }).then((response) => {
+      return response.data
+    }, (response) => {
+    })
+  }
+
   searchFlights (origin, destination, flights) {
     let selectFlights = []
     let tempFlights = []
@@ -44,35 +73,17 @@ export class BookingService {
     return selectFlights
   }
 
-  getLocations () {
-    return this.$http({
-      method: 'GET',
-      url: 'http://localhost:8000/location',
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'content-type': 'application/json'
-      }
-    }).then((response) => {
-      return response.data
-    }, (response) => {
-    })
-  }
-
-  getAllFlights () {
-    let method = 'GET'
-    let apiUrl = 'http://localhost:8000/flights'
-
-    return this.$http({
-      method: method,
-      url: apiUrl,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'content-type': 'application/json'
-      }
-    }).then((response) => {
-      return response.data
-    }, (response) => {
-    })
+  bookFlight (account, flights) {
+    let itinerary = {account: account, flights: flights}
+    // return this.$http({
+    //   method: 'POST',
+    //   url: 'http://localhost:8000/flight/account/book',
+    //   data: itinerary
+    // }).then((response) => {
+    //   this.$log.log('Book Flight Response Data: ' + response.data)
+    //   return response.data
+    // }, (response) => {
+    // })
   }
 
 }
