@@ -8,13 +8,13 @@
   <md-tabs md-dynamic-height md-border-bottom>
 
         <!-- ACCOUNT TAB: list of booked flight descriptions -->
-        <md-tab label="Booked Flights">
+        <md-tab label="My Trips">
           <md-content class="md-padding">
             <h3>{{profile.fName}} {{profile.lName}}'s Itineraries</h3>
 
               <md-toolbar class="md-theme-light">
                   <h2 class="md-toolbar-tools">
-                    {{profile.itineraries.length}} Trip(s):
+                    {{profile.itineraries.length}} Booked Flight<span ng-if="profile.itineraries.length>1">s</span>:
                   </h2>
                 </md-toolbar>
 
