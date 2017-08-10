@@ -13,9 +13,6 @@ export const config =
         itineraries: (localStorageService, profileService) => {
           return profileService.getFlights(localStorageService.get('accountData').id)
         }
-      //   exists: (loginService, $transition$) => {
-      //     return loginService.flierExists($transition$.params().username)
-      //   }
       }
     })
   }

@@ -5,15 +5,28 @@
   </md-toolbar>
 
   <md-content>
+    <p style="color:red">{{flights.flightsError()}}</p>
     <md-list>
       <md-list-item class="md-3-line" ng-repeat="flight in flights.allFlights">
-        <div class="md-list-item-text">
-          <h3>{{flight.origin}}, TN to {{flight.destination}}, TN</h3>
-          <h4>Departs: {{flight.offset}}</h4>
-          <h4>Arrives: {{flight.offset + flight.flightTime}}</h4>
-          <p>Total Flight Time: {{flight.flightTime}}</p>
+        <div class="md-list-item-text" layout="row">
+          <div flex>
+            <p>Flight {{flight.id}}</p>
+            <h4>Flight Time: {{flight.flightTime}}h</h4>
+          </div>
+          <div flex>
+            <p>Depart</p>
+            <h3>{{flight.origin}}</h3>
+            <h4><span ng-if="flight.offset < 10">0</span>{{flight.offset}}00</h4>
+          </div>
+          <div flex>
+            <p>Arrive</p>
+            <h3>{{flight.destination}}</h3>
+            <h4><span ng-if="(flight.offset+flight.flightTime)<10">0</span>{{flight.offset + flight.flightTime}}00</h4>
+          </div>
+          <div flex style="text-align:right">
+          <md-button class="md-accent md-raised" ng-click="flights.book(itinerary)">Book Flight</md-button>
+          </div>
         </div>
-        <md-button class="md-accent md-raised">Book Flight</md-button>
         <md-divider ng-if="!$last"></md-divider>
       </md-list-item>
     </md-list>

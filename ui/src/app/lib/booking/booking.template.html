@@ -65,7 +65,7 @@
       <md-list-item class="md-2-line" ng-repeat="flight in itinerary">
         <div class="md-list-item-text" layout="row">
           <div flex>
-            <p>Flight #: {{flight.id}}</p>
+            <p>Flight {{flight.id}}</p>
             <h4>Flight Time: {{flight.flightTime}}h</h4>
             <h4 ng-if="itinerary.length===1">Nonstop</h4>
             <h4 ng-if="itinerary.length>1 && $first">Layover:
@@ -75,7 +75,7 @@
           <div flex>
             <p>Depart</p>
             <h3>{{flight.origin}}</h3>
-            <h4><span ng-if="flight.offset < 10">0</span>{{flight.offset}}00</h4>
+            <h4><span ng-if="flight.offset<10">0</span>{{flight.offset}}00</h4>
           </div>
           <div flex>
             <p>Arrive</p>
@@ -86,6 +86,9 @@
           <md-button class="md-accent md-raised" ng-if="$last" ng-click="booking.bookFlight(itinerary)">Book Flight</md-button>
           </div>
         </div>
+      </md-list-item>
+      <md-list-item ng-if="itinerary.length>1">
+        <span>Total Trip Time: {{itinerary[1].flightTime + (itinerary[1].offset-itinerary[0].offset)}}h</span>
       </md-list-item>
 
       <md-divider></md-divider>

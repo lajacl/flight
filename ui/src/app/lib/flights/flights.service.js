@@ -4,6 +4,11 @@ export class FlightsService {
     this.$http = $http
     this.$log = $log
   }
+    errorMess = ''
+
+    errorMessage () {
+      return this.errorMess
+    }
 
   getAllFlights () {
     let method = 'GET'

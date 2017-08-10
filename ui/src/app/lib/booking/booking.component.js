@@ -7,9 +7,9 @@ const controller =
       'ngInject'
       this.service = bookingService
       this.$state = $state
-      this.searched = false
       this.$log = $log
       this.localStorageService = localStorageService
+      this.searched = false
     }
 
     searchFlights () {
@@ -24,16 +24,20 @@ const controller =
 
     bookFlight (flights) {
       this.service.errorMess = null
-      let accountId = this.localStorageService.get('accountData').id
-        // console.log(account)
-        // console.log(flights)
-      this.service.bookFlight(accountId, flights)
-      .then((data) => {
-        if (data === true) {
-          this.$state.reload()
-          this.service.errorMess='Your Flight Was Successfully Booked'
-        }
-      })
+      if(this.isLoggedOn()){
+        let accountId = this.localStorageService.get('accountData').id
+          // console.log(account)
+          // console.log(flights)
+        this.service.bookFlight(accountId, flights)
+        .then((data) => {
+          if (data === true) {
+            this.$state.reload()
+            this.service.errorMess='Your Flight Was Successfully Booked'
+          }
+        })
+      } else {
+        this.service.errorMess='Please Login to Book a Flight.'
+      }
     }
 
     // setTripTime (time) {
@@ -48,9 +52,15 @@ const controller =
     //   allFlights = this.service.getAllFlights()
     // }
 
+    // Checks if a user is currently logged in
+    isLoggedOn () {
+      return this.localStorageService.get('accountData') !== null
+    }
+
     bookingError () {
       return this.service.errorMessage()
     }
+    
   }
 
 export const flightBooking = {
