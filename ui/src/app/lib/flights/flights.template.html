@@ -6,7 +6,7 @@
 
   <md-content>
     <md-list>
-      <md-list-item style="color:red; font-weight:bold">
+      <md-list-item style="color:red; font-weight:bold" ng-if="flights.flightsError()!=''">
         {{flights.flightsError()}}
       </md-list-item>
       <md-list-item class="md-3-line" ng-repeat="flight in flights.allFlights">

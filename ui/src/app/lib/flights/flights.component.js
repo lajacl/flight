@@ -9,21 +9,17 @@ class FlightFlightsController {
     this.service = flightsService
     this.localStorageService = localStorageService
 
-    // this.getFlights()
-
     $interval(() => {
       this.getFlights()
     }, 1000)
-    // .then((promise) => {
-    //   this.allFlights = promise.$$state.value
-    // })
   }
 
   getFlights () {
-    this.allFlights = this.service.getAllFlights()
-    // .then ((data) => {
-    //   this.allFlights = data
-    // })
+    // this.$log.log('Updating Flights')
+    this.service.getAllFlights()
+    .then ((data) => {
+      this.allFlights = data
+    })
   }
 
   book (flights) {

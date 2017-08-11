@@ -19,6 +19,7 @@ export class FlightsService {
       'content-type': 'application/json'
     }
   }).then((response) => {
+    this.errorMess = ''
     return response.data
   }, (response) => {
     this.errorMess = 'Unable to show available flights at this time. Please try again later.'
