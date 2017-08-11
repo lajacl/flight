@@ -5,8 +5,10 @@
   </md-toolbar>
 
   <md-content>
-    <p style="color:red">{{flights.flightsError()}}</p>
     <md-list>
+      <md-list-item style="color:red; font-weight:bold">
+        {{flights.flightsError()}}
+      </md-list-item>
       <md-list-item class="md-3-line" ng-repeat="flight in flights.allFlights">
         <div class="md-list-item-text" layout="row">
           <div flex>

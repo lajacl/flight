@@ -3,21 +3,35 @@ import templateUrl from './flights.template'
 
 const controller =
 class FlightFlightsController {
-  constructor ($log, flightsService, localStorageService) {
+  constructor ($log, flightsService, localStorageService, $interval) {
     'ngInject'
-    // this.allFlights = undefined
     this.$log = $log
     this.service = flightsService
     this.localStorageService = localStorageService
+
+    // this.getFlights()
+
+    $interval(() => {
+      this.getFlights()
+    }, 1000)
+    // .then((promise) => {
+    //   this.allFlights = promise.$$state.value
+    // })
   }
 
   getFlights () {
     this.allFlights = this.service.getAllFlights()
+    // .then ((data) => {
+    //   this.allFlights = data
+    // })
   }
 
   book (flights) {
     if (!this.isLoggedOn()) {
       this.service.errorMess='Please Login to Book a Flight.'
+    }
+    else {
+
     }
   }
 

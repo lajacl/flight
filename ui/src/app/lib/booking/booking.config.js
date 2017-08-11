@@ -9,8 +9,8 @@ export const config =
         locations: function (bookingService) {
           return bookingService.getLocations()
         },
-        allFlights: function (bookingService) {
-          return bookingService.getAllFlights()
+        allFlights: function (flightsService) {
+          return flightsService.getAllFlights()
         }
       }
     })

@@ -11,19 +11,17 @@ export class FlightsService {
     }
 
   getAllFlights () {
-    let method = 'GET'
-    let apiUrl = 'http://localhost:8000/flights'
-
     return this.$http({
-      method: method,
-      url: apiUrl,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'content-type': 'application/json'
-      }
-    }).then((response) => {
-      return response.data
-    }, (response) => {
-    })
+    method: 'GET',
+    url: 'http://localhost:8000/flights',
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'content-type': 'application/json'
+    }
+  }).then((response) => {
+    return response.data
+  }, (response) => {
+    this.errorMess = 'Unable to show available flights at this time. Please try again later.'
+  })
   }
 }

@@ -25,23 +25,25 @@ export class BookingService {
     }).then((response) => {
       return response.data
     }, (response) => {
+      this.errorMess='Unable to search flights at this time. Please try again later.'
     })
   }
 
-  getAllFlights () {
-
-    return this.$http({
-      method: 'GET',
-      url: 'http://localhost:8000/flights',
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'content-type': 'application/json'
-      }
-    }).then((response) => {
-      return response.data
-    }, (response) => {
-    })
-  }
+  // searchFlights (origin, destination, flights) {
+  //
+  //   return this.$http({
+  //     method: 'GET',
+  //     url: 'http://localhost:8000/flight/account/flights',
+  //     params: {origin: origin, destination: destination},
+  //     headers: {
+  //       'Access-Control-Allow-Origin': '*',
+  //       'content-type': 'application/json'
+  //     }
+  //   }).then((response) => {
+  //     return response.data
+  //   }, (response) => {
+  //   })
+  // }
 
   searchFlights (origin, destination, flights) {
     let selectFlights = []
@@ -67,8 +69,7 @@ export class BookingService {
         }
       }
     }
-    tempFlights = []
-    console.log(selectFlights)
+    tempFlights = [] //clear out tempFlights when exiting
     this.$log.log('# Selected Flights: ' + selectFlights.length)
     return selectFlights
   }
@@ -76,14 +77,12 @@ export class BookingService {
   bookFlight (accountId, flights) {
     let itinerary = {flights: flights}
     this.$log.log('accountId: ' + accountId)
-    console.log(itinerary)
     return this.$http({
       method: 'POST',
       url: 'http://localhost:8000/flight/account/book',
       params: {id: accountId},
       data: itinerary
     }).then((response) => {
-      this.$log.log('Book Flight Response Data: ' + response.data)
       return response.data
     }, (response) => {
       this.errorMess="Unable to book flight at this time. Please try again later."
