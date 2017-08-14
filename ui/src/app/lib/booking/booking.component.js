@@ -11,10 +11,9 @@ const controller =
       this.localStorageService = localStorageService
       this.searched = false
 
-      // $interval(() => {
-      //   this.$log.log('Updating Search Results')
-      //   this.searchFlights()
-      // }, 60000)
+      $interval(() => {
+        this.searchFlights()
+      }, 1000)
     }
 
     searchFlights () {

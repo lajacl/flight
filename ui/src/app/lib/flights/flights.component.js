@@ -9,9 +9,9 @@ class FlightFlightsController {
     this.service = flightsService
     this.localStorageService = localStorageService
 
-    // $interval(() => {
-    //   this.getFlights()
-    // }, 60000)
+    $interval(() => {
+      this.getFlights()
+    }, 1000)
   }
 
   getFlights () {
