@@ -1,11 +1,12 @@
 export class BookingService {
-  constructor ($q, localStorageService, $http, $log, $state) {
+  constructor ($q, localStorageService, $http, $log, $state, apiUrl) {
     'ngInject'
     this.$q = $q
     this.localStorageService = localStorageService
     this.$http = $http
     this.$log = $log
     this.$state = $state
+    this.apiUrl = apiUrl
   }
 
   errorMess = ''
@@ -17,7 +18,7 @@ export class BookingService {
   getLocations () {
     return this.$http({
       method: 'GET',
-      url: 'http://localhost:8000/location',
+      url: `${this.apiUrl}/locations`,
       headers: {
         'Access-Control-Allow-Origin': '*',
         'content-type': 'application/json'
@@ -29,57 +30,57 @@ export class BookingService {
     })
   }
 
-  // searchFlights (origin, destination, flights) {
-  //
-  //   return this.$http({
-  //     method: 'GET',
-  //     url: 'http://localhost:8000/flight/account/flights',
-  //     params: {origin: origin, destination: destination},
-  //     headers: {
-  //       'Access-Control-Allow-Origin': '*',
-  //       'content-type': 'application/json'
-  //     }
-  //   }).then((response) => {
-  //     return response.data
-  //   }, (response) => {
-  //   })
-  // }
-
-  searchFlights (origin, destination, flights) {
-    let selectFlights = []
-    let tempFlights = []
-    for (let i = 0; i < flights.length; i++) {
-      // tempFlights = []
-      this.$log.log('Current flight: ' + flights[i].origin + ' to ' + flights[i].destination)
-      if (flights[i].origin === origin.toUpperCase()) {
-        tempFlights = [flights[i]]
-        if (flights[i].destination === destination.toUpperCase()) {
-        selectFlights.push(tempFlights)
-        } else {
-          let origin2 = flights[i].destination
-          for (let j = 0; j < flights.length; j++) {
-            if ((flights[j].origin === origin2.toUpperCase()) &&
-              (flights[j].destination === destination.toUpperCase()) &&
-              (flights[j].offset > (flights[i].offset + flights[i].flightTime))) {
-              tempFlights.push(flights[j])
-              selectFlights.push(tempFlights)
-              tempFlights = [flights[i]]
-            }
-          }
-        }
+  searchFlights (origin, destination) {
+    typeof(origin)
+    return this.$http({
+      method: 'GET',
+      url: `${this.apiUrl}/flights/search`,
+      params: {origin: origin, destination: destination},
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'content-type': 'application/json'
       }
-    }
-    tempFlights = [] //clear out tempFlights when exiting
-    this.$log.log('# Selected Flights: ' + selectFlights.length)
-    return selectFlights
+    }).then((response) => {
+      console.log(response.data)
+      return response.data
+    }, (response) => {
+    })
   }
+
+  // searchFlights (origin, destination, flights) {
+  //   let selectFlights = []
+  //   let tempFlights = []
+  //   for (let i = 0; i < flights.length; i++) {
+  //     // tempFlights = []
+  //     this.$log.log('Current flight: ' + flights[i].origin + ' to ' + flights[i].destination)
+  //     if (flights[i].origin === origin.toUpperCase()) {
+  //       tempFlights = [flights[i]]
+  //       if (flights[i].destination === destination.toUpperCase()) {
+  //       selectFlights.push(tempFlights)
+  //       } else {
+  //         let origin2 = flights[i].destination
+  //         for (let j = 0; j < flights.length; j++) {
+  //           if ((flights[j].origin === origin2.toUpperCase()) &&
+  //             (flights[j].destination === destination.toUpperCase()) &&
+  //             (flights[j].offset > (flights[i].offset + flights[i].flightTime))) {
+  //             tempFlights.push(flights[j])
+  //             selectFlights.push(tempFlights)
+  //             tempFlights = [flights[i]]
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+  //   tempFlights = [] //clear out tempFlights when exiting
+  //   this.$log.log('# Selected Flights: ' + selectFlights.length)
+  //   return selectFlights
+  // }
 
   bookFlight (accountId, flights) {
     let itinerary = {flights: flights}
-    this.$log.log('accountId: ' + accountId)
     return this.$http({
       method: 'POST',
-      url: 'http://localhost:8000/flight/account/book',
+      url: `${this.apiUrl}/account/book`,
       params: {id: accountId},
       data: itinerary
     }).then((response) => {

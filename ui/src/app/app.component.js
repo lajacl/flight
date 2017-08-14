@@ -7,7 +7,6 @@ class AppController {
     this.localStorageService = localStorageService
     this.$log = $log
     this.$state = $state
-    // this.$log.log('Current Account: ' + this.localStorageService.get('accountData.email'))
   }
 
   // checks if a flier is currently logged in

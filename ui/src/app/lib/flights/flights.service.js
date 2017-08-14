@@ -1,8 +1,9 @@
 export class FlightsService {
-  constructor ($http, $log) {
+  constructor ($http, $log, apiUrl) {
     'ngInject'
     this.$http = $http
     this.$log = $log
+    this.apiUrl = apiUrl
   }
     errorMess = ''
 
@@ -13,7 +14,7 @@ export class FlightsService {
   getAllFlights () {
     return this.$http({
     method: 'GET',
-    url: 'http://localhost:8000/flights',
+    url: `${this.apiUrl}/flights`,
     headers: {
       'Access-Control-Allow-Origin': '*',
       'content-type': 'application/json'

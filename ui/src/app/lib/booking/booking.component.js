@@ -3,13 +3,18 @@ import templateUrl from './booking.template'
 
 const controller =
   class FlightBookingController {
-    constructor ($log, bookingService, $state, localStorageService) {
+    constructor ($log, bookingService, $state, localStorageService, $interval) {
       'ngInject'
       this.service = bookingService
       this.$state = $state
       this.$log = $log
       this.localStorageService = localStorageService
       this.searched = false
+
+      // $interval(() => {
+      //   this.$log.log('Updating Search Results')
+      //   this.searchFlights()
+      // }, 60000)
     }
 
     searchFlights () {
@@ -18,7 +23,10 @@ const controller =
         this.service.errorMess = 'Please select an origin and destination city'
       } else {
         this.searched = true
-        this.selectFlights = this.service.searchFlights(this.origin, this.destination, this.allFlights)
+        this.service.searchFlights(this.origin, this.destination, this.allFlights)
+        .then ((data) => {
+          this.selectFlights = data
+        })
       }
     }
 
@@ -60,7 +68,7 @@ const controller =
     bookingError () {
       return this.service.errorMessage()
     }
-    
+
   }
 
 export const flightBooking = {
@@ -68,11 +76,10 @@ export const flightBooking = {
   templateUrl,
   controllerAs: 'booking',
   bindings: {
-    allFlights: '<',
-    selectFlights: '<',
-    locations: '=',
-    origin: '=',
-    destination: '=',
-    flightTime: '='
+    locations: '='
+    // selectFlights: '<',
+    // origin: '=',
+    // destination: '=',
+    // flightTime: '='
   }
 }

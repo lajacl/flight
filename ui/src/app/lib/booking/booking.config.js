@@ -8,9 +8,6 @@ export const config =
       resolve: {
         locations: function (bookingService) {
           return bookingService.getLocations()
-        },
-        allFlights: function (flightsService) {
-          return flightsService.getAllFlights()
         }
       }
     })

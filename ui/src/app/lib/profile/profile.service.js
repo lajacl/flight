@@ -1,11 +1,12 @@
 export class ProfileService {
-  constructor ($q, localStorageService, $http, $log, $state) {
+  constructor ($q, localStorageService, $http, $log, $state, apiUrl) {
     'ngInject'
     this.$q = $q
     this.localStorageService = localStorageService
     this.$http = $http
     this.$log = $log
     this.$state = $state
+    this.apiUrl = apiUrl
   }
 
   errorMess = ''
@@ -18,7 +19,7 @@ export class ProfileService {
   getFlights (id) {
     return this.$http({
       method: 'GET',
-      url: 'http://localhost:8000/flight/account/flights',
+      url: `${this.apiUrl}/account/flights`,
       params: {id: id},
       headers: {
         'Access-Control-Allow-Origin': '*',
@@ -37,8 +38,8 @@ export class ProfileService {
     let flierUsername = this.localStorageService.get('accountData').email
     let flierPass = this.localStorageService.get('accountData').password
     let method = 'PATCH'
-    let apiUrl = 'http://localhost:8000/account/' + email
-    let params = {email: email, firstName: firstName, lastName: lastName, phone: phone }
+    let apiUrl = `${this.apiUrl}/account/` + email
+    let params = { email: email, firstName: firstName, lastName: lastName, phone: phone }
 
     return this.$http({
       method: method,
@@ -52,16 +53,13 @@ export class ProfileService {
 
   // Delete a flier's account
   deleteAccount () {
-    let flierUsername = this.localStorageService.get('flierInfo').username
-    let flierPass = this.localStorageService.get('flierInfo').password
-    let method = 'POST'
-    let apiUrl = 'http://localhost:8000/flier/delete/' + flierUsername
-    let requestBody = { credentials: { username: flierUsername, password: flierPass } }
+    let accountEmail = this.localStorageService.get('accountData').email
+    let accountPass = this.localStorageService.get('accountData').password
 
     this.$http({
-      method: method,
-      url: apiUrl,
-      data: requestBody
+      method: 'POST',
+      url: `${this.apiUrl}/account/delete/` + accountEmail,
+      data: { credentials: { email: accountEmail, password: accountPass } }
     }).then((response) => {
       this.localStorageService.clearAll()
     }, (response) => {
