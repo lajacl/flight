@@ -12,7 +12,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Flight")
 public class Flight {
-	
+
 	@Id
 	@GeneratedValue
 	private long id;
@@ -81,13 +81,11 @@ public class Flight {
 	public void seItinerary(List<Itinerary> itineraries) {
 		this.itineraries = itineraries;
 	}
-
-//	public Flight(String origin, String destination, long flightTime, long offset) {
-//		this.origin = origin;
-//		this.destination = destination;
-//		this.flightTime = flightTime;
-//		this.offset = offset;
-//	}
-
+	
+	@Override
+	public String toString() {
+		return "Flight " + id + ": " + origin + " to " + destination + " Depart: " + offset
+				+ " Arrive: " + (offset+flightTime);
+	}
 
 }

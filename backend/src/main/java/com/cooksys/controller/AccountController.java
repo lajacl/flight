@@ -42,12 +42,12 @@ public class AccountController {
 		return accountService.accountExists(email);
 	}
 	
-	@PostMapping("/account")
+	@PostMapping("account")
 	public AccountDto create(@RequestBody AccountDto accountDto) {
 		return accountMapper.toDto(accountService.createAccount(accountMapper.toEntity(accountDto)));
 	}
 		
-	@PostMapping("/account/login")
+	@PostMapping("account/login")
 	public AccountDto logon(@RequestParam String email, String password) {
 		return accountMapper.toDto(accountService.accountLogon(email, password));
 	}

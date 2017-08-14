@@ -5,7 +5,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cooksys.dto.FlightDto;
@@ -14,7 +16,7 @@ import com.cooksys.service.FlightService;
 import com.cooksys.service.LocationService;
 
 @RestController
-@RequestMapping("flights")
+@RequestMapping("flight")
 @CrossOrigin
 public class FlightsController {
 	
@@ -27,14 +29,17 @@ public class FlightsController {
 	@Autowired
 	FlightMapper flightMapper;
 	
-//	public FlightsController(FlightMapper flightMapper) {
-//		this.flightMapper = flightMapper;
-//	}
 	
-	@RequestMapping
+	@GetMapping("flights")
 	public List<FlightDto> getFlightList()
 	{
 		return flightService.getDailyFlightList().stream().map(flight -> flightMapper.toDto(flight)).collect(Collectors.toList());
+	}
+	
+	@GetMapping("flights/search")
+	public List<List<FlightDto>> searchFlights(@RequestParam String origin, String destination) 	
+	{
+		return flightService.searchFlights(origin, destination).stream().map(flights -> flights.stream().map(flight -> flightMapper.toDto(flight)).collect(Collectors.toList())).collect(Collectors.toList());
 	}
 
 }
