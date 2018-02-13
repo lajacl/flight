@@ -2,6 +2,9 @@ package com.cooksys.pojo;
 
 public class Flight {
 	
+	//Unique primary key created for each flight
+	private Long id;
+	
 	//Name of city where flight originates
 	private String origin;
 	
@@ -13,7 +16,13 @@ public class Flight {
 	
 	//How many hours after the start of the day until the flight takes off
 	private long offset;
-	
+
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 	public String getOrigin() {
 		return origin;
 	}
