@@ -2,9 +2,9 @@
 <p>Trip Origin : {{$mapCtrl.origin}}</p>
 <p>Trip Destination: {{$mapCtrl.destination}}</p>
 <p>Flight Time: {{$mapCtrl.flightTime}}</p> -->
-<div map-lazy-load="https://maps.google.com/maps/api/js">
+<div map-lazy-load="{{$mapCtrl.mapApi}}">
 	<ng-map center="{{$mapCtrl.center}}" zoom="{{$mapCtrl.zoom}}">
-	  <marker
+		<marker title="Airport"
 	    ng-repeat="$mapMarker in $mapCtrl.markers"
 	    position="{{$mapMarker.position}}">
 	  </marker>

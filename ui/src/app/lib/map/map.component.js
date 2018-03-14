@@ -7,14 +7,16 @@ class MapController {
   markers = []
   paths = []
 
-  constructor ($map, locations, $log) {
+  constructor ($map, locations, mapKey, $log) {
     this.$map = $map
     this.$log = $log
+    this.mapApi = 'https://maps.google.com/maps/api/js?key=' + mapKey
 
     // const colors = ['#CC0099', '#AA1100', '#2196F3', '#FF5722']
 
     // const markers = [this.origin, this.destination]
     // this.paths = [this.origin, this.destination, colors[0]]
+
 
     // add markers from an angular constant
     const { memphis, nashville, knoxville } = locations
@@ -41,10 +43,10 @@ class MapController {
     //   })
 
     // add path from webservice
-    $map.getMarkerByCityName('Chattanooga')
-      .then(chattanooga => {
-        this.addPath(knoxville, chattanooga, '#FF3388')
-      })
+    // $map.getMarkerByCityName('Chattanooga')
+    //   .then(chattanooga => {
+    //     this.addPath(knoxville, chattanooga, '#FF3388')
+    //   })
   }
 
   addMarker ({ latitude, longitude }) {
