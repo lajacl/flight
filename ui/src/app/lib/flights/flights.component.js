@@ -11,11 +11,11 @@ class FlightFlightsController {
 
     $interval(() => {
       this.getFlights()
-    }, 1000)
+    }, 60000)
   }
 
   getFlights () {
-    // this.$log.log('Updating Flights')
+    this.$log.log('Checking for Flight Updates')
     this.service.getAllFlights()
     .then ((data) => {
       this.allFlights = data

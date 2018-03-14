@@ -5,29 +5,35 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cooksys.dto.AccountDto;
 import com.cooksys.entity.Account;
-import com.cooksys.entity.FlightEntity;
+import com.cooksys.entity.Flight;
+import com.cooksys.entity.Itinerary;
 import com.cooksys.repository.AccountRepository;
+import com.cooksys.repository.ItineraryRepository;
 
 @Service
 public class AccountService {
 
 	AccountRepository accountRepo;
+	ItineraryRepository itineraryRepo;
 	
 	@Autowired
-	public AccountService(AccountRepository accountRepo) {
+	public AccountService(AccountRepository accountRepo, ItineraryRepository itineraryRepo) {
 		this.accountRepo = accountRepo;
+		this.itineraryRepo = itineraryRepo;
 	}
-	
+
+	public void save(Account account) {
+		accountRepo.save(account);
+	}
 
 	public Boolean accountExists(String email) {
 		Account account = accountRepo.findByEmail(email);
-		if (account != null) {
-				return true;
+		if (account == null) {
+			return false;
 		}
 		else {
-			return false;
+			return true;
 		}
 	}
 
@@ -40,27 +46,19 @@ public class AccountService {
 		return  account;
 	}
 
-	public void save(Account account) {
-		accountRepo.save(account);
-	}
-
-//	String email, String password, String firstName, String lastName, String phone
-	public Account createAccount(AccountDto accountDto) {
-			Account newAccount = new Account();
-//			newAccount = accountDto;
-			newAccount.setEmail(accountDto.getEmail());
-			newAccount.setPassword(accountDto.getPassword());
-			newAccount.setFirstName(accountDto.getFirstName());
-			newAccount.setLastName(accountDto.getLastName());
-			newAccount.setPhone(accountDto.getPhone());
+	public Account createAccount(Account newAccount) {
 			save(newAccount);
-//			System.out.println("Create Account Info Phone: " + accountDto.getPhone());
 			return newAccount;
 		}
 	
 	public Account accountLogon(String email, String password) {
-		if(password == findByEmail(email).getPassword());
-		return findByEmail(email);
+		Account acc = findByEmail(email);
+		if((acc != null) && acc.getPassword().equals(password)){
+			return acc;
+		}
+		else {
+			return new Account();
+		}
 	}
 
 	public Account update(Account account) {
@@ -72,16 +70,21 @@ public class AccountService {
 		return account;
 	}
 
-	public void book(long id, FlightEntity flight) {
+	public Boolean bookFlight(Long id, Itinerary itinerary) {
 		Account account = getOne(id);
-		account.getFlights().add(flight);
-		save(account);
-		
+		itinerary.setAccount(account);
+		itineraryRepo.save(itinerary);
+		return true;
 	}
 
-	public List<FlightEntity> flights(long id) {
+	public List<Itinerary> getFlights(Long id) {
 		Account account = getOne(id);
-		return account.getFlights();
+		return account.getItinerary();
+	}
+	
+	public List<Flight> getLayoverRoutes(String origin, String destination) {
+		
+		return null;
 	}
 
 

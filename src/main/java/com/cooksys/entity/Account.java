@@ -6,7 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -15,8 +15,7 @@ public class Account {
 		
 	@Id
 	@GeneratedValue
-	@Column(updatable = false, nullable = false)
-	private long id;
+	private Long id;
 
 	@Column(name = "email")
 	private String email;
@@ -33,8 +32,8 @@ public class Account {
 	@Column(name = "phone")
 	private String phone;
 	
-	@ManyToMany(mappedBy = "accounts")
-	private List<FlightEntity> flights;
+	@OneToMany(mappedBy="account")
+	private List<Itinerary> itineraries;
 
 
 	public Long getId() {
@@ -85,21 +84,12 @@ public class Account {
 		this.phone = phone;
 	}
 
-	public List<FlightEntity> getFlights() {
-		return flights;
+	public List<Itinerary> getItinerary() {
+		return itineraries;
 	}
 
-	public void setFlights(List<FlightEntity> flights) {
-		this.flights = flights;
+	public void setItinerary(List<Itinerary> itineraries) {
+		this.itineraries = itineraries;
 	}	
-	
-//	public Account(String email, String password, String firstName, String lastName, String phone) {
-//		super();
-//		this.email = email;
-//		this.password = password;
-//		this.firstName = firstName;
-//		this.lastName = lastName;
-//		this.phone = phone;
-//	}
 	
 }

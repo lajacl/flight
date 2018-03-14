@@ -1,16 +1,21 @@
 package com.cooksys.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cooksys.dto.AccountDto;
+import com.cooksys.dto.ItineraryDto;
 import com.cooksys.mapper.AccountMapper;
+import com.cooksys.mapper.ItineraryMapper;
 import com.cooksys.service.AccountService;
 
 @RestController
@@ -19,73 +24,51 @@ import com.cooksys.service.AccountService;
 public class AccountController {
 	
 
-	AccountService accountService;
-	
+	AccountService accountService;	
 	AccountMapper accountMapper;
+	ItineraryMapper itineraryMapper;
+	
 	
 	@Autowired
-	public AccountController(AccountService accountService, AccountMapper accountMapper) {
+	public AccountController(AccountService accountService, AccountMapper accountMapper, ItineraryMapper itineraryMapper) {
 		this.accountService = accountService;
 		this.accountMapper = accountMapper;
+		this.itineraryMapper = itineraryMapper;
 	}
 	
-//	public AccountController(){}
 	
-	
-	@RequestMapping(value = "account/exists/{email:.+}", method = RequestMethod.GET)
-	public Boolean exists(@PathVariable String email) {
+	@GetMapping("account/exists")
+	public Boolean exists(@RequestParam String email) {
 		return accountService.accountExists(email);
 	}
 	
-	@RequestMapping(value = "/account", method = RequestMethod.POST)
+	@PostMapping("account")
 	public AccountDto create(@RequestBody AccountDto accountDto) {
-		return accountMapper.toDto(accountService.createAccount(accountDto));
+		return accountMapper.toDto(accountService.createAccount(accountMapper.toEntity(accountDto)));
 	}
 		
-	@RequestMapping(value = "/account/login", method = RequestMethod.POST)
+	@PostMapping("account/login")
 	public AccountDto logon(@RequestParam String email, String password) {
 		return accountMapper.toDto(accountService.accountLogon(email, password));
 	}
 	
-//	@RequestMapping("account")
-//	public AccountDto post(@RequestParam("email, password, firstName, lastName, phone") String email, String password, String firstName, String lastName, String phone)
-//	{	return accountMapper.toDto(accountService.create(email, password, lastName, firstName, phone));
-//	}
+	@PostMapping ("account/book")
+	public Boolean book(@RequestParam Long id, @RequestBody ItineraryDto itineraryDto) {
+		return accountService.bookFlight(id, itineraryMapper.toEntity(itineraryDto));
+	}
 	
-//	@GetMapping("validate/username/available/@{username}")
-//	public Boolean nameAvail(@PathVariable String username) {
-//		return accountService.userAvail(username);
-//	}
-//	
-//	@GetMapping("users")
-//	public List<UserDto> getUsers() {
-//		return accountService.findAll().stream().map(user -> userMapper.toDto(user)).collect(Collectors.toList());
-//	}
-//	
-//	
-//	@GetMapping ("users/@{username}")
-//	public UserDto getByUsername(@PathVariable String username, HttpServletRequest request) {
-//		System.out.println("Request URL is: " + request.getRequestURI());
-//		return userMapper.toDto(accountService.findByEmail(username));
-//	}
-//	
-//	@PatchMapping ("users/@{username}")
-//	public UserDto updateAccount(@PathVariable String username, @RequestBody IncomingUserDto userDto) {
-//		return userMapper.toDto(accountService.update(username, userDto));
+	@GetMapping ("account/flights")
+	public List<ItineraryDto> flights(@RequestParam Long id) {
+		return accountService.getFlights(id).stream().map(sched -> itineraryMapper.toDto(sched)).collect(Collectors.toList());
+	}
+
+//	@PatchMapping ("account}")
+//	public AccountDto updateAccount(@RequestParam Long id, @RequestBody AccountDto accDto) {
+//		return accountMapper.toDto(accountService.update(id, accDto));
 //	}
 //
-//	@DeleteMapping ("users/{username}")
-//	public UserDto deleteUser(@PathVariable String username, @RequestBody Credentials creds) {	
-//		return userMapper.toDto(accountService.delete(username, creds));
-//	}
-//	
-//	@PostMapping ("users/{username}/book")
-//	public void bookFight(@PathVariable String username, @RequestBody Credentials creds) {
-//		accountService.book(email);
-//	}
-//	
-//	@GetMapping ("flier/{username}/flights")
-//	public List<UserDto> getFlights(@PathVariable String username) {
-//		return userService.flights(username).stream().map(user -> userMapper.toDto(user)).collect(Collectors.toList());
+//	@DeleteMapping ("account")
+//	public AccountDto deleteUser(@RequestParam Long id) {	
+//		return accountMapper.toDto(accountService.delete(id));
 //	}
 }

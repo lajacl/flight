@@ -2,6 +2,7 @@ package com.cooksys.dto;
 
 public class AccountDto {
 
+	private Long id;
 
 	private String password;
 
@@ -13,6 +14,14 @@ public class AccountDto {
 	
 	private String phone;
 	
+	
+	public Long getId() {
+		return id;
+	}
+	
+	public void setId(Long id) {
+		this.id = id;
+	}
 	
 	public String getPassword() {
 		return password;

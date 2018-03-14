@@ -13,10 +13,11 @@ const controller =
 
       $interval(() => {
         this.searchFlights()
-      }, 1000)
+      }, 60000)
     }
 
     searchFlights () {
+      this.$log.log('Finding Flights')
       this.service.errorMess = null
       if ((angular.equals(this.origin, ' ')) || (angular.equals(this.destination, null))) {
         this.service.errorMess = 'Please select an origin and destination city'
