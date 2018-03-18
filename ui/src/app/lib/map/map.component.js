@@ -6,17 +6,14 @@ class MapController {
   center = [35.5175, -86.5804]
   markers = []
   paths = []
+  // const colors = ['#CC0099', '#AA1100', '#2196F3', '#FF5722']
 
   constructor ($map, locations, mapKey, $log) {
     this.$map = $map
     this.$log = $log
     this.mapApi = 'https://maps.google.com/maps/api/js?key=' + mapKey
-
-    // const colors = ['#CC0099', '#AA1100', '#2196F3', '#FF5722']
-
-    // const markers = [this.origin, this.destination]
-    // this.paths = [this.origin, this.destination, colors[0]]
-
+    this.marker_icon = 'http://icons.iconarchive.com/icons/unclebob/spanish-travel/64/plane-icon.png'
+    this.route_color = '#AA1100'
 
     // add markers from an angular constant
     const { memphis, nashville, knoxville } = locations
@@ -26,27 +23,22 @@ class MapController {
 
     // add paths manually
     const paths = [
-      [memphis, nashville, '#CC0099'],
-      [nashville, knoxville, '#AA1100']
+      [memphis, nashville, this.route_color],
+      [memphis, knoxville, this.route_color],
+      [nashville, knoxville, this.route_color]
     ]
 
     paths.forEach(args => this.addPath(...args))
 
     // add path from webservice
-    // this.$log.log('getMarkerByCityName Origin: ' + this.origin)
-    // $map.getMarkerByCityName(this.origin)
-    //   .then(originCity => {
-    //     $map.getMarkerByCityName(this.destination)
-    //     .then(destinationCity => {
-    //       this.addPath(destinationCity, originCity, colors[0])
-    //     })
-    //   })
-
-    // add path from webservice
-    // $map.getMarkerByCityName('Chattanooga')
-    //   .then(chattanooga => {
-    //     this.addPath(knoxville, chattanooga, '#FF3388')
-    //   })
+    $map.getMarkerByCityName('Chattanooga')
+      .then(chattanooga => {
+        this.addMarker(chattanooga)
+        
+        this.addPath(knoxville, chattanooga, this.route_color)
+        this.addPath(nashville, chattanooga, this.route_color)
+        this.addPath(memphis, chattanooga, this.route_color)
+      })
   }
 
   addMarker ({ latitude, longitude }) {

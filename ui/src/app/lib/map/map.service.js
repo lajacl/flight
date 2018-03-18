@@ -9,7 +9,9 @@ class MapService {
   getMarkerByCityName (name) {
     return this.$http
       .get(`${this.apiUrl}/locations/name`, { params: { name } })
-      .then(result => result.data)
+      .then(result => {
+        return {latitude: result.data.latitude, longitude: result.data.longitude}
+      })
   }
 }
 

@@ -4,9 +4,14 @@
 <p>Flight Time: {{$mapCtrl.flightTime}}</p> -->
 <div map-lazy-load="{{$mapCtrl.mapApi}}">
 	<ng-map center="{{$mapCtrl.center}}" zoom="{{$mapCtrl.zoom}}">
-		<marker title="Airport"
-	    ng-repeat="$mapMarker in $mapCtrl.markers"
-	    position="{{$mapMarker.position}}">
+		<marker ng-repeat="$mapMarker in $mapCtrl.markers"
+			title="Airport"
+	    position="{{$mapMarker.position}}"
+			icon='{
+				"url": "{{$mapCtrl.marker_icon}}",
+        "scaledSize": [30,30],
+				"anchor": [11,14]
+			}'>
 	  </marker>
 	  <shape
 	    ng-repeat="$mapPath in $mapCtrl.paths"
@@ -17,5 +22,5 @@
 	    stroke-weight="{{$mapPath.strokeWeight}}"
 	    geodesic="{{$mapPath.geodesic}}">
 	  </shape>
-</ng-map>
+	</ng-map>
 </div>
