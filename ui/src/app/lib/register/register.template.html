@@ -1,77 +1,63 @@
-<div  layout="column" class="md-inline-form">
-  <h2>Create An Account</h2>
-  <div style="color: red">{{register.signupError()}}</div>
+<div layout="column" class="md-inline-form">
+  <md-toolbar class="md-theme-light">
+      <h2 class="md-toolbar-tools">
+        <span>Create An Account</span>
+      </h2>
+  </md-toolbar>
+  <h3 ng-if="$regCtrl.showForm">Please enter your information below:</h3>
+  <div style="color: red">{{$regCtrl.getRegisterMessage()}}</div>
   <md-content layout-padding>
-    <form name="signupForm"  ng-submit="register.signup(signupForm.$valid)" autocomplete="on">
+    <form name="registerForm" ng-submit="$regCtrl.register()" autocomplete="on" novalidate ng-if="$regCtrl.showForm">
+      
       <div layout-gt-sm="row">
-        <md-input-container class="md-block" flex-gt-sm>
+        <md-input-container flex-gt-sm>          
           <label>First Name</label>
-          <input name="fName" type="text" maxlength="30" ng-model="register.account.firstName" required />
-          <div ng-messages="signupForm.fName.$error">
+          <input name="firstName" type="text" maxlength="30" ng-model="$regCtrl.account.firstName" required />
+          <div ng-messages="registerForm.firstName.$error" ng-show="registerForm.firstName.$dirty">
             <div ng-message="required">First name is required.</div>
-            <div ng-message="maxlength">
-              First name must be less than 30 characters long.
+            <div ng-message="maxlength">No more than 30 characters are allowed.
             </div>
           </div>
         </md-input-container>
-          <md-input-container class="md-block" flex-gt-sm>
-            <label>Last Name</label>
-            <input name="lName" type="text" maxlength="30" ng-model="register.account.lastName" required />
-            <div ng-messages="signupForm.lName.$error">
-              <div ng-message="required">Last name is required.</div>
-              <div ng-message="maxlength">
-                Last name must be less than 30 characters long.
-              </div>
-            </div>
-          </md-input-container>
+
+        <md-input-container flex-gt-sm>
+          <label>Last Name</label>
+          <input name="lastName" type="text" maxlength="30" ng-model="$regCtrl.account.lastName" required />
+          <div ng-messages="registerForm.lastName.$error" ng-show="registerForm.lastName.$dirty">
+            <div ng-message="required">Last name is required.</div>
+            <div ng-message="maxlength">Last name must be less than 30 characters long.</div>
+          </div>
+        </md-input-container>
       </div>
 
       <div layout-gt-sm="row">
-        <md-input-container class="md-block" flex-gt-sm>
+        <md-input-container flex-gt-sm>
           <label>Email Address</label>
-          <input name="email" type="email" ng-model="register.account.email"
-          maxlength="100" ng-pattern="/^.+@.+\..+$/"  required />
-        <div ng-messages="signupForm.email.$error">
-          <div ng-message="required">Email is required.</div>
-          <div ng-message-exp="['maxlength', 'pattern']">
-            Not a valid email.
+          <input name="email" type="email" ng-model="$regCtrl.account.email" maxlength="100" ng-pattern="/^.+@.+\..+$/" required />
+          <div ng-messages="registerForm.email.$error" ng-show="registerForm.email.$dirty">
+            <div ng-message="required">Email is required.</div>
+            <div ng-message-exp="['maxlength', 'pattern']">Not a valid email.</div>
           </div>
-        </div>
         </md-input-container>
-        <md-input-container class="md-block" flex-gt-sm>
-          <label>Phone Number</label>
-          <input name="phone" type="tel" ng-model="register.account.phone" ng-pattern="/^[(][0-9]{3}[)] [0-9]{3}-[0-9]{4}$/" required />
-            <div ng-messages="signupForm.phone.$error" ng-if="!showHints">
-              <div ng-message="required">Phone number is required.</div>
-              <div ng-message="pattern">
-                (###) ###-#### - Please enter a valid phone number.
-              </div>
+        
+        <md-input-container flex-gt-sm>
+          <label>Password</label>
+          <input name="password" type="password" ng-model="$regCtrl.account.password" minlength="8" ng-maxlength="50" required>
+          <div ng-messages="registerForm.password.$error" ng-show="registerForm.password.$dirty">
+            <div ng-message="required">Password is required.</div>
+            <div ng-message="minlength">
+              Password must be at least 8 characters long.
             </div>
+            <div ng-message="ng-maxlength">Password is too long.</div>
+          </div>
         </md-input-container>
       </div>
 
-      <div layout-gt-sm="row">
-        <md-input-container class="md-block" flex-gt-sm>
-            <label>Password</label>
-            <input name="password" type="password" ng-model="register.account.password" minlength="8"
-            ng-maxlength="50" required>
-            <div ng-messages="signupForm.password.$error">
-              <div ng-message="required">Password is required.</div>
-              <div ng-message="minlength">
-                Password must be at least 8 characters long.
-              </div>
-              <div ng-message="ng-maxlength">
-                Password is too long.
-              </div>
-            </div>
-          </md-input-container>
-        </div>
-
-        <div layout="row" layout-align="center center">
-        <md-button type="submit" class="md-accent md-raised">Complete</md-button>
-        </div>
-
+      <div layout="row" layout-align="center center">
+        <md-button type="submit" class="md-accent md-raised"  ng-disabled="registerForm.$invalid">Register</md-button>
       </div>
-    </form>
-  </mid-content>
+
+</div>
+</form>
+</mid-content>
 </div>

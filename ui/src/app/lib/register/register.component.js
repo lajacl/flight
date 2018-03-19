@@ -3,57 +3,50 @@ import templateUrl from './register.template'
 
 const controller =
   class FlightRegisterController {
-    constructor ($log, registerService, $state) {
+    constructor(registerService, $state, $log) {
       'ngInject'
       this.service = registerService
       this.$state = $state
       this.$log = $log
 
       this.account = {}
+      this.showForm = true
+      this.service.helpMessage = ''
     }
+    
+    register() {
+      this.showForm = false
+      this.service.helpMessage = 'Form Submitted'
+      let exists = this.accountExists() 
+      this.exists ? this.sayLogin() : this.createAccount()
+    }    
 
-    exists () {
+    accountExists() {
       return this.service.accountExists(this.account.email)
-      .then((data) => {
-        return data
-      })
-    }
-
-    signup (formValid) {
-      this.service.errorMess = null
-      if (formValid) {
-        this.exists()
-        .then((data) => {
-          if(data === false) {
-            this.service.createAccount(this.account)
-            .then(() => {
-            this.$state.go('account', this.account)
-            })
-          } else {
-            this.service.errorMess = 'This email is already being used. Please login.'
-            setTimeout (() => {
-              this.$state.go('login')
-            }, 5000)
-          }
+        .then((exists) => {
+          return exists
         })
-      } else {
-      this.service.errorMess = 'Please make sure all fields are entered correctly.'
-      }
-      // if (!this.exists()) {
-      // this.service.createAccount(this.account)
-      // }
     }
-    // this.email, this.password, this.firstName, this.lastName, this.phone
 
-    signupError () {
-      return this.service.errorMessage()
+    createAccount() {      
+      this.service.createAccount(this.account)
+    }
+
+    sayLogin() {     
+      this.showForm = true 
+      this.service.helpMessage = `There is an account for this email already. 
+      If the account is yours please login.`
+    }
+
+    getRegisterMessage() {
+      return this.service.getHelpMessage()
     }
   }
 
 export const flightRegister = {
   controller,
   templateUrl,
-  controllerAs: 'register',
+  controllerAs: '$regCtrl',
   bindings: {
     account: '='
   }

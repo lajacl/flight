@@ -1,5 +1,5 @@
 export class RegisterService {
-  constructor ($q, localStorageService, $http, $log, $state, apiUrl) {
+  constructor($q, localStorageService, $http, $log, $state, apiUrl) {
     'ngInject'
     this.$q = $q
     this.localStorageService = localStorageService
@@ -9,42 +9,55 @@ export class RegisterService {
     this.apiUrl = apiUrl
   }
 
-  errorMess = ''
+  helpMessage = ''
 
-  errorMessage () {
-    return this.errorMess
+  getHelpMessage() {
+    return this.helpMessage
   }
 
-  // checks if the email is already used for an account
-  accountExists (email) {
+  accountExists(email) {
     return this.$http({
       method: 'GET',
-      url: 'http://localhost:8000/flight/account/exists',
-      params: {email: email},
+      url: this.apiUrl + '/account/exists',
+      params: { email: email },
       headers: {
         'Access-Control-Allow-Origin': '*',
         'content-type': 'application/json'
       }
     }).then((response) => {
       return response.data
-    }, (response) => {
-      this.$log.log('Exists error: true')
     })
   }
 
-  createAccount (account) {
+  createAccount(account) {
     return this.$http({
       method: 'POST',
-      url: 'http://localhost:8000/flight/account',
+      url: this.apiUrl + '/account/register',
       data: account
     }).then((response) => {
-      if (response.data.email !== undefined) {
-        this.localStorageService.set('accountData', response.data)
+      if (this.accountValid(response)) {
+        this.registerSuccess(response);
+      } else {
+        this.registerFailed();
       }
     }, (response) => {
-      this.$log.log('Exists error: creating new account')
-      this.errorMess = 'Signup is unavailable at this time. Please try again later.'
+      this.helpMessage = 'Registration is unavailable at this time. Please try again later.'
     })
   }
 
+  accountValid(response) {
+    return response.data !== null;
+  }
+
+  registerSuccess(response) {
+    this.localStorageService.set('accountData', response.data);
+    this.helpMessage = 'Registration Successful';
+    setTimeout(() => {
+      this.$state.go('account', this.account);
+    }, 3000);
+  }
+
+  registerFailed() {
+    this.helpMessage = 'Registration not successful. Please try again later.';
+  }
 }
