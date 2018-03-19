@@ -20,17 +20,17 @@
           </md-toolbar>
 
           <md-content>
-            <md-list ng-repeat="itinerary in $profileCtrl.itineraries">
+            <md-list ng-repeat="itinerary in $profileCtrl.itineraries"  ng-init="sectionIndex = $index">
               <md-list-item style="background-color:gray; color:white">
-                Itinerary #: {{itinerary.id}}
+                Itinerary Id: {{itinerary.id}}
               </md-list-item>
-              <div ng-repeat="flight in itinerary.flights | orderBy:'offset'">
-              <md-list-item class="md-2-line">
+              <div ng-repeat="(key, flight) in itinerary.flights | orderBy:'offset'">
+              <md-list-item class="md-3-line">
                 <div class="md-list-item-text" layout="row">
                   <div flex>
-                    <p>Flight #: {{flight.id}}</p>
+                    <p>Flight {{flight.id}}</p>
                     <h4>Flight Time: {{flight.flightTime}}h</h4>
-                    <h4 ng-if="itinerary.length===1">Nonstop</h4>
+                    <h4 ng-if="itinerary.length===1"> Nonstop</h4>
                     <h4 ng-if="itinerary.length>1 && $first">Layover: {{itinerary[$index+1].offset - (itinerary[$index].offset + itinerary[$index].flightTime)}}h
                     </h4>
                   </div>
@@ -47,11 +47,14 @@
                       <span ng-if="(flight.offset+flight.flightTime)<10">0</span>{{flight.offset + flight.flightTime}}00</h4>
                   </div>
                   <div flex style="text-align:right">
-                    <md-button class="md-accent md-raised" ng-if="$last" ng-click="$profileCtrl.viewMap()" ng-init="$profileCtrl.mapOpen=false">View Map</md-button>
+                    <md-button class="md-accent md-raised" ng-if="$last" ng-click="$profileCtrl.openMap(sectionIndex)">
+                        <span ng-if="$profileCtrl.mapOpened!=sectionIndex">View</span>
+                        <span ng-if="$profileCtrl.mapOpened===sectionIndex">Hide</span> Map
+                      </md-button>
                   </div>
                 </div>
               </md-list-item>            
-              <flight-map origin="flight.origin" destination="flight.destination">
+              <flight-map ng-if="$profileCtrl.mapOpened===sectionIndex" origin="flight.origin" destination="flight.destination">
                 </flight-map>
             </div>
             </md-list>

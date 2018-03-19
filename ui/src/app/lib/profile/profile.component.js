@@ -11,7 +11,7 @@ const controller =
       this.localStorageService = localStorageService
       this.loginService = loginService
       this.$log = $log
-      this.mapOpen === false
+      this.mapOpened = -1
     }
 
     get fName () {
@@ -62,11 +62,12 @@ const controller =
       this.$state.go('login')
     }
 
-    viewMap () {
-      if (this.mapOpen === false) {
-        this.mapOpen = true
+    openMap (index) {
+      this.$log.log('Index: ' + index)
+      if(this.mapOpened === index) {
+        this.mapOpened = -1
       } else {
-        this.mapOpen = false
+        this.mapOpened = index
       }
     }
 
