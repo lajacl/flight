@@ -11,6 +11,7 @@ const controller =
       this.localStorageService = localStorageService
       this.loginService = loginService
       this.$log = $log
+      this.mapOpen === false
     }
 
     get fName () {
@@ -79,7 +80,7 @@ const controller =
     }
 
     update () {
-      this.service.updateAccount(this.account.email, this.account.fName, this.account.lName, this.account.phone)
+      this.service.updateAccount(this.account)
       this.updateForm()
     }
 
@@ -97,7 +98,7 @@ const controller =
 export const flightProfile = {
   controller,
   templateUrl,
-  controllerAs: 'profile',
+  controllerAs: '$profileCtrl',
   bindings: {
     account: '=',
     itineraries: '='

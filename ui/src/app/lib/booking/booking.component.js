@@ -13,7 +13,7 @@ const controller =
 
       $interval(() => {
         this.searchFlights()
-      }, 60000)
+      }, 300000)
     }
 
     searchFlights () {

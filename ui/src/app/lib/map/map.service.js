@@ -10,7 +10,7 @@ class MapService {
     return this.$http
       .get(`${this.apiUrl}/locations/name`, { params: { name } })
       .then(result => {
-        return {latitude: result.data.latitude, longitude: result.data.longitude}
+        return result.data
       })
   }
 }

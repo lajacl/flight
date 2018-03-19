@@ -34,12 +34,12 @@ export class ProfileService {
   }
 
   // Update account info
-  updateAcount (email, firstName, lastName, phone) {
+  updateAcount (email, firstName, lastName) {
     let flierUsername = this.localStorageService.get('accountData').email
     let flierPass = this.localStorageService.get('accountData').password
     let method = 'PATCH'
     let apiUrl = `${this.apiUrl}/account/` + email
-    let params = { email: email, firstName: firstName, lastName: lastName, phone: phone }
+    let params = { email: email, firstName: firstName, lastName: lastName }
 
     return this.$http({
       method: method,

@@ -26,6 +26,9 @@ export class RegisterService {
       }
     }).then((response) => {
       return response.data
+    }, (response) => {
+      this.$log.log('Account Exisits Error')
+      return true
     })
   }
 

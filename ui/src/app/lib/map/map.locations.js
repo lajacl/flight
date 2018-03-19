@@ -15,7 +15,7 @@ export default {
   },
   
   chattanooga: {
-  latitude: 35.0457,
-  longitude: -85.3096
+    latitude: 35.0457,
+    longitude: -85.3096
   }
 }

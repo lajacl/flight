@@ -17,15 +17,14 @@ const controller =
     register() {
       this.showForm = false
       this.service.helpMessage = 'Form Submitted'
-      let exists = this.accountExists() 
+      let exists = this.accountExists()
+      this.$log.log('Exists: ' + exists)
+      this.$log.log('Does Account Exist: ' + this.exists)
       this.exists ? this.sayLogin() : this.createAccount()
     }    
 
     accountExists() {
       return this.service.accountExists(this.account.email)
-        .then((exists) => {
-          return exists
-        })
     }
 
     createAccount() {      

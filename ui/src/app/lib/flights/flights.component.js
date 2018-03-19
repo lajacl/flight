@@ -11,7 +11,7 @@ class FlightFlightsController {
 
     $interval(() => {
       this.getFlights()
-    }, 60000)
+    }, 300000)
   }
 
   getFlights () {

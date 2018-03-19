@@ -1,7 +1,3 @@
-<!-- <p>Locations [3]: {{$mapCtrl.locations[3]}}</p>
-<p>Trip Origin : {{$mapCtrl.origin}}</p>
-<p>Trip Destination: {{$mapCtrl.destination}}</p>
-<p>Flight Time: {{$mapCtrl.flightTime}}</p> -->
 <div map-lazy-load="{{$mapCtrl.mapApi}}">
 	<ng-map center="{{$mapCtrl.center}}" zoom="{{$mapCtrl.zoom}}">
 		<marker ng-repeat="$mapMarker in $mapCtrl.markers"
