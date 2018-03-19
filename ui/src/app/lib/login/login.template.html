@@ -1,42 +1,38 @@
 <div ng-if="!loggedOn()" layout="column" class="md-inline-form">
-  <h2>Log In To Your Angular Airlines Account</h2>
-  <div style="color: red">{{login.logonError()}}</div>
+  <h3>Login To Your Angular Airlines Account</h3>
+  <div style="color: red">{{$loginCtrl.getLoginMessage()}}</div>
+
   <md-content layout-padding>
-    <form name="loginForm" ng-submit="login.logon(loginForm.$valid)" autocomplete="on">
+    <form name="loginForm" ng-submit="$loginCtrl.login()" autocomplete="on" novalidate ng-if="$loginCtrl.showForm">
+
       <div layout-gt-sm="row">
         <md-input-container class="md-block" flex-gt-sm>
           <label>Email Address</label>
-          <input name="email" type="email" ng-model="login.email"
-          maxlength="100" ng-pattern="/^.+@.+\..+$/" required />
-        <div ng-messages="loginForm.email.$error">
-          <div ng-message="required">Email is required.</div>
-          <div ng-message-exp="['maxlength', 'pattern']">
-            Not a valid email.
+          <input name="email" type="email" ng-model="$loginCtrl.email" maxlength="100" ng-pattern="/^.+@.+\..+$/" required />
+          <div ng-messages="loginForm.email.$error">
+            <div ng-message="required">Email is required.</div>
+            <div ng-message-exp="['maxlength', 'pattern']">
+              Not a valid email.
+            </div>
           </div>
-        </div>
+        </md-input-container>
+
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Password</label>
+          <input name="password" type="password" ng-model="$loginCtrl.password" ng-maxlength="50" required>
+          <div ng-messages="loginForm.password.$error">
+            <div ng-message="required">Password is required.</div>
+            <div ng-message="ng-maxlength">
+              Password max reached.
+            </div>
+          </div>
+        </md-input-container>
       </div>
 
-        <div layout-gt-sm="row">
-        </md-input-container>
-          <md-input-container class="md-block" flex-gt-sm>
-            <label>Password</label>
-            <input name="password" type="password" ng-model="login.password" minlength="8"
-            ng-maxlength="50" required>
-            <div ng-messages="loginForm.password.$error">
-              <div ng-message="required">Password is required.</div>
-              <div ng-message="minlength">
-                Password must be at least 8 characters long.
-              </div>
-              <div ng-message="ng-maxlength">
-                Password is too long.
-              </div>
-            </div>
-          </md-input-container>
-        </div>
+      <div layout="row" layout-align="center center">
+        <md-button type="submit" class="md-accent md-raised" ng-disabled="loginForm.$invalid">Login</md-button>
+      </div>
 
-        <div layout="row" layout-align="center center">
-        <md-button type="submit" class="md-accent md-raised">Submit</md-button>
-        </div>
     </form>
-  </mid-content>
+  </md-content>
 </div>

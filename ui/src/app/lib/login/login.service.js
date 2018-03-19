@@ -1,50 +1,33 @@
 export class LoginService {
-  constructor (localStorageService, $http, $log, $q) {
+  constructor(localStorageService, $http, $log, apiUrl, $state, $q) {
     'ngInject'
     this.localStorageService = localStorageService
     this.$http = $http
     this.$log = $log
+    this.apiUrl = apiUrl
+    this.account = {}
+    this.$state = $state
     this.$q = $q
   }
 
-  errorMess = ''
+  helpMessage = ''
 
-  errorMessage () {
-    return this.errorMess
+  getHelpMessage() {
+    return this.helpMessage
   }
 
-  /**
-   * Returns true if the user is currently authenticated, else false
-   */
-  isLoggedOn () {
-    return this.localStorageService.get('accountData') !== null
+  isLoggedIn() {
+    this.account = this.localStorageService.get('accountData')
+    if (this.account !== null) {
+      this.$state.go('account', this.account)
+    }
   }
 
-  // checks if the email is already used for an account
-  accountExists (email) {
-    return this.$http({
-      method: 'GET',
-      url: 'http://localhost:8000/flight/account/exists/' + email,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'content-type': 'application/json'
-      }
-    }).then((response) => {
-      this.$log.log('Response Data: ' + response.data)
-      return response.data
-    }, (response) => {
-      this.$log.log('Exists error: true')
-    })
-  }
-
-  /**
-   * Authentication function that returns a promise that is either resolved or rejected.
-   */
-  accountLogon (email, password) {
+  login(email, password) {
     return this.$http({
       method: 'POST',
-      url: 'http://localhost:8000/flight/account/login',
-      params: {email: email, password: password}
+      url: this.apiUrl + '/account/login',
+      params: { email: email, password: password }
     }).then((response) => {
       if (response.data.email !== null) {
         this.localStorageService.set('accountData', response.data)
@@ -55,10 +38,4 @@ export class LoginService {
       return false
     })
   }
-
-  /** Logs the current user out */
-  logout () {
-    this.localStorageService.clearAll()
-  }
-
 }
