@@ -8,38 +8,22 @@ class MapController {
   markers = []
   paths = []
 
-  // const colors = ['#CC0099', '#AA1100', '#2196F3', '#FF5722']
-
   constructor ($map, locations, mapKey, $log) {
     this.$map = $map
     this.$log = $log
     this.mapApi = 'https://maps.google.com/maps/api/js?key=' + mapKey
     this.marker_icon = 'http://icons.iconarchive.com/icons/unclebob/spanish-travel/64/plane-icon.png'
-    this.route_color = '#AA1100'
+    const path_colors = ['#AA1100', '#2196F3', '#FF5722', '#CC0099']
     this.city1 = {}
     this.city2 = {}
 
-    // toTitleCase()
-
     this.$onInit = () => {
-      if(this.origin) {
-        this.origin = (this.origin.charAt(0).toUpperCase()+this.origin.slice(1).toLowerCase())
-        this.destination = (this.destination.charAt(0).toUpperCase()+this.destination.slice(1).toLowerCase())
+      if(this.flights) {
 
-        $map.getMarkerByCityName(this.origin)
-       .then(orig => {
-          this.addMarker(orig)
-          this.city1 = orig
-          
-          $map.getMarkerByCityName(this.destination)
-          .then(dest => {
-            this.addMarker(dest)
-            this.city2 = dest
-           
-            this.addPath(this.city1, this.city2, this.route_color)
-          })  
-      
-        })
+        let flights_max = this.flights.length - 1
+        let i = 0
+
+        this.setMarkersPaths(i, flights_max, path_colors);
         
       } else {
 
@@ -51,18 +35,41 @@ class MapController {
     
         // add paths manually
         const paths = [
-          [memphis, nashville, this.route_color],
-          [memphis, knoxville, this.route_color],
-          [memphis, chattanooga, this.route_color],
-          [nashville, knoxville, this.route_color],
-          [nashville, chattanooga, this.route_color],
-          [knoxville, chattanooga, this.route_color]
+          [memphis, nashville, path_colors[0]],
+          [memphis, knoxville, path_colors[0]],
+          [memphis, chattanooga, path_colors[0]],
+          [nashville, knoxville, path_colors[0]],
+          [nashville, chattanooga, path_colors[0]],
+          [knoxville, chattanooga, path_colors[0]]
         ]
     
         paths.forEach(args => this.addPath(...args))
         
       }
     }
+  }
+
+  setMarkersPaths(i, flights_max, path_colors) {
+    let flight = this.flights[i]
+    
+    this.$map.getMarkerByCityName(flight.origin)
+      .then(orig => {
+        this.addMarker(orig);
+        this.city1 = orig;
+
+        this.$map.getMarkerByCityName(flight.destination)
+          .then(dest => {
+            this.addMarker(dest);
+            this.city2 = dest;
+
+            this.addPath(this.city1, this.city2, path_colors[i]);
+            if (i < flights_max) {
+              i += 1
+              this.setMarkersPaths(i, flights_max, path_colors)
+            }
+          });
+      });
+    return i;
   }
 
   addMarker ({ latitude, longitude }) {
@@ -88,8 +95,6 @@ export default {
   controller: MapController,
   controllerAs: '$mapCtrl',
   bindings: {
-    origin: '<',
-    destination: '<'
+    flights: '<'
   }
-
 }
