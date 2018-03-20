@@ -9,7 +9,6 @@ class AppController {
     this.$state = $state
   }
 
-  // checks if a flier is currently logged in
   isLoggedOn () {
     return this.localStorageService.get('accountData') !== null
   }

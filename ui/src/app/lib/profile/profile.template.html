@@ -20,44 +20,50 @@
           </md-toolbar>
 
           <md-content>
-            <md-list ng-repeat="itinerary in $profileCtrl.itineraries"  ng-init="sectionIndex = $index">
-              <md-list-item style="background-color:gray; color:white">
-                Itinerary Id: {{itinerary.id}}
-              </md-list-item>
-              <div ng-repeat="(key, flight) in itinerary.flights | orderBy:'offset'">
-              <md-list-item class="md-3-line">
-                <div class="md-list-item-text" layout="row">
-                  <div flex>
-                    <p>Flight {{flight.id}}</p>
-                    <h4>Flight Time: {{flight.flightTime}}h</h4>
-                    <h4 ng-if="itinerary.length===1"> Nonstop</h4>
-                    <h4 ng-if="itinerary.length>1 && $first">Layover: {{itinerary[$index+1].offset - (itinerary[$index].offset + itinerary[$index].flightTime)}}h
-                    </h4>
-                  </div>
-                  <div flex>
-                    <p>Depart</p>
-                    <h3>{{flight.origin}}</h3>
-                    <h4>
-                      <span ng-if="flight.offset < 10">0</span>{{flight.offset}}00</h4>
-                  </div>
-                  <div flex>
-                    <p>Arrive</p>
-                    <h3>{{flight.destination}}</h3>
-                    <h4>
-                      <span ng-if="(flight.offset+flight.flightTime)<10">0</span>{{flight.offset + flight.flightTime}}00</h4>
-                  </div>
-                  <div flex style="text-align:right">
-                    <md-button class="md-accent md-raised" ng-if="$last" ng-click="$profileCtrl.openMap(sectionIndex)">
+            <div md-whiteframe="3">
+            <md-list ng-repeat="itinerary in $profileCtrl.itineraries | orderBy:'id'" ng-init="sectionIndex = $index">
+                <md-list-item><strong>
+                  Itinerary Id: {{itinerary.id}}
+                </strong></md-list-item>
+
+                <md-list-item class="md-3-line" ng-repeat="flight in itinerary.flights | orderBy:'offset'">
+                  <div class="md-list-item-text" layout="row">
+                    <div flex>
+                      <p>Flight {{flight.id}}</p>
+                      <h4>Flight Time: {{flight.flightTime}}h</h4>
+                      <h4 ng-if="itinerary.flights.length===1"> Nonstop</h4>
+                      <h4 ng-if="itinerary.flights.length>1 && $first">
+                        Layover: {{itinerary.flights[$index+1].offset - (itinerary.flights[$index].offset + itinerary.flights[$index].flightTime)}}h
+                      </h4>
+                    </div>
+                    <div flex>
+                      <p>Depart</p>
+                      <h3>{{flight.origin}}</h3>
+                      <h4>
+                        <span ng-if="flight.offset < 10">0</span>{{flight.offset}}00</h4>
+                    </div>
+                    <div flex>
+                      <p>Arrive</p>
+                      <h3>{{flight.destination}}</h3>
+                      <h4>
+                        <span ng-if="(flight.offset+flight.flightTime)<10">0</span>{{flight.offset + flight.flightTime}}00
+                      </h4>
+                    </div>
+                    <div flex style="text-align:right">
+                      <md-button class="md-accent md-raised" ng-if="$last" ng-click="$profileCtrl.openMap(sectionIndex)">
                         <span ng-if="$profileCtrl.mapOpened!=sectionIndex">View</span>
                         <span ng-if="$profileCtrl.mapOpened===sectionIndex">Hide</span> Map
                       </md-button>
+                    </div>
                   </div>
-                </div>
-              </md-list-item>            
-              <flight-map ng-if="$profileCtrl.mapOpened===sectionIndex" origin="flight.origin" destination="flight.destination">
+                </md-list-item>
+                <md-list-item ng-if="itinerary.flights.length>1">
+                  <span>Total Trip Time: {{itinerary.flights[1].flightTime + (itinerary.flights[1].offset-itinerary.flights[0].offset)}}h</span>
+                </md-list-item>
+                <md-divider></md-divider>
+                <flight-map ng-if="$profileCtrl.mapOpened===sectionIndex" origin="flight.origin" destination="flight.destination">
                 </flight-map>
-            </div>
-            </md-list>
+            </md-list></div>
       </md-tab>
 
       <!-- ACCOUNT TAB: displays flier account information -->
@@ -69,12 +75,12 @@
             <!-- <p>Member since: {{account.joined | date: 'MMMM dd, yyyy'}}</p> -->
           </div>
           <p>
-            <a href ng-click="$profileCtrl.form()" ui-sref-active="active" ng-init="$profileCtrl.formOpen=false">Edit Account</a> |
+            <a href ng-click="$profileCtrl.openForm()" ui-sref-active="active">Edit Account</a> |
             <a href ng-click="$profileCtrl.deleteAccount()" ui-sref-active="active">Delete Account</a>
           </p>
 
           <!-- hidden form to update user profile, only shown when edit clicked-->
-          <div layout="column" class="md-inline-form" ng-if="$profileCtrl.formOpen">
+          <div layout="column" class="md-inline-form" ng-if="$profileCtrl.formOpened">
             <h3>Update Account Information</h3>
             <div style="color: red">{{update.formError()}}</div>
             <form name="updateForm" ng-submit="$profileCtrl.update(updateForm.$valid)" autocomplete="on">

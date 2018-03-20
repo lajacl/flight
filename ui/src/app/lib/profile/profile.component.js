@@ -12,6 +12,7 @@ const controller =
       this.loginService = loginService
       this.$log = $log
       this.mapOpened = -1
+      this.formOpened=false
     }
 
     get fName () {
@@ -63,7 +64,6 @@ const controller =
     }
 
     openMap (index) {
-      this.$log.log('Index: ' + index)
       if(this.mapOpened === index) {
         this.mapOpened = -1
       } else {
@@ -72,11 +72,11 @@ const controller =
     }
 
     // shows or hides profile update form
-    form () {
-      if (this.formOpen === false) {
-        this.formOpen = true
+    openForm () {
+      if (this.formOpened === false) {
+        this.formOpened = true
       } else {
-        this.formOpen = false
+        this.formOpened = false
       }
     }
 

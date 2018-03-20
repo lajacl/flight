@@ -49,8 +49,8 @@
         There are no flights from {{$bookCtrl.currentOrigin}} to {{$bookCtrl.currentDestination}} at this time
       </span>
       <span ng-if="$bookCtrl.selectFlights.length>0">
-        {{$bookCtrl.selectFlights.length}} Flight
-        <span ng-if="$bookCtrl.selectFlights.length>1">s</span> from {{$bookCtrl.currentOrigin}} to {{$bookCtrl.currentDestination}}:
+        {{$bookCtrl.selectFlights.length}} Flight<span ng-if="$bookCtrl.selectFlights.length>1">s</span> 
+        from {{$bookCtrl.currentOrigin}} to {{$bookCtrl.currentDestination}}:
       </span>
     </h2>
   </md-toolbar>
