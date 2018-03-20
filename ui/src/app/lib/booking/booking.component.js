@@ -33,6 +33,7 @@ const controller =
     }
 
     bookFlight(flights) {
+      this.searched=false
       this.service.helpMessage = null
       if (this.isLoggedOn()) {
         let accountId = this.localStorageService.get('accountData').id
@@ -41,8 +42,12 @@ const controller =
         this.service.bookFlight(accountId, flights)
           .then((data) => {
             if (data === true) {
-              this.$state.reload()
-              this.service.helpMessage = 'Your Flight Was Successfully Booked'
+              this.currentOrigin = null
+              this.currentDestination = null
+              this.service.helpMessage = 'Your Flight Was Successfully Booked.'
+              setTimeout(() => {
+                this.$state.go('account')
+              }, 3000)
             }
           })
       } else {
