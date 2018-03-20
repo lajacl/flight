@@ -12,10 +12,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Account")
 public class Account {
-		
+
 	@Id
 	@GeneratedValue
-	private Long id;
+	private long id;
 
 	@Column(name = "email")
 	private String email;
@@ -29,18 +29,15 @@ public class Account {
 	@Column(name = "lastName")
 	private String lastName;
 
-	@Column(name = "phone")
-	private String phone;
-	
-	@OneToMany(mappedBy="account")
+	@OneToMany(mappedBy = "account")
 	private List<Itinerary> itineraries;
+	
 
-
-	public Long getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -76,20 +73,12 @@ public class Account {
 		this.lastName = lastName;
 	}
 
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
 	public List<Itinerary> getItinerary() {
 		return itineraries;
 	}
 
 	public void setItinerary(List<Itinerary> itineraries) {
 		this.itineraries = itineraries;
-	}	
-	
+	}
+
 }

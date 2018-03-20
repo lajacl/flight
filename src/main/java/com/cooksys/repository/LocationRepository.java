@@ -7,9 +7,7 @@ import com.cooksys.entity.Location;
 
 @Repository
 public interface LocationRepository extends JpaRepository<Location, Long> {
-
-	Location findById(long id);
 	
-	Location findByCity(String cityName);
+	Location findByCityIgnoreCase(String cityName);
 	
 }

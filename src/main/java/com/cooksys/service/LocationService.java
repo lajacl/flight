@@ -20,10 +20,10 @@ public class LocationService {
 	}
 
 	public Location get(long id) {
-		return repo.findById(id);
+		return repo.getOne(id);
 	}
 	
 	public Location get(String name) {
-		return repo.findByCity(name);
+		return repo.findByCityIgnoreCase(name);
 	}
 }

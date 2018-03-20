@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cooksys.dto.FlightDto;
 import com.cooksys.mapper.FlightMapper;
 import com.cooksys.service.FlightService;
-import com.cooksys.service.LocationService;
 
 @RestController
 @RequestMapping("flight")
@@ -21,11 +20,7 @@ import com.cooksys.service.LocationService;
 public class FlightsController {
 	
 	@Autowired
-	LocationService locationService;
-	
-	@Autowired
-	FlightService flightService;
-	
+	FlightService flightService;	
 	@Autowired
 	FlightMapper flightMapper;
 	

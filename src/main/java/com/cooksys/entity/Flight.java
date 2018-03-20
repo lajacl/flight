@@ -32,12 +32,15 @@ public class Flight {
 	@ManyToMany(mappedBy = "flights")
 	private List<Itinerary> itineraries;
 	
+	@Column(name = "current")
+	private Boolean current;
 	
-	public Long getId() {
+	
+	public long getId() {
 		return id;
 	}
 	
-	public void setId(Long id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	
@@ -74,14 +77,22 @@ public class Flight {
 		this.offset = offset;
 	}
 	
-	public List<Itinerary> getItinerary() {
+	public List<Itinerary> getItineraries() {
 		return itineraries;
 	}
 	
-	public void seItinerary(List<Itinerary> itineraries) {
+	public void setItineraries(List<Itinerary> itineraries) {
 		this.itineraries = itineraries;
 	}
 	
+	public Boolean getCurrent() {
+		return current;
+	}
+
+	public void setCurrent(Boolean current) {
+		this.current = current;
+	}
+
 	@Override
 	public String toString() {
 		return "Flight " + id + ": " + origin + " to " + destination + " Depart: " + offset

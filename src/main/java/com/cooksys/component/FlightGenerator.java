@@ -40,6 +40,7 @@ public class FlightGenerator {
 			f.setDestination(destination);
 			f.setFlightTime(flightTime);
 			f.setOffset(offset);
+			f.setCurrent(true);
 
 			flightRepo.save(f);
 			result.add(f);
