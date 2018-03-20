@@ -3,70 +3,59 @@ import templateUrl from './booking.template'
 
 const controller =
   class FlightBookingController {
-    constructor ($log, bookingService, $state, localStorageService, $interval) {
+    constructor($log, bookingService, $state, localStorageService, $interval) {
       'ngInject'
       this.service = bookingService
       this.$state = $state
       this.$log = $log
       this.localStorageService = localStorageService
       this.searched = false
+      this.service.helpMessage = null
 
       $interval(() => {
         this.searchFlights()
       }, 300000)
     }
 
-    searchFlights () {
-      this.$log.log('Finding Flights')
-      this.service.errorMess = null
+    searchFlights() {
+      this.service.helpMessage = null
       if ((angular.equals(this.origin, ' ')) || (angular.equals(this.destination, null))) {
-        this.service.errorMess = 'Please select an origin and destination city'
+        this.service.helpMessage = 'Please select an origin and destination city'
       } else {
         this.searched = true
+        this.currentOrigin = this.origin
+        this.currentDestination = this.destination
         this.service.searchFlights(this.origin, this.destination, this.allFlights)
-        .then ((data) => {
-          this.selectFlights = data
-        })
+          .then((data) => {
+            this.selectFlights = data
+          })
       }
     }
 
-    bookFlight (flights) {
-      this.service.errorMess = null
-      if(this.isLoggedOn()){
+    bookFlight(flights) {
+      this.service.helpMessage = null
+      if (this.isLoggedOn()) {
         let accountId = this.localStorageService.get('accountData').id
-          // console.log(account)
-          // console.log(flights)
+        // console.log(account)
+        // console.log(flights)
         this.service.bookFlight(accountId, flights)
-        .then((data) => {
-          if (data === true) {
-            this.$state.reload()
-            this.service.errorMess='Your Flight Was Successfully Booked'
-          }
-        })
+          .then((data) => {
+            if (data === true) {
+              this.$state.reload()
+              this.service.helpMessage = 'Your Flight Was Successfully Booked'
+            }
+          })
       } else {
-        this.service.errorMess='Please Login to Book a Flight.'
+        this.service.helpMessage = 'Please Login to Book a Flight.'
       }
     }
 
-    // setTripTime (time) {
-    //   this.tripTime += time
-    // }
-
-    // flightChange () {
-    //
-    // }
-
-    // getAllFlights () {
-    //   allFlights = this.service.getAllFlights()
-    // }
-
-    // Checks if a user is currently logged in
-    isLoggedOn () {
+    isLoggedOn() {
       return this.localStorageService.get('accountData') !== null
     }
 
-    bookingError () {
-      return this.service.errorMessage()
+    bookingMessage() {
+      return this.service.getHelpMessage()
     }
 
   }
@@ -74,12 +63,8 @@ const controller =
 export const flightBooking = {
   controller,
   templateUrl,
-  controllerAs: 'booking',
+  controllerAs: '$bookCtrl',
   bindings: {
     locations: '='
-    // selectFlights: '<',
-    // origin: '=',
-    // destination: '=',
-    // flightTime: '='
   }
 }

@@ -1,88 +1,85 @@
-  <div layout="column" class="md-inline-form">
-    <h2>Select Your Trip</h2>
-    <md-content layout-padding>
-      <form name="loginForm">
+<div layout="column" class="md-inline-form">
+  <h3>Select Your Trip</h3>
+  <md-content layout-padding>
+    <form name="loginForm">
 
-  <div layout="row" layout-xs="column">
+      <!-- Select Flight Origin and Destination -->
+      <div layout="row" layout-xs="column">
 
-      <div flex layout="row" layout-align="center center">
-      <md-input-container style="margin-right: 10px;">
-        <label>FROM</label>
-        <md-select ng-model="booking.origin" ng-change="booking.flightChange()" ng-init="booking.origin=' '">
-          <md-option ng-repeat="location in booking.locations" value="{{location.city}}">
-            {{location.city}}
-          </md-option>
-        </md-select>
-      </md-input-container>
+        <div flex layout="row" layout-align="center center">
+          <md-input-container style="margin-right: 10px;">
+            <label>FROM</label>
+            <md-select ng-model="$bookCtrl.origin" ng-change="$bookCtrl.flightChange()" ng-init="$bookCtrl.origin=' '">
+              <md-option ng-repeat="location in $bookCtrl.locations" value="{{location.city}}">
+                {{location.city}}
+              </md-option>
+            </md-select>
+          </md-input-container>
+        </div>
+
+        <div flex layout="row" layout-align="center">
+          <md-input-container>
+            <label>TO</label>
+            <md-select ng-model="$bookCtrl.destination" ng-change="$bookCtrl.flightChange()" ng-init="$bookCtrl.destination=null">
+              <md-option ng-repeat="location in $bookCtrl.locations | filter: '!' +
+           $bookCtrl.origin" value="{{location.city}}">{{location.city}}
+              </md-option>
+            </md-select>
+            </md-select>
+          </md-input-container>
+        </div>
       </div>
+      <div layout="row" layout-align="center">
+        <md-button type="submit" class="md-accent md-raised" ng-click="$bookCtrl.searchFlights()">
+          Find Flights
+        </md-button>
 
-      <div flex layout="row" layout-align="center">
-      <md-input-container>
-        <label>TO</label>
-        <md-select ng-model="booking.destination" ng-change="booking.flightChange()" ng-init="booking.destination=null">
-          <md-option ng-repeat="location in booking.locations | filter: '!' +
-           booking.origin" value="{{location.city}}">{{location.city}}
-         </md-option>
-        </md-select>
-      </md-select>
-      </md-input-container>
-    </div>
+    </form>
+  </md-content>
   </div>
-  <div layout="row" layout-align="center">
-    <md-button type="submit" class="md-accent md-raised" ng-click="booking.searchFlights()">
-      Find Flights
-    </md-button>
-
-</form>
-</md-content>
-</div>
 
 </div>
-<p style="color:red; font-weight:bold">{{booking.bookingError()}}</p>
+<p style="color:red; font-weight:bold">{{$bookCtrl.bookingMessage()}}</p>
 
 <!-- Search Results Flight Itinerary List -->
-<div ng-if="booking.searched===true">
-<md-toolbar class="md-theme-light">
+<div ng-if="$bookCtrl.searched===true">
+  <md-toolbar class="md-theme-light">
     <h2 class="md-toolbar-tools">
-      <span ng-if="booking.selectFlights.length===0">
-        There are no flights from {{booking.origin}} to {{booking.destination}} at this time
+      <span ng-if="$bookCtrl.selectFlights.length===0">
+        There are no flights from {{$bookCtrl.currentOrigin}} to {{$bookCtrl.currentDestination}} at this time
       </span>
-      <span ng-if="booking.selectFlights.length>0">
-        {{booking.selectFlights.length}} Flight<span ng-if="booking.selectFlights.length>1">s</span> from {{booking.origin}} to {{booking.destination}}:
+      <span ng-if="$bookCtrl.selectFlights.length>0">
+        {{$bookCtrl.selectFlights.length}} Flight
+        <span ng-if="$bookCtrl.selectFlights.length>1">s</span> from {{$bookCtrl.currentOrigin}} to {{$bookCtrl.currentDestination}}:
       </span>
     </h2>
   </md-toolbar>
 
   <md-content>
-    <md-list ng-repeat="itinerary in booking.selectFlights  | orderBy:itinerary.length">
-      <!-- <md-list-item ng-if="itinerary.length==1 && $first" style="background-color:gray; color:white">
-        Direct Flight(s):
-      </md-list-item>
-      <md-list-item ng-if="itinerary.length>1" style="background-color:gray; color:white">
-        Flight(s) with Layover:
-      </md-list-item> -->
-      <md-list-item class="md-2-line" ng-repeat="flight in itinerary">
+    <md-list ng-repeat="itinerary in $bookCtrl.selectFlights  | orderBy:itinerary.length">
+      <md-list-item class="md-3-line" ng-repeat="flight in itinerary">
         <div class="md-list-item-text" layout="row">
           <div flex>
             <p>Flight {{flight.id}}</p>
             <h4>Flight Time: {{flight.flightTime}}h</h4>
             <h4 ng-if="itinerary.length===1">Nonstop</h4>
-            <h4 ng-if="itinerary.length>1 && $first">Layover:
-              {{itinerary[$index+1].offset - (itinerary[$index].offset +
-              itinerary[$index].flightTime)}}h</h4>
+            <h4 ng-if="itinerary.length>1 && $first">Layover: {{itinerary[$index+1].offset - (itinerary[$index].offset + itinerary[$index].flightTime)}}h
+            </h4>
           </div>
           <div flex>
             <p>Depart</p>
             <h3>{{flight.origin}}</h3>
-            <h4><span ng-if="flight.offset<10">0</span>{{flight.offset}}00</h4>
+            <h4>
+              <span ng-if="flight.offset<10">0</span>{{flight.offset}}00</h4>
           </div>
           <div flex>
             <p>Arrive</p>
             <h3>{{flight.destination}}</h3>
-            <h4><span ng-if="(flight.offset+flight.flightTime)<10">0</span>{{flight.offset + flight.flightTime}}00</h4>
+            <h4>
+              <span ng-if="(flight.offset+flight.flightTime)<10">0</span>{{flight.offset + flight.flightTime}}00</h4>
           </div>
           <div flex style="text-align:right">
-          <md-button class="md-accent md-raised" ng-if="$last" ng-click="booking.bookFlight(itinerary)">Book Flight</md-button>
+            <md-button class="md-accent md-raised" ng-if="$last" ng-click="$bookCtrl.bookFlight(itinerary)">Book Flight</md-button>
           </div>
         </div>
       </md-list-item>
