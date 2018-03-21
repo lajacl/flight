@@ -13,10 +13,9 @@ import com.cooksys.repository.FlightRepository;
 
 @Service
 public class FlightService {
-
-	@Autowired
-	FlightGenerator generator;
 	
+	@Autowired
+	FlightGenerator generator;	
 	@Autowired
 	FlightRepository flightRepo;
 
@@ -31,7 +30,7 @@ public class FlightService {
 	}
 	
 	//The fixedDelay parameter determines how often a new day is generated as expressed in milliseconds
-	@Scheduled(fixedDelay=300000)
+	@Scheduled(fixedDelay=600000)
 
 	private void refreshFlights()
 	{
@@ -91,6 +90,10 @@ public class FlightService {
 				foundFlights.add(flightHolder);		
 			}
 		}
+	}
+
+	public void setNumberOfFlights(int number) {
+		generator.setNumberOfFlights(number);		
 	}
 	
 }

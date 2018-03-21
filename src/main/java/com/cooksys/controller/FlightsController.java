@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,7 +35,12 @@ public class FlightsController {
 	@GetMapping("flights/search")
 	public List<List<FlightDto>> searchFlights(@RequestParam String origin, String destination) 	
 	{
-		return flightService.searchFlights(origin, destination).stream().map(flights -> flights.stream().map(flight -> flightMapper.toDto(flight)).collect(Collectors.toList())).collect(Collectors.toList());
+		return flightService.searchFlights(origin, destination).stream().map(flights -> flights.stream().
+				map(flight -> flightMapper.toDto(flight)).collect(Collectors.toList())).collect(Collectors.toList());
 	}
-
+	
+	@GetMapping("flights/number/{number}")
+	public void setNumberOfFlights(@PathVariable int number) {
+		flightService.setNumberOfFlights(number);
+	}
 }

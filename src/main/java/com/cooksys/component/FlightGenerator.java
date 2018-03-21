@@ -12,6 +12,7 @@ import com.cooksys.repository.FlightRepository;
 
 @Component
 public class FlightGenerator {	
+	private int numberOfFlights = 5;
 
 	@Autowired
 	FlightRepository flightRepo;
@@ -21,7 +22,7 @@ public class FlightGenerator {
 		
 		ArrayList<Flight> result = new ArrayList<>();
 		
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < numberOfFlights; i++) {
 
 			int originIndex = ThreadLocalRandom.current().nextInt(0, 4);
 
@@ -46,6 +47,11 @@ public class FlightGenerator {
 			result.add(f);
 		}
 		return result;
+	}
+
+
+	public void setNumberOfFlights(int numberOfFlights) {
+		this.numberOfFlights = numberOfFlights;
 	}
 
 }
