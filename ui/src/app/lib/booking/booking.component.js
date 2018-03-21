@@ -33,12 +33,11 @@ const controller =
     }
 
     bookFlight(flights) {
+      this.$log.log('Booking Flight: ' + JSON.stringify(flights))
       this.searched=false
       this.service.helpMessage = null
       if (this.isLoggedOn()) {
         let accountId = this.localStorageService.get('accountData').id
-        // console.log(account)
-        // console.log(flights)
         this.service.bookFlight(accountId, flights)
           .then((data) => {
             if (data === true) {

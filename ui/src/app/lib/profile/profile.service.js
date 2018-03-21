@@ -26,7 +26,6 @@ export class ProfileService {
         'content-type': 'application/json'
       }
     }).then((response) => {
-      console.log(response.data)
       return response.data
     }, (response) => {
       this.errorMess='Unable to display flights at this time. Please try again later.'

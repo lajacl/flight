@@ -5,10 +5,10 @@ export class FlightsService {
     this.$log = $log
     this.apiUrl = apiUrl
   }
-    errorMess = ''
+    helpMessage = ''
 
-    errorMessage () {
-      return this.errorMess
+    getHelpMessage () {
+      return this.helpMessage
     }
 
   getAllFlights () {
@@ -20,10 +20,10 @@ export class FlightsService {
       'content-type': 'application/json'
     }
   }).then((response) => {
-    this.errorMess = ''
+    this.helpMessage = ''
     return response.data
   }, (response) => {
-    this.errorMess = 'Unable to show available flights at this time. Please try again later.'
+    this.helpMessage = 'Unable to show available flights at this time. Please try again later.'
   })
   }
 }

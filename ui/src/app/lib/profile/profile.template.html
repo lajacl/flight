@@ -14,19 +14,19 @@
 
           <md-toolbar class="md-theme-light">
             <h2 class="md-toolbar-tools">
-              {{$profileCtrl.itineraries.length}} Booked Flight
+              {{$profileCtrl.itineraries.length}} Booked Trip
               <span ng-if="$profileCtrl.itineraries.length!=1">s</span>:
             </h2>
           </md-toolbar>
 
           <md-content>
             <div md-whiteframe="3">
-            <md-list ng-repeat="itinerary in $profileCtrl.itineraries | orderBy:'id'" ng-init="sectionIndex = $index">
+            <md-list ng-repeat="itinerary in $profileCtrl.itineraries | orderBy:'id'" ng-init="tripIndex = $index">
                 <md-list-item><strong>
-                  Itinerary Id: {{itinerary.id}}
+                  Trip Id: {{itinerary.id}}
                 </strong></md-list-item>
 
-                <md-list-item class="md-3-line" ng-repeat="flight in itinerary.flights | orderBy:'offset'">
+                <md-list-item class="md-3-line" ng-repeat="flight in (itinerary.flights | orderBy:'offset')">
                   <div class="md-list-item-text" layout="row">
                     <div flex>
                       <p>Flight {{flight.id}}</p>
@@ -50,9 +50,9 @@
                       </h4>
                     </div>
                     <div flex style="text-align:right">
-                      <md-button class="md-accent md-raised" ng-if="$last" ng-click="$profileCtrl.openMap(sectionIndex)">
-                        <span ng-if="$profileCtrl.mapOpened!=sectionIndex">View</span>
-                        <span ng-if="$profileCtrl.mapOpened===sectionIndex">Hide</span> Map
+                      <md-button class="md-accent md-raised" ng-if="$last" ng-click="$profileCtrl.openMap(tripIndex)">
+                        <span ng-if="$profileCtrl.mapOpened!=tripIndex">View</span>
+                        <span ng-if="$profileCtrl.mapOpened===tripIndex">Hide</span> Map
                       </md-button>
                     </div>
                   </div>
@@ -61,7 +61,7 @@
                   <span>Total Trip Time: {{itinerary.flights[1].flightTime + (itinerary.flights[1].offset-itinerary.flights[0].offset)}}h</span>
                 </md-list-item>
                 <md-divider></md-divider>
-                <flight-map ng-if="$profileCtrl.mapOpened===sectionIndex" origin="flight.origin" destination="flight.destination">
+                <flight-map ng-if="$profileCtrl.mapOpened===tripIndex" flights="itinerary.flights" origin="flight.origin" destination="flight.destination">
                 </flight-map>
             </md-list></div>
       </md-tab>
